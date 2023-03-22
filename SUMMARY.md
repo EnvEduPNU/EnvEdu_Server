@@ -4,3 +4,4 @@
 * [mvnw](mvnw.cmd)
 * [API 명세서](api/README.md)
   * [Device](api/device.md)
+  * [Seed](api/seed.md)
