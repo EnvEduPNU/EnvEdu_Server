@@ -4,6 +4,26 @@ description: EnvEduPNU의 User API 명세
 
 # User
 
+{% swagger method="post" path="/logout" baseUrl="http://tmp" summary="유저 로그아웃" %}
+{% swagger-description %}
+
+{% endswagger-description %}
+
+{% swagger-response status="200: OK" description="로그아웃 성공" %}
+{
+
+&#x20;   "code" : 200,
+
+&#x20;   "data" : null
+
+}
+{% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="로그아웃 실패" %}
+
+{% endswagger-response %}
+{% endswagger %}
+
 {% swagger method="post" path="/register" baseUrl="http://tmp" summary="일반 사용자 계정 등록" %}
 {% swagger-description %}
 
