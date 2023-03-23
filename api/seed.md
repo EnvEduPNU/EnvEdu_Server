@@ -38,6 +38,10 @@ description: EnvEduPNU의 Seed API 명세
 
 }
 {% endswagger-response %}
+
+{% swagger-response status="404: Not Found" description="요청 인자가 정확하지 못함" %}
+
+{% endswagger-response %}
 {% endswagger %}
 
 {% swagger method="post" path="/user/save" baseUrl="https://tmp" summary="데이터 측정 값 등록" %}
@@ -50,6 +54,10 @@ description: EnvEduPNU의 Seed API 명세
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="데이터 정상 등록" %}
+
+{% endswagger-response %}
+
+{% swagger-response status="404: Not Found" description="요청 인자가 정확하지 못함" %}
 
 {% endswagger-response %}
 {% endswagger %}

@@ -22,6 +22,20 @@ description: EnvEduPNU의 User API 명세
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="유저 등록 성공" %}
+{
+
+&#x20;   "code" : 200,
+
+&#x20;   "data" : null
+
+}
+{% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="요청 데이터 형식이 정확하지 못함" %}
+
+{% endswagger-response %}
+
+{% swagger-response status="409: Conflict" description="요청 인자가 정확하지 못함" %}
 
 {% endswagger-response %}
 {% endswagger %}
@@ -44,6 +58,20 @@ description: EnvEduPNU의 User API 명세
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="유저 등록 성공" %}
+{
+
+&#x20;   "code" : 200,
+
+&#x20;   "data" : null
+
+}
+{% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="요청 데이터 형식이 정확하지 못함" %}
+
+{% endswagger-response %}
+
+{% swagger-response status="409: Conflict" description="요청 인자가 정확하지 못함" %}
 
 {% endswagger-response %}
 {% endswagger %}
@@ -61,7 +89,15 @@ description: EnvEduPNU의 User API 명세
 등록할 학생명
 {% endswagger-parameter %}
 
-{% swagger-response status="500: Internal Server Error" description="** 반환값이 없습니다." %}
+{% swagger-response status="200: OK" description="** 반환값이 없습니다." %}
+
+{% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="요청 데이터 형식이 정확하지 못함" %}
+
+{% endswagger-response %}
+
+{% swagger-response status="409: Conflict" description="요청 인자가 정확하지 못함" %}
 
 {% endswagger-response %}
 {% endswagger %}
@@ -84,6 +120,20 @@ description: EnvEduPNU의 User API 명세
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="이메일 인증 성공" %}
+{
+
+&#x20;   "code" : 200,
+
+&#x20;   "data" : null
+
+}
+{% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="요청 데이터 형식이 정확하지 못함" %}
+
+{% endswagger-response %}
+
+{% swagger-response status="409: Conflict" description="요청 인자가 정확하지 못함" %}
 
 {% endswagger-response %}
 {% endswagger %}
@@ -98,6 +148,20 @@ description: EnvEduPNU의 User API 명세
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="인증메일 전송 완료" %}
+{
+
+&#x20;   "code" : 200,
+
+&#x20;   "data" : null
+
+}
+{% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="요청 데이터 형식이 정확하지 못함" %}
+
+{% endswagger-response %}
+
+{% swagger-response status="409: Conflict" description="요청 인자가 정확하지 못함" %}
 
 {% endswagger-response %}
 {% endswagger %}

@@ -24,6 +24,14 @@ description: EnvEduPNU의 Device API 명세
 
 }
 {% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="요청 데이터 형식이 정확하지 못함" %}
+
+{% endswagger-response %}
+
+{% swagger-response status="409: Conflict" description="요청 인자가 정확하지 못함" %}
+
+{% endswagger-response %}
 {% endswagger %}
 
 {% swagger method="post" path="/user/device" baseUrl="https://tmp" summary="디바이스 수정" %}
@@ -40,6 +48,14 @@ description: EnvEduPNU의 Device API 명세
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="디바이스 수정" %}
+
+{% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="요청 데이터 형식이 정확하지 못함" %}
+
+{% endswagger-response %}
+
+{% swagger-response status="409: Conflict" description="요청 인자가 정확하지 못함" %}
 
 {% endswagger-response %}
 {% endswagger %}
@@ -60,4 +76,13 @@ description: EnvEduPNU의 Device API 명세
 {% swagger-response status="200: OK" description="사용자 디바이스 추가" %}
 
 {% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="요청 데이터 형식이 정확하지 못함" %}
+
+{% endswagger-response %}
+
+{% swagger-response status="409: Conflict" description="요청 인자가 정확하지 못함" %}
+
+{% endswagger-response %}
 {% endswagger %}
+
