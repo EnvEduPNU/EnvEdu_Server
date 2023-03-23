@@ -4,6 +4,50 @@ description: EnvEduPNU의 User API 명세
 
 # User
 
+{% swagger method="post" path="/register" baseUrl="http://tmp" summary="일반 사용자 계정 등록" %}
+{% swagger-description %}
+
+{% endswagger-description %}
+
+{% swagger-parameter in="body" required="true" name="username" type="String" %}
+등록할 유저명
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" required="true" name="password" type="String" %}
+등록할 유저 패스워드
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" required="true" name="email" type="String" %}
+등록할 유저 이메일
+{% endswagger-parameter %}
+
+{% swagger-response status="200: OK" description="유저 등록 성공" %}
+
+{% endswagger-response %}
+{% endswagger %}
+
+{% swagger method="post" path="/register/educator" baseUrl="http://tmp" summary="교육자 계정 등록" %}
+{% swagger-description %}
+
+{% endswagger-description %}
+
+{% swagger-parameter in="body" name="username" type="String" required="true" %}
+등록할 유저명
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" type="String" name="password" required="true" %}
+등록할 유저 패스워드
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" type="String" name="email" required="true" %}
+등록할 유저 이메일
+{% endswagger-parameter %}
+
+{% swagger-response status="200: OK" description="유저 등록 성공" %}
+
+{% endswagger-response %}
+{% endswagger %}
+
 {% swagger method="post" path="/educator/student/add" baseUrl="http://tmp" summary="교육자 계정에 학생 계정 등록" %}
 {% swagger-description %}
 
