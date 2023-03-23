@@ -4,3 +4,4 @@
 * [API 명세서](api/README.md)
   * [Device](api/device.md)
   * [Seed](api/seed.md)
+  * [User](api/user.md)
