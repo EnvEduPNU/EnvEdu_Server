@@ -72,4 +72,11 @@ public class Seed {
     @Nullable
     @Column(length = 50)
     private String location;
+
+    @Nullable
+    private String unit;
+
+    public void updateUsername(String username){
+        this.username = username;
+    }
 }
