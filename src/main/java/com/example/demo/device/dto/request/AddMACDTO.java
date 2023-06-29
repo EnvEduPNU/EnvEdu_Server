@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
 public class AddMACDTO {
-    private List<String> macs = new ArrayList<>();
+    private List<String> macs;
 }

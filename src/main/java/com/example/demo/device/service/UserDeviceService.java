@@ -27,18 +27,6 @@ public class UserDeviceService {
 
     private final Student_EducatorRepository student_educatorRepository;
 
-    @Transactional
-    public void addDevice(AddMACDTO addMACDTO, List<User> user) {
-        List<UserDevice> devices = new ArrayList<>();
-        int i =0;
-        for(String mac : addMACDTO.getMacs()) {
-            UserDevice device = UserDevice.of(mac);
-            device.updateUser(user.get(i));
-            devices.add(device);
-            i ++;
-        }
-        userDeviceRepository.saveAll(devices);
-    }
 
     @Transactional
     public void addDevice(AddMACDTO addMACDTO) {
