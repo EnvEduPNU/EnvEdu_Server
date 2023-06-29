@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
 public class StudentAddDTO {
-    private List<String> studentUsernames = new ArrayList<>();
+    private List<String> studentUsernames;
 
     public StudentAddDTO(List<String> studentUsernames) {
         this.studentUsernames = studentUsernames;
