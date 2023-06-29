@@ -21,6 +21,10 @@ import java.util.Map;
 public class MessageController {
     private final SimpMessagingTemplate template;
 
+    /**
+     * 기기에서 전송하는 메세지를 받는 controller
+     * 기기에서 전송하는 데이터에는 날짜 정보가 없음 -> 여기서 날짜 정보를 추가해 프론트로 전송
+     */
     @MessageMapping("/device")
     private void fromESP2Client(@Payload Seed seed, HttpServletRequest request) {
         String username = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap().get(JwtUtil.claimUsername).toString();

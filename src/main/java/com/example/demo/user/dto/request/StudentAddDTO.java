@@ -11,6 +11,10 @@ import java.util.List;
 public class StudentAddDTO {
     private List<String> studentUsernames = new ArrayList<>();
 
+    public StudentAddDTO(List<String> studentUsernames) {
+        this.studentUsernames = studentUsernames;
+    }
+
     @Override
     public String toString() {
         return studentUsernames.toString();
