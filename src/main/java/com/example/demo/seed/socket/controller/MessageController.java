@@ -26,9 +26,9 @@ public class MessageController {
      * 기기에서 전송하는 데이터에는 날짜 정보가 없음 -> 여기서 날짜 정보를 추가해 프론트로 전송
      */
     @MessageMapping("/device")
-    private void fromESP2Client(@Payload Seed seed, HttpServletRequest request) {
-        String username = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap().get(JwtUtil.claimUsername).toString();
-        seed.updateUsername(username);
+    private void fromESP2Client(@Payload Seed seed) {
+        //String username = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap().get(JwtUtil.claimUsername).toString();
+        //seed.updateUsername(username);
 
         //seed.setDateString(LocalDateTime.now(ZoneId.of("Asia/Seoul")).toString());
         template.convertAndSend("/topic/user/" + seed.getMac(),seed);
