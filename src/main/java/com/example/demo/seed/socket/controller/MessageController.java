@@ -27,6 +27,7 @@ public class MessageController {
      */
     @MessageMapping("/device")
     private void fromESP2Client(@Payload Seed seed) {
+        log.info("seed.getMac = " + seed.getMac() + ", seed.getCo2 = " + seed.getCo2() + ", seed.getHum = " + seed.getHum() + ", seed.getDust = " + seed.getDust());
         //String username = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap().get(JwtUtil.claimUsername).toString();
         //seed.updateUsername(username);
 
