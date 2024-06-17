@@ -1,4 +1,4 @@
-package com.example.demo.jpa.seed.socket.controller;
+package com.example.demo.jpa.socket.controller;
 
 import com.example.demo.jpa.device.service.UserDeviceService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +32,9 @@ public class WebSocketEventController {
      */
     @EventListener
     public void handleSessionConnected(SessionConnectedEvent event) {
+
+        log.info("세션 컨트롤러 확인");
+
 
         Message<?> message = event.getMessage();
         GenericMessage<byte[]> GenericMessage = (org.springframework.messaging.support.GenericMessage<byte[]>) message.getHeaders().get("simpConnectMessage");

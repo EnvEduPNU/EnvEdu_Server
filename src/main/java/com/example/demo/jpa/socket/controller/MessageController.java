@@ -1,4 +1,4 @@
-package com.example.demo.jpa.seed.socket.controller;
+package com.example.demo.jpa.socket.controller;
 
 import com.example.demo.jpa.seed.model.Seed;
 import com.fasterxml.jackson.core.JsonProcessingException;

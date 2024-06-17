@@ -1,8 +1,8 @@
 package com.example.demo.jpa.datacontrol.dataupload;
 
 import com.example.demo.jpa.datacontrol.dataupload.dto.DataUploadRequestDto;
-import com.example.demo.jpa.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,17 +14,17 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class DataUploadController {
     private final DataUploadService dataUploadService;
     @PostMapping("/dataupload")
     public ResponseEntity<?> uploadExcel(@RequestBody DataUploadRequestDto uploadedData, HttpServletRequest request) {
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-        dataUploadService.uploadData(uploadedData, userInfo.get(JwtUtil.claimUsername).toString());
+
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
+
+        dataUploadService.uploadData(uploadedData, userName);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
-    @PostMapping("/test/dataupload")
-    public ResponseEntity<?> uploadExcelTest(@RequestBody DataUploadRequestDto uploadedData, HttpServletRequest request) {
-        dataUploadService.uploadData(uploadedData, "Student1");
-        return new ResponseEntity<>("OK", HttpStatus.OK);
-    }
+
 }

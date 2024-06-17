@@ -1,4 +1,4 @@
-package com.example.demo.jpa.seed.socket.interceptor;
+package com.example.demo.jpa.socket.interceptor;
 
 import com.example.demo.jpa.device.model.UserDevice;
 import com.example.demo.jpa.device.repository.UserDeviceRepository;

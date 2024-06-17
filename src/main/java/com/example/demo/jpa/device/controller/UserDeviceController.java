@@ -4,7 +4,6 @@ import com.example.demo.jpa.device.dto.request.AddMACDTO;
 import com.example.demo.jpa.device.dto.request.DeviceUpdateDTO;
 import com.example.demo.jpa.device.dto.response.RelatedUserDeviceListDTO;
 import com.example.demo.jpa.device.service.UserDeviceService;
-import com.example.demo.jpa.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -53,9 +52,10 @@ public class UserDeviceController {
     private ResponseEntity<?> getMyDevices(HttpServletRequest request) {
         log.info("seed/device 접근");
 
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-        log.info("seed/device의 userInfo null여부 : " + userInfo.toString());
-        RelatedUserDeviceListDTO check = userDeviceService.getDeviceList(userInfo.get(JwtUtil.claimUsername).toString());
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
+
+        RelatedUserDeviceListDTO check = userDeviceService.getDeviceList(userName);
         log.info("RelatedUserDeviceListDTO : " + check.toString());
 
         return new ResponseEntity<>(check, HttpStatus.OK);

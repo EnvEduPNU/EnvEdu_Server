@@ -1,10 +1,10 @@
 package com.example.demo.jpa.openapi.controller;
 
-import com.example.demo.jpa.jwt.util.JwtUtil;
 import com.example.demo.jpa.openapi.dto.*;
 import com.example.demo.jpa.openapi.service.OpenApiService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +20,7 @@ import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class OpenApiController {
     @Value("${spring.open-api.gonggong-data.air-status}")
     private String serviceKeyAirStatus;
@@ -89,9 +90,10 @@ public class OpenApiController {
     @PostMapping("/air-quality")
     public ResponseEntity<?> setAirQuality(@RequestBody AirQualityRequestDto airQualityRequestDto, HttpServletRequest request){
 
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
 
-        openApiService.saveAirQuality(airQualityRequestDto.getData(), userInfo.get(JwtUtil.claimUsername).toString(), airQualityRequestDto.getMemo());
+        openApiService.saveAirQuality(airQualityRequestDto.getData(), userName, airQualityRequestDto.getMemo());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -99,9 +101,10 @@ public class OpenApiController {
     @PostMapping("/ocean-quality")
     public ResponseEntity<?> setOceanQuality(@RequestBody OceanQualityRequestDto oceanQualityRequestDto, HttpServletRequest request) {
 
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
 
-        openApiService.saveOceanQuality(oceanQualityRequestDto.getData(), userInfo.get(JwtUtil.claimUsername).toString(), oceanQualityRequestDto.getMemo());
+        openApiService.saveOceanQuality(oceanQualityRequestDto.getData(), userName, oceanQualityRequestDto.getMemo());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -122,16 +125,20 @@ public class OpenApiController {
 
     @GetMapping("/air-quality/mine/chunk")
     public ResponseEntity<?> getMyAirQualityChunked(@RequestParam UUID dataUUID, HttpServletRequest request){
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
 
-        return new ResponseEntity<>(openApiService.findMyAirQualityChunked(dataUUID, userInfo.get(JwtUtil.claimUsername).toString()), HttpStatus.OK);
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
+
+        return new ResponseEntity<>(openApiService.findMyAirQualityChunked(dataUUID, userName), HttpStatus.OK);
     }
 
     @GetMapping("/ocean-quality/mine/chunk")
     public ResponseEntity<?> getMyOceanQualityChunked(@RequestParam UUID dataUUID, HttpServletRequest request){
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
 
-        return new ResponseEntity<>(openApiService.findMyOceanQualityChunked(dataUUID, userInfo.get(JwtUtil.claimUsername).toString()), HttpStatus.OK);
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
+
+        return new ResponseEntity<>(openApiService.findMyOceanQualityChunked(dataUUID, userName), HttpStatus.OK);
     }
 
     // 연.월.일 시간:분

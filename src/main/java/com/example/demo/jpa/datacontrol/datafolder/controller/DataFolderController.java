@@ -6,8 +6,8 @@ import com.example.demo.jpa.datacontrol.datafolder.dto.DataFromDataFolderDto;
 import com.example.demo.jpa.datacontrol.datafolder.dto.DataToDataFolderDto;
 import com.example.demo.jpa.datacontrol.datafolder.service.DataFolderService;
 import com.example.demo.jpa.datacontrol.datafolder.model.DataFolder;
-import com.example.demo.jpa.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +20,7 @@ import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class DataFolderController {
 
     private final DataFolderService dataFolderService;
@@ -40,8 +41,11 @@ public class DataFolderController {
 
     @PutMapping("/datafolder/list/foldername")
     public ResponseEntity<?> updateDataFolderName(HttpServletRequest request, @RequestBody DataFolderDto dataFolderDto){
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-        dataFolderService.updateDataFolderName(userInfo.get(JwtUtil.claimUsername).toString(), dataFolderDto);
+
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
+
+        dataFolderService.updateDataFolderName(userName, dataFolderDto);
         //dataFolderService.updateDataFolderName("Student1", dataFolderDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -49,8 +53,11 @@ public class DataFolderController {
 
     @DeleteMapping("/datafolder/list")
     public ResponseEntity<?> deleteDataFolder(HttpServletRequest request, @RequestBody DataFolderDto dataFolderDto){
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-        dataFolderService.deleteDataFolder(userInfo.get(JwtUtil.claimUsername).toString(), dataFolderDto);
+
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
+
+        dataFolderService.deleteDataFolder(userName, dataFolderDto);
         //dataFolderService.deleteDataFolder("Student1", dataFolderDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -59,8 +66,10 @@ public class DataFolderController {
 
     @PutMapping("/datafolder/list")
     public ResponseEntity<?> parentStoreDataFolder(HttpServletRequest request, @RequestBody DataFolderDto dataFolderDto){
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-        dataFolderService.linkParentDataFolder(userInfo.get(JwtUtil.claimUsername).toString(), dataFolderDto);
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
+
+        dataFolderService.linkParentDataFolder(userName, dataFolderDto);
         //dataFolderService.linkParentDataFolder("Student1", dataFolderDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -68,8 +77,11 @@ public class DataFolderController {
 
     @PostMapping("/datafolder/list")
     public ResponseEntity<?> postDataFolder(HttpServletRequest request, @RequestBody DataFolderDto dataFolderDto) {
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-        dataFolderService.createDataFolder(userInfo.get(JwtUtil.claimUsername).toString(), dataFolderDto);
+
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
+
+        dataFolderService.createDataFolder(userName, dataFolderDto);
         //dataFolderService.createDataFolder("Student1", dataFolderDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -83,8 +95,11 @@ public class DataFolderController {
     }
     @GetMapping("/datafolder/list")
     public ResponseEntity<?> getDataFolder(HttpServletRequest request){
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-        List<DataFolder> byDataFolder = dataFolderService.findDataFolderList(userInfo.get(JwtUtil.claimUsername).toString());
+
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
+
+        List<DataFolder> byDataFolder = dataFolderService.findDataFolderList(userName);
         //List<DataFolder> byDataFolder = dataFolderService.findDataFolderList("Student1");
 
         return new ResponseEntity<>(byDataFolder, HttpStatus.OK);

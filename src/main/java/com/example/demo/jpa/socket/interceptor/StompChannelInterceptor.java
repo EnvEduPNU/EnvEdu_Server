@@ -1,4 +1,4 @@
-package com.example.demo.jpa.seed.socket.interceptor;
+package com.example.demo.jpa.socket.interceptor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +22,9 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
+
+        log.info("인터셉터 확인");
+
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         String sessionId = accessor.getSessionId();
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {

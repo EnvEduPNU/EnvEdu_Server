@@ -1,7 +1,7 @@
 package com.example.demo.jpa.survey.controller;
 
 import com.example.demo.jpa.survey.service.SurveyService;
-import com.example.demo.jpa.jwt.util.JwtUtil;
+//import com.example.demo.jpa.jwt.util.JwtUtil;
 import com.example.demo.jpa.survey.domain.dto.SurveyCreateRequestDto;
 import com.example.demo.jpa.survey.domain.dto.SurveyAnswerRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -32,52 +32,52 @@ public class SurveyController {
 
 
     /** INFO : 설계 제약 사항으로 업로드할 때 대상 Survey의 InviteCode를 입력해줘야 함 */
-    @RequestMapping(value = "/survey/reward/upload/{inviteCode}", method = RequestMethod.POST, produces = "application/json", consumes = "multipart/form-data")
-    public ResponseEntity<?> addSeasonTicketPicture(
-            @PathVariable String inviteCode,
-            @RequestParam(value = "files") List<MultipartFile> files){
+//    @RequestMapping(value = "/survey/reward/upload/{inviteCode}", method = RequestMethod.POST, produces = "application/json", consumes = "multipart/form-data")
+//    public ResponseEntity<?> addSeasonTicketPicture(
+//            @PathVariable String inviteCode,
+//            @RequestParam(value = "files") List<MultipartFile> files){
+//
+//        try {
+//            return new ResponseEntity<>(surveyService.saveFiles(inviteCode, files), HttpStatus.OK);
+//        } catch (IOException e) {
+//            return new ResponseEntity<>("업로드에 실패하였습니다 Error:" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
-        try {
-            return new ResponseEntity<>(surveyService.saveFiles(inviteCode, files), HttpStatus.OK);
-        } catch (IOException e) {
-            return new ResponseEntity<>("업로드에 실패하였습니다 Error:" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/survey/answer/{inviteCode}")
-    public ResponseEntity<?> getSurveyFormat(@PathVariable String inviteCode){
-
-        return new ResponseEntity<>(surveyService.getSurveyEntityAndAttributes(inviteCode), HttpStatus.OK);
-    }
+//    @GetMapping("/survey/answer/{inviteCode}")
+//    public ResponseEntity<?> getSurveyFormat(@PathVariable String inviteCode){
+//
+//        return new ResponseEntity<>(surveyService.getSurveyEntityAndAttributes(inviteCode), HttpStatus.OK);
+//    }
 
     /** INFO : 설문 응답 시 상품권 이미지 반환 */
-    @PostMapping("/survey/answer/{inviteCode}")
-    public ResponseEntity<?> answerSurvey(@PathVariable String inviteCode, @RequestBody SurveyAnswerRequestDto surveyRequestDto, HttpServletRequest request){
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-        return new ResponseEntity<>(surveyService.answerSurvey(inviteCode, surveyRequestDto, userInfo.get(JwtUtil.claimUsername).toString()), HttpStatus.OK);
-        //return new ResponseEntity<>(surveyService.answerSurvey(inviteCode, surveyRequestDto, "Student1"), HttpStatus.OK);
-    }
+//    @PostMapping("/survey/answer/{inviteCode}")
+//    public ResponseEntity<?> answerSurvey(@PathVariable String inviteCode, @RequestBody SurveyAnswerRequestDto surveyRequestDto, HttpServletRequest request){
+//        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
+//        return new ResponseEntity<>(surveyService.answerSurvey(inviteCode, surveyRequestDto, userInfo.get(JwtUtil.claimUsername).toString()), HttpStatus.OK);
+//        //return new ResponseEntity<>(surveyService.answerSurvey(inviteCode, surveyRequestDto, "Student1"), HttpStatus.OK);
+//    }
 
-    @GetMapping("/admin/survey/answer/list/{inviteCode}")
-    public ResponseEntity<?> surveyAnswerList(@PathVariable String inviteCode){
-
-        return new ResponseEntity<>(surveyService.getSurveyAnswers(inviteCode), HttpStatus.OK);
-    }
-
-    @PostMapping("/admin/survey/create")
-    public ResponseEntity<?> createSurveyFormat(@RequestBody SurveyCreateRequestDto surveyCreateRequestDto, HttpServletRequest request){
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-        return new ResponseEntity<>(surveyService.createSurveyFormat(surveyCreateRequestDto, userInfo.get(JwtUtil.claimUsername).toString()), HttpStatus.OK);
-        //return new ResponseEntity<>(surveyService.createSurveyFormat(surveyCreateRequestDto, "admin"), HttpStatus.OK);
-    }
-
-    // todo: 내가 만든 질문 리스트를 가져오는 API
-    @GetMapping("/admin/survey/list")
-    public ResponseEntity<?> getSurveyList(HttpServletRequest request){
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-        return new ResponseEntity<>(surveyService.getSurveyList(userInfo.get(JwtUtil.claimUsername).toString()), HttpStatus.OK);
-        //return new ResponseEntity<>(surveyService.getSurveyList("admin"), HttpStatus.OK);
-    }
+//    @GetMapping("/admin/survey/answer/list/{inviteCode}")
+//    public ResponseEntity<?> surveyAnswerList(@PathVariable String inviteCode){
+//
+//        return new ResponseEntity<>(surveyService.getSurveyAnswers(inviteCode), HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/admin/survey/create")
+//    public ResponseEntity<?> createSurveyFormat(@RequestBody SurveyCreateRequestDto surveyCreateRequestDto, HttpServletRequest request){
+//        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
+//        return new ResponseEntity<>(surveyService.createSurveyFormat(surveyCreateRequestDto, userInfo.get(JwtUtil.claimUsername).toString()), HttpStatus.OK);
+//        //return new ResponseEntity<>(surveyService.createSurveyFormat(surveyCreateRequestDto, "admin"), HttpStatus.OK);
+//    }
+//
+//    // todo: 내가 만든 질문 리스트를 가져오는 API
+//    @GetMapping("/admin/survey/list")
+//    public ResponseEntity<?> getSurveyList(HttpServletRequest request){
+//        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
+//        return new ResponseEntity<>(surveyService.getSurveyList(userInfo.get(JwtUtil.claimUsername).toString()), HttpStatus.OK);
+//        //return new ResponseEntity<>(surveyService.getSurveyList("admin"), HttpStatus.OK);
+//    }
 
     @ExceptionHandler(IOException.class)
     private ResponseEntity<?> iOException(IOException e) {

@@ -2,7 +2,6 @@ package com.example.demo.jpa.seed.controller;
 
 import com.example.demo.jpa.DTO.DataSaveDTO;
 import com.example.demo.jpa.DTO.ResponseDTO;
-import com.example.demo.jpa.jwt.util.JwtUtil;
 import com.example.demo.jpa.seed.service.SeedService;
 import com.example.demo.jpa.seed.dto.DeleteSeedDto;
 import com.example.demo.jpa.seed.model.Seed;
@@ -28,11 +27,11 @@ public class SeedController {
 
     @GetMapping("/seed/mine/chunk")
     private ResponseEntity<?> getMySeedChunked(@RequestParam UUID dataUUID, HttpServletRequest request){
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
 
-        log.info("1");
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
 
-        return new ResponseEntity<>(seedService.findMySeedChunked(dataUUID, userInfo.get(JwtUtil.claimUsername).toString()), HttpStatus.OK);
+        return new ResponseEntity<>(seedService.findMySeedChunked(dataUUID, userName), HttpStatus.OK);
     }
 
     /**
@@ -44,9 +43,6 @@ public class SeedController {
     @GetMapping("/seed/fetch")
     private ResponseDTO<List<Seed>> fetchData(@RequestParam Map<String,String> mp)
     {
-
-        log.info("2");
-
         String username = mp.get("username");
         String start = mp.get("startDate");
         String end = mp.get("endDate");
@@ -68,20 +64,16 @@ public class SeedController {
     @PostMapping("/seed/save/single")
     private ResponseEntity<?> saveSingleSeed(@RequestBody Seed seed, HttpServletRequest request){
 
-        log.info("3");
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
 
-
-        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
-
-        seedService.saveSingleData(seed, userInfo.get(JwtUtil.claimUsername).toString(), "");
+        seedService.saveSingleData(seed, userName, "");
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/seed/delete")
     public ResponseEntity<?> deleteSingle(@RequestBody List<DeleteSeedDto> deleteSeedDto) throws NoSuchFieldException, IllegalAccessException {
-
-        log.info("4");
 
         seedService.updateSingleSeed(deleteSeedDto);
 
@@ -95,8 +87,6 @@ public class SeedController {
      */
     @PostMapping("/seed/save/continuous")
     private ResponseDTO<Object> saveData(@RequestBody DataSaveDTO data){
-
-        log.info("5");
 
         List<Seed> list = new ArrayList<>();
         data.getData().forEach((elem)->{

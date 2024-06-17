@@ -113,17 +113,17 @@ public abstract class User {
         this.email = email;
     }
 
-    public void setRole(String role)
-    {
-        try
-        {
-            this.role = Role.valueOf(role);
-        }
-        catch (IllegalArgumentException e)
-        {
-            throw new IllegalArgumentException();
-        }
-    }
+//    public void setRole(String role)
+//    {
+//        try
+//        {
+//            this.role = Role.valueOf(role);
+//        }
+//        catch (IllegalArgumentException e)
+//        {
+//            throw new IllegalArgumentException();
+//        }
+//    }
 
     public void setState(State state)
     {
