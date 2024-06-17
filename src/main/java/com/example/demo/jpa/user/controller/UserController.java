@@ -3,6 +3,7 @@ package com.example.demo.jpa.user.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,7 @@ public class UserController {
         return ResponseEntity.ok().body("gogoSuccess!!");
     }
 
-    @PostMapping("/test")
+    @GetMapping("/test")
     public ResponseEntity<?> TestMethod(HttpServletRequest request , HttpServletResponse response){
 
         log.info("잘 넘어옴 : {}", request);
