@@ -36,7 +36,7 @@ public class UserController {
         return ResponseEntity.ok().body("gogoSuccess!!");
     }
 
-    @GetMapping("/test")
+    @PostMapping("/test")
     public ResponseEntity<?> TestMethod(HttpServletRequest request , HttpServletResponse response){
 
         log.info("잘 넘어옴 : {}", request);
