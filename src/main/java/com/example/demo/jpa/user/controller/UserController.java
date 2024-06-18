@@ -39,9 +39,9 @@ public class UserController {
     }
 
     @PostMapping("/test")
-    public ResponseEntity<?> PostTestMethod(@RequestBody Map<String, Object> body){
+    public ResponseEntity<?> PostTestMethod(){
 
-        log.info("잘 넘어옴 : {}", body);
+        log.info("잘 넘어옴 : ");
 
         return ResponseEntity.ok().body("gogoSuccess!!");
     }
