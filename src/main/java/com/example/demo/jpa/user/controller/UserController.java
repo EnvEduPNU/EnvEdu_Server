@@ -16,7 +16,7 @@ import java.util.Map;
 @Slf4j
 public class UserController {
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResponseEntity<?> LoginMethod(HttpServletRequest request , HttpServletResponse response){
 
         log.info("잘 넘어옴 : {}", request);
