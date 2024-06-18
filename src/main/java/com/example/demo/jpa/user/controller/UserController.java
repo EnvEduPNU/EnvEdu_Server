@@ -20,7 +20,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> LoginMethod(HttpServletRequest request , HttpServletResponse response){
 
-        log.info("잘 넘어옴! : {}", request);
+        log.info("잘 넘어옴 : {}", request);
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
