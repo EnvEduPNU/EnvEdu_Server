@@ -39,11 +39,12 @@ public class UserController {
     }
 
     @PostMapping("/test")
-    public ResponseEntity<?> PostTestMethod(){
-
-        log.info("잘 넘어옴 : ");
-
-        return ResponseEntity.ok().body("gogoSuccess!!");
+    public ResponseEntity<String> postTestMethod(@RequestBody Map<String, Object> body) {
+        if (body.isEmpty()) {
+            return ResponseEntity.badRequest().body("Request body is empty");
+        }
+        log.info("Request body: {}", body);
+        return ResponseEntity.ok("gogoSuccess!!");
     }
 
     @GetMapping("/test")
