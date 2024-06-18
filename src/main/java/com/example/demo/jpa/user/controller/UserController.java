@@ -20,7 +20,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> LoginMethod(HttpServletRequest request , HttpServletResponse response){
 
-        log.info("잘 넘어옴 : {}", request);
+        log.info("잘 넘어옴! : {}", request);
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
@@ -31,18 +31,4 @@ public class UserController {
         return ResponseEntity.ok().body("gogoSuccess!!");
     }
 
-    @PostMapping("/test")
-    public ResponseEntity<String> postTestMethod(@RequestBody LoginDTO body) {
-
-        log.info("Request body: {}", body);
-        return ResponseEntity.ok("gogoSuccess!!");
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<?> GetTestMethod(HttpServletRequest request , HttpServletResponse response){
-
-        log.info("잘 넘어옴 : {}", request);
-
-        return ResponseEntity.ok().body("gogoSuccess!!");
-    }
 }
