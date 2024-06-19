@@ -32,7 +32,7 @@ public class ScreenShareController {
     }
 
 
-    @MessageMapping("/{sessionId}")
+    @MessageMapping("/screen-share/{sessionId}")
     public void handleSignal(@DestinationVariable String sessionId, ScreenShareDTO message) {
         log.info("잘 들어가고 있나?? : " + sessionId);
         messagingTemplate.convertAndSend("/topic/" + sessionId, message);
