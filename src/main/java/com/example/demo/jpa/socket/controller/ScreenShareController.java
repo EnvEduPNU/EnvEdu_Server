@@ -1,6 +1,8 @@
 package com.example.demo.jpa.socket.controller;
 
+import com.example.demo.jpa.socket.dto.ScreenShareDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -25,5 +27,11 @@ public class ScreenShareController {
     @MessageMapping("/sendCandidate")
     public void sendCandidate(@Payload String candidate) {
         messagingTemplate.convertAndSend("/topic/candidate", candidate);
+    }
+
+
+    @MessageMapping("/screen-share/{sessionId}")
+    public void handleSignal(@DestinationVariable String sessionId, ScreenShareDTO message) {
+        messagingTemplate.convertAndSend("/topic/" + sessionId, message);
     }
 }

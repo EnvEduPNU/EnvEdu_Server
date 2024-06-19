@@ -44,6 +44,7 @@ import org.springframework.web.socket.config.annotation.*;
 
         registry.addEndpoint("/screen-share").setAllowedOriginPatterns("*").withSockJS();
 
+
     }
 
 }
