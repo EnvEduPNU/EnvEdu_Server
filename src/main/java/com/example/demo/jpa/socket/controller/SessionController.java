@@ -35,7 +35,7 @@ public class SessionController {
     }
 
     @DeleteMapping("/delete-session")
-    public ResponseEntity<String> deleteSession(@RequestParam Session sessionId) {
+    public ResponseEntity<String> deleteSession(@RequestBody Session sessionId) {
         log.info("세션아이디 : {}", sessionId.getSessionId());
         sessionService.deleteSession(sessionId.getSessionId());
         return ResponseEntity.ok("Session deleted successfully");
