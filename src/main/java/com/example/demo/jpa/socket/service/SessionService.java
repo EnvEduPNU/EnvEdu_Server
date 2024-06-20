@@ -15,11 +15,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SessionService {
 
-    private SessionRepository sessionRepository;
-
-    public SessionService(SessionRepository sessionRepository) {
-        this.sessionRepository = sessionRepository;
-    }
+    private final SessionRepository sessionRepository;
 
     // Save a new session
     public void saveSession(Session session) {

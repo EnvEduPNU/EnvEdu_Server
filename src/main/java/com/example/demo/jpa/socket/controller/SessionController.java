@@ -15,11 +15,7 @@ import java.util.List;
 @RequestMapping("/api/sessions")
 public class SessionController {
 
-    private SessionService sessionService;
-
-    public SessionController(SessionService sessionService) {
-        this.sessionService = sessionService;
-    }
+    private final SessionService sessionService;
 
     @PostMapping("/register-session")
     public ResponseEntity<String> registerSession(@RequestBody Session session) {
