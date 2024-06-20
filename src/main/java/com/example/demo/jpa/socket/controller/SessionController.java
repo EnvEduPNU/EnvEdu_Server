@@ -1,5 +1,6 @@
 package com.example.demo.jpa.socket.controller;
 
+import com.example.demo.jpa.socket.model.entity.Session;
 import com.example.demo.jpa.socket.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +22,9 @@ public class SessionController {
     }
 
     @PostMapping("/register-session")
-    public ResponseEntity<String> registerSession(@RequestBody String sessionId) {
-        log.info("세션아이디 : {}", sessionId);
-        sessionService.saveSession(sessionId);
+    public ResponseEntity<String> registerSession(@RequestBody Session sessionId) {
+        log.info("세션아이디 : {}", sessionId.getSessionId());
+        sessionService.saveSession(sessionId.getSessionId());
         return ResponseEntity.ok("Session registered successfully");
     }
 
@@ -34,9 +35,9 @@ public class SessionController {
     }
 
     @DeleteMapping("/delete-session")
-    public ResponseEntity<String> deleteSession(@RequestParam String sessionId) {
-        log.info("세션아이디 : {}", sessionId);
-        sessionService.deleteSession(sessionId);
+    public ResponseEntity<String> deleteSession(@RequestParam Session sessionId) {
+        log.info("세션아이디 : {}", sessionId.getSessionId());
+        sessionService.deleteSession(sessionId.getSessionId());
         return ResponseEntity.ok("Session deleted successfully");
     }
 }
