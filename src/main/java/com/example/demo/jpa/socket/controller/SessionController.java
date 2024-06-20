@@ -2,6 +2,7 @@ package com.example.demo.jpa.socket.controller;
 
 import com.example.demo.jpa.socket.service.SessionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/sessions")
 public class SessionController {
 
@@ -20,6 +22,7 @@ public class SessionController {
 
     @PostMapping("/register-session")
     public ResponseEntity<String> registerSession(@RequestBody String sessionId) {
+        log.info("세션아이디 : {}", sessionId);
         sessionService.saveSession(sessionId);
         return ResponseEntity.ok("Session registered successfully");
     }
@@ -32,6 +35,7 @@ public class SessionController {
 
     @DeleteMapping("/delete-session")
     public ResponseEntity<String> deleteSession(@RequestParam String sessionId) {
+        log.info("세션아이디 : {}", sessionId);
         sessionService.deleteSession(sessionId);
         return ResponseEntity.ok("Session deleted successfully");
     }
