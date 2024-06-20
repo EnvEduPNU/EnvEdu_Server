@@ -24,7 +24,7 @@ public class SessionService {
     // Save a new session
     @Transactional
     public void saveSession(String sessionId) {
-        log.info("세션아이디 : {}", sessionId);
+        log.info("서비스 세션아이디 : {}", sessionId);
         Session session = new Session(sessionId);
         sessionRepository.save(session);
     }
