@@ -1,40 +1,46 @@
 package com.example.demo.jpa.socket.controller;
 
-import com.example.demo.jpa.socket.dto.ScreenShareDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Controller
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class ScreenShareController {
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final ThreadPoolTaskExecutor taskExecutor;
 
+    @Async
     @MessageMapping("/sendOffer")
     public void sendOffer(@Payload String offer) {
-        messagingTemplate.convertAndSend("/topic/offer", offer);
+        taskExecutor.execute(() -> {
+            messagingTemplate.convertAndSend("/topic/offer", offer);
+            log.info("Offer sent: {}", offer);
+        });
     }
 
+    @Async
     @MessageMapping("/sendAnswer")
     public void sendAnswer(@Payload String answer) {
-        messagingTemplate.convertAndSend("/topic/answer", answer);
+        taskExecutor.execute(() -> {
+            messagingTemplate.convertAndSend("/topic/answer", answer);
+            log.info("Answer sent: {}", answer);
+        });
     }
 
+    @Async
     @MessageMapping("/sendCandidate")
     public void sendCandidate(@Payload String candidate) {
-        messagingTemplate.convertAndSend("/topic/candidate", candidate);
+        taskExecutor.execute(() -> {
+            messagingTemplate.convertAndSend("/topic/candidate", candidate);
+            log.info("Candidate sent: {}", candidate);
+        });
     }
-
-
-//    @MessageMapping("/screen-share/{sessionId}")
-//    public void handleSignal(@DestinationVariable String sessionId, ScreenShareDTO message) {
-//        log.info("잘 들어가고 있나?? : " + sessionId);
-//        messagingTemplate.convertAndSend("/topic/" + sessionId, message);
-//    }
 }
