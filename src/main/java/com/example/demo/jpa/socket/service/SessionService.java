@@ -18,6 +18,7 @@ public class SessionService {
     private final SessionRepository sessionRepository;
 
     // Save a new session
+    @Transactional
     public void saveSession(Session session) {
         log.info("서비스 세션아이디 : {}", session.getSessionId());
         sessionRepository.save(session);

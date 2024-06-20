@@ -27,6 +27,7 @@ public class SessionController {
     @GetMapping("/get-session-ids")
     public ResponseEntity<List<String>> getSessionIds() {
         List<String> sessionIds = sessionService.getAllSessionIds();
+        log.info("받아온 세션 아이디들 : " + sessionIds);
         return ResponseEntity.ok(sessionIds);
     }
 
