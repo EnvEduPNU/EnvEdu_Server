@@ -15,6 +15,10 @@ public class SessionService {
 
     private SessionRepository sessionRepository;
 
+    public SessionService(SessionRepository sessionRepository) {
+        this.sessionRepository = sessionRepository;
+    }
+
     // Save a new session
     @Transactional
     public void saveSession(String sessionId) {
