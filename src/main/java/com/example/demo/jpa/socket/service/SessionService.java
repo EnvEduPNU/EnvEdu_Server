@@ -1,0 +1,37 @@
+package com.example.demo.jpa.socket.service;
+
+import com.example.demo.jpa.socket.model.entity.Session;
+import com.example.demo.jpa.socket.repository.SessionRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class SessionService {
+
+    private SessionRepository sessionRepository;
+
+    // Save a new session
+    @Transactional
+    public void saveSession(String sessionId) {
+        Session session = new Session(sessionId);
+        sessionRepository.save(session);
+    }
+
+    // Retrieve all session IDs
+    @Transactional
+    public List<String> getAllSessionIds() {
+        return sessionRepository.findAll().stream()
+                .map(Session::getSessionId)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteSession(String sessionId) {
+        sessionRepository.deleteById(sessionId);
+    }
+}
