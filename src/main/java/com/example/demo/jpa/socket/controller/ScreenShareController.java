@@ -16,26 +16,26 @@ public class ScreenShareController {
 
     private final SimpMessagingTemplate messagingTemplate;
 
-//    @Async
-//    @MessageMapping("/sendOffer/{sessionId}")
-//    public void sendOffer(@DestinationVariable String sessionId, @Payload String offer) {
-//            messagingTemplate.convertAndSend(String.format("/topic/offer/%s", sessionId), offer);
-//            log.info("Offer sent for session {}: {}", sessionId, offer);
-//    }
-//
-//    @Async
-//    @MessageMapping("/sendAnswer/{sessionId}")
-//    public void sendAnswer(@DestinationVariable String sessionId, @Payload String answer) {
-//            messagingTemplate.convertAndSend(String.format("/topic/answer/%s", sessionId), answer);
-//            log.info("Answer sent for session {}: {}", sessionId, answer);
-//    }
-//
-//    @Async
-//    @MessageMapping("/sendCandidate/{sessionId}")
-//    public void sendCandidate(@DestinationVariable String sessionId, @Payload String candidate) {
-//            messagingTemplate.convertAndSend(String.format("/topic/candidate/%s", sessionId), candidate);
-//            log.info("Candidate sent for session {}: {}", sessionId, candidate);
-//    }
+    @Async
+    @MessageMapping("/sendOffer/{sessionId}")
+    public void sendOffer(@DestinationVariable String sessionId, @Payload String offer) {
+            messagingTemplate.convertAndSend(String.format("/topic/offer/%s", sessionId), offer);
+            log.info("Offer sent for session {}: {}", sessionId, offer);
+    }
+
+    @Async
+    @MessageMapping("/sendAnswer/{sessionId}")
+    public void sendAnswer(@DestinationVariable String sessionId, @Payload String answer) {
+            messagingTemplate.convertAndSend(String.format("/topic/answer/%s", sessionId), answer);
+            log.info("Answer sent for session {}: {}", sessionId, answer);
+    }
+
+    @Async
+    @MessageMapping("/sendCandidate/{sessionId}")
+    public void sendCandidate(@DestinationVariable String sessionId, @Payload String candidate) {
+            messagingTemplate.convertAndSend(String.format("/topic/candidate/%s", sessionId), candidate);
+            log.info("Candidate sent for session {}: {}", sessionId, candidate);
+    }
 
 
 
