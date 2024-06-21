@@ -37,20 +37,6 @@ public class ScreenShareController {
 //            log.info("Candidate sent for session {}: {}", sessionId, candidate);
 //    }
 
-    @MessageMapping("/sendOffer")
-    public String sendOffer(@Payload String offer) {
-        return offer;
-    }
-
-    @MessageMapping("/sendAnswer")
-    public String sendAnswer(@Payload String answer) {
-        return answer;
-    }
-
-    @MessageMapping("/sendCandidate")
-    public String sendCandidate(@Payload String candidate) {
-        return candidate;
-    }
 
 
 }
