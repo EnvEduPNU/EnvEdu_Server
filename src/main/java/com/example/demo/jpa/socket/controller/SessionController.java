@@ -31,10 +31,11 @@ public class SessionController {
         return ResponseEntity.ok(sessionIds);
     }
 
-    @DeleteMapping("/delete-session")
-    public ResponseEntity<String> deleteSession(@RequestBody Session sessionId) {
-        log.info("세션아이디 : {}", sessionId.getSessionId());
-        sessionService.deleteSession(sessionId.getSessionId());
+    @DeleteMapping("/delete-session/{sessionId}")
+    public ResponseEntity<String> deleteSession(@PathVariable String sessionId) {
+        log.info("세션아이디 : {}", sessionId);
+        sessionService.deleteSession(sessionId);
         return ResponseEntity.ok("Session deleted successfully");
     }
+
 }
