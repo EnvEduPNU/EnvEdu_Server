@@ -23,7 +23,7 @@ import javax.persistence.PostUpdate;
 public class TableChangeListener implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
-    private static ObjectMapper objectMapper = new ObjectMapper();  // ObjectMapper instance
+    private static final ObjectMapper objectMapper = new ObjectMapper();  // ObjectMapper instance
 
 
     @Override
