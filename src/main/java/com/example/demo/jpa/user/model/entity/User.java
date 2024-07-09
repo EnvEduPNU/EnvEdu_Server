@@ -2,10 +2,12 @@ package com.example.demo.jpa.user.model.entity;
 
 import com.example.demo.jpa.device.model.UserDevice;
 import com.example.demo.jpa.datacontrol.datachunk.model.MeasuredUnit;
+import com.example.demo.jpa.socket.model.entity.Session;
 import com.example.demo.jpa.user.model.enumerate.Gender;
 import com.example.demo.jpa.user.model.enumerate.Role;
 import com.example.demo.jpa.model.Location;
 import com.example.demo.jpa.user.model.enumerate.State;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,6 +21,7 @@ import java.util.regex.Pattern;
 
 @Entity
 @Getter
+@Setter
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User {
     protected User() {}
@@ -67,9 +70,11 @@ public abstract class User {
     private String nickname;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Location> locations;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<UserDevice> devices;
 
     @CreationTimestamp
@@ -80,7 +85,14 @@ public abstract class User {
 
     @Nullable
     @ManyToOne
+    @JsonIgnore
     private MeasuredUnit measuredUnit;
+
+    @Column(nullable = true)
+    private Long sessionId;
+
+
+    //--------------------------------------------------------------------------------------------------
 
     public void updateMeasuredUnit(MeasuredUnit updatedMeasuredUnit){
         measuredUnit = updatedMeasuredUnit;
@@ -111,23 +123,6 @@ public abstract class User {
             throw new IllegalArgumentException();
         }
         this.email = email;
-    }
-
-//    public void setRole(String role)
-//    {
-//        try
-//        {
-//            this.role = Role.valueOf(role);
-//        }
-//        catch (IllegalArgumentException e)
-//        {
-//            throw new IllegalArgumentException();
-//        }
-//    }
-
-    public void setState(State state)
-    {
-        this.state = state;
     }
 
     @Override

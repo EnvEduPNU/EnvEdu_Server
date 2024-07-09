@@ -1,5 +1,6 @@
 package com.example.demo.jpa.user.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -13,10 +14,12 @@ public class Student_Educator {
     private long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "studentId")
     private Student student;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "educatorId")
     private Educator educator;
 

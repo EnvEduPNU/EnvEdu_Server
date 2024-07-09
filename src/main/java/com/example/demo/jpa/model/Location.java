@@ -1,6 +1,7 @@
 package com.example.demo.jpa.model;
 
 import com.example.demo.jpa.user.model.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class Location {
     private String addressDetail;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonIgnore
     @JoinColumn(name = "userId")
     private User user;
 }

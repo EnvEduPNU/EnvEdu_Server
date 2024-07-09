@@ -21,10 +21,10 @@ public class Student extends User {
         super(username, password, email, birthday, role, gender, state, nickname);
     }
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-    private List<Student_Educator> student_educators;
-
-    public List<Student_Educator> getStudent_educators() {
-        return student_educators;
-    }
+//    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+//    private List<Student_Educator> student_educators;
+//
+//    public List<Student_Educator> getStudent_educators() {
+//        return student_educators;
+//    }
 }

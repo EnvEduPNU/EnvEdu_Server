@@ -4,6 +4,7 @@ import com.example.demo.jpa.user.model.enumerate.Gender;
 import com.example.demo.jpa.user.model.enumerate.Role;
 import com.example.demo.jpa.user.model.enumerate.State;
 import com.example.demo.jpa.user.model.enumerate.IsAuthorized;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Educator extends User {
     }
 
     @OneToMany(mappedBy = "educator", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Student_Educator> educator_students;
 
     @Column(length = 3, nullable = false)

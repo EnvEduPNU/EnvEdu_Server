@@ -20,8 +20,8 @@ public class SessionController {
     @PostMapping("/register-session")
     public ResponseEntity<String> registerSession(@RequestBody Session session) {
         log.info("컨트롤러 세션아이디 : {}", session.getSessionId());
-        sessionService.saveSession(session);
-        return ResponseEntity.ok("Session registered successfully");
+        String sessionName = sessionService.saveSession(session);
+        return ResponseEntity.ok(sessionName);
     }
 
     @GetMapping("/get-session-ids")

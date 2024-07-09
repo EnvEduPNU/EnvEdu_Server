@@ -6,11 +6,11 @@ import com.example.demo.jpa.device.dto.response.DeviceListDTO;
 import com.example.demo.jpa.device.dto.response.RelatedUserDeviceListDTO;
 import com.example.demo.jpa.device.model.UserDevice;
 import com.example.demo.jpa.device.repository.UserDeviceRepository;
-import com.example.demo.jpa.user.model.entity.Educator;
-import com.example.demo.jpa.user.model.entity.Student_Educator;
+//import com.example.demo.jpa.user.model.entity.Educator;
+//import com.example.demo.jpa.user.model.entity.Student_Educator;
 import com.example.demo.jpa.user.model.entity.User;
 import com.example.demo.jpa.user.model.enumerate.State;
-import com.example.demo.jpa.user.repository.Student_EducatorRepository;
+//import com.example.demo.jpa.user.repository.Student_EducatorRepository;
 import com.example.demo.jpa.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class UserDeviceService {
 
     private final UserRepository userRepository;
 
-    private final Student_EducatorRepository student_educatorRepository;
+//    private final Student_EducatorRepository student_educatorRepository;
 
 
     @Transactional
@@ -93,12 +93,12 @@ public class UserDeviceService {
         allRelatedUsers.add(user);
 
         // 유저 자신의 학생들의 디바이스도 추가해 준다.
-        if(user instanceof Educator) {
-            List<Student_Educator> relatedUsers = student_educatorRepository.findAllByEducator((Educator) user);
-            for (Student_Educator student_educator : relatedUsers) {
-                allRelatedUsers.add(student_educator.getStudent());
-            }
-        }
+//        if(user instanceof Educator) {
+//            List<Student_Educator> relatedUsers = student_educatorRepository.findAllByEducator((Educator) user);
+//            for (Student_Educator student_educator : relatedUsers) {
+//                allRelatedUsers.add(student_educator.getStudent());
+//            }
+//        }
 
         // 추가해준 관련된 사람들을 바탕으로 관련된 디바이스의 내용을 가져온다.
         List<UserDevice> allDevices = userDeviceRepository.findAllByUserIn(allRelatedUsers);
