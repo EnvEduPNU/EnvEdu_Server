@@ -1,27 +1,27 @@
-package com.example.demo.jpa.survey.controller;
-
-import com.example.demo.jpa.survey.service.SurveyService;
-//import com.example.demo.jpa.jwt.util.JwtUtil;
-import com.example.demo.jpa.survey.domain.dto.SurveyCreateRequestDto;
-import com.example.demo.jpa.survey.domain.dto.SurveyAnswerRequestDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-
-@Controller
-@RequiredArgsConstructor
-public class SurveyController {
-
-    private final SurveyService surveyService;
+//package com.example.demo.jpa.survey.controller;
+//
+//import com.example.demo.jpa.survey.service.SurveyService;
+////import com.example.demo.jpa.jwt.util.JwtUtil;
+//import com.example.demo.jpa.survey.domain.dto.SurveyCreateRequestDto;
+//import com.example.demo.jpa.survey.domain.dto.SurveyAnswerRequestDto;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.web.bind.annotation.*;
+//import org.springframework.web.multipart.MultipartFile;
+//
+//import javax.servlet.http.HttpServletRequest;
+//import java.io.IOException;
+//import java.util.List;
+//import java.util.Map;
+//import java.util.NoSuchElementException;
+//
+//@Controller
+//@RequiredArgsConstructor
+//public class SurveyController {
+//
+//    private final SurveyService surveyService;
     /**
      * 질문 : 조회(o), 등록(o), 수정
      * 답변 : 조회, 등록(o)
@@ -79,13 +79,13 @@ public class SurveyController {
 //        //return new ResponseEntity<>(surveyService.getSurveyList("admin"), HttpStatus.OK);
 //    }
 
-    @ExceptionHandler(IOException.class)
-    private ResponseEntity<?> iOException(IOException e) {
-        return new ResponseEntity<>("업로드에 실패하였습니다 Error:" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    private ResponseEntity<?> noSuchElementException(NoSuchElementException e) {
-        return new ResponseEntity<>("저장된 데이터 값이 없습니다.", HttpStatus.BAD_REQUEST);
-    }
-}
+//    @ExceptionHandler(IOException.class)
+//    private ResponseEntity<?> iOException(IOException e) {
+//        return new ResponseEntity<>("업로드에 실패하였습니다 Error:" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
+//
+//    @ExceptionHandler(NoSuchElementException.class)
+//    private ResponseEntity<?> noSuchElementException(NoSuchElementException e) {
+//        return new ResponseEntity<>("저장된 데이터 값이 없습니다.", HttpStatus.BAD_REQUEST);
+//    }
+//}

@@ -1,4 +1,4 @@
-package com.example.demo.jpa.config;
+package com.example.demo.jpa.image.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
