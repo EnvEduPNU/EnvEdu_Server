@@ -41,13 +41,17 @@ public class S3Controller {
         try {
             String bucketName = bucketname; // S3 버킷 이름
             String region = regionProp; // S3 버킷이 위치한 리전
-            String key = buckedFolder + fileName; // S3에 저장될 파일 경로
+            String key = buckedFolder + "123"; // S3에 저장될 파일 경로
 
             // Presigned URL 생성
             String preSignedUrl = s3PreSignedUrlGenerator.getPreSignedUrl(fileName);
 
-            // 이미지 URL 생성
-            String imageUrl = "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + key;
+            // "Signature" 문자열의 시작 인덱스를 찾음
+            int signatureIndex = preSignedUrl.indexOf("?");
+
+            // "Signature" 문자열 이전까지의 URL 부분을 추출
+            String imageUrl = (signatureIndex != -1) ? preSignedUrl.substring(0, signatureIndex) : preSignedUrl;
+
 
             // 반환할 맵 생성
             Map<String, String> response = new HashMap<>();

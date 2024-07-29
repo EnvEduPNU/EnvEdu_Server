@@ -1,7 +1,8 @@
 package com.example.demo.jpa.image.utils;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 @Slf4j
@@ -29,10 +31,13 @@ public class S3DeleteAspect {
     }
 
     @After("s3DeleteObjectPointCut()")
-    public void afterS3DeleteObject() {
-        HttpServletRequest request =
-                (HttpServletRequest) ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    public void afterS3DeleteObject(JoinPoint joinPoint) {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) {
+            return; // 현재 요청이 없는 경우
+        }
 
+        HttpServletRequest request = attributes.getRequest();
         String targetObjectUrl = request.getHeader(S3_DELETE_OBJECT_HEADER);
 
         if (Objects.nonNull(targetObjectUrl) && !targetObjectUrl.isEmpty()) {
