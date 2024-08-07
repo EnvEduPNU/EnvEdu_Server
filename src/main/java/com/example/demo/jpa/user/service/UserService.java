@@ -12,6 +12,7 @@ import com.example.demo.jpa.user.dto.request.RegisterDTO;
 import com.example.demo.jpa.user.dto.request.StudentAddDTO;
 import com.example.demo.jpa.user.dto.response.Student_EducatorDTO;
 import com.example.demo.jpa.user.model.entity.*;
+import com.example.demo.jpa.user.model.enumerate.Role;
 import com.example.demo.jpa.user.repository.*;
 import com.example.demo.jpa.user.model.enumerate.State;
 import com.example.demo.jpa.user.util.Utils;
@@ -49,6 +50,9 @@ public class UserService {
 //        userRepository.save(user);
 //    }
 
+    public List<User> getAllStudents() {
+        return userRepository.findByRole(Role.ROLE_STUDENT);
+    }
 
     public List<Student_Educator> findStudentsByStudentOrEducator(String username){
         User user = userRepository.findByUsername(username).get();
@@ -70,4 +74,7 @@ public class UserService {
         return student_educatorRepository.findAllByEducator(educator);
     }
 
+    public Optional<User> findByName(String name) {
+        return userRepository.findByUsername(name);
+    }
 }

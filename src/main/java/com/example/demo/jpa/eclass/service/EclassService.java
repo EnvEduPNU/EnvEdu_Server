@@ -17,6 +17,7 @@ public class EclassService {
 
     private final EclassRepository eclassRepository;
 
+    // ------------------------------------- E-Class 생성/조회/삭제 서비스 ------------------------------
     @Transactional
     public void saveEclass(EClass eClass){
         eclassRepository.save(eClass);
@@ -36,4 +37,6 @@ public class EclassService {
             return false;
         }
     }
+
+
 }

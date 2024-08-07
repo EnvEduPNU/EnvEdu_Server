@@ -4,6 +4,7 @@ import com.example.demo.jpa.seed.model.Seed;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -43,19 +44,30 @@ public class MessageController {
     private void fromEClassClient(@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
         String pageValue = null;
+        String stepCountValue = null;
         try {
+            // JSON 메시지를 파싱하여 값들을 가져옵니다.
             JsonNode rootNode = objectMapper.readTree(switchMessage);
-            pageValue = rootNode.path("page").asText(); // "newPage" 값을 가져옵니다.
-            log.info("device 전달 완료 : " + pageValue);
+            pageValue = rootNode.path("page").asText();
+            stepCountValue = rootNode.path("stepCount").asText();
+
+            // JSON 객체를 만들어 그대로 로그에 출력
+            ObjectNode payloadNode = objectMapper.createObjectNode();
+            payloadNode.put("page", pageValue);
+            payloadNode.put("stepCount", stepCountValue);
+
+            log.info("device 전달 완료 : {}", payloadNode.toString());
+
+            // JSON 객체를 문자열로 변환하여 전송
+            String jsonPayload = objectMapper.writeValueAsString(payloadNode);
+            template.convertAndSend("/topic/switchPage", jsonPayload);
         } catch (JsonProcessingException e) {
             log.error("JSON 파싱 오류", e);
         }
-
-
-        assert pageValue != null;
-        template.convertAndSend("/topic/switchPage", pageValue);
-
     }
+
+
+
 
 
 }

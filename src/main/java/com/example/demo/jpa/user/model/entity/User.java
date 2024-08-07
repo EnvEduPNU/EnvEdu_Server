@@ -69,6 +69,9 @@ public abstract class User {
     @Column(nullable = true, length = 20)
     private String nickname;
 
+    @Column(nullable = true, length = 20)
+    private String studentGroup;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Location> locations;

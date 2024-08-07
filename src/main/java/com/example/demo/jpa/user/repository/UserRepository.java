@@ -1,6 +1,7 @@
 package com.example.demo.jpa.user.repository;
 
 import com.example.demo.jpa.user.model.entity.User;
+import com.example.demo.jpa.user.model.enumerate.Role;
 import com.example.demo.jpa.user.model.enumerate.State;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -16,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<List<User>> findByIdIn(List<Long> id);
 
     Optional<User> findBySessionId(long id);
+
+    List<User> findByRole(Role role);
+
 }
