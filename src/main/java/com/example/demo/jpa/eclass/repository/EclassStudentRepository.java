@@ -14,9 +14,8 @@ public interface EclassStudentRepository extends JpaRepository<EClassStudent, Lo
 
     EClassStudent findByStudentId(Long studentId);
 
-
-    @Transactional
     void deleteByStudentId(Long studentId);
 
     boolean existsByStudentId(Long studentId);
+
 }

@@ -41,6 +41,34 @@ public class EclassController {
         }
     }
 
+    @GetMapping("/status-check")
+    public ResponseEntity<Boolean> getEclassStatus(@RequestParam String uuid) {
+        boolean EclassStartedCheck = eclassService.isEClassStarted(uuid);
+        log.info("E-Class 시작 여부 :" + EclassStartedCheck);
+        return ResponseEntity.ok(EclassStartedCheck);
+    }
+
+    @PatchMapping("/eclass-start")
+    public ResponseEntity<Boolean> setEclassStatusTrue(@RequestParam String uuid) {
+        log.info("시작 수업 uuid : " + uuid);
+        boolean saveCheck = eclassService.startEClass(uuid);
+        log.info("수업 시작 저장 확인 : " + saveCheck);
+
+        return ResponseEntity.ok(saveCheck);
+
+    }
+
+    @PatchMapping("/eclass-close")
+    public ResponseEntity<Boolean> setEclassStatusClose(@RequestParam String uuid) {
+        log.info("종료 수업 uuid : " + uuid);
+        boolean saveCheck = eclassService.closeEClass(uuid);
+        log.info("수업 종료 저장 확인 : " + saveCheck);
+
+        return ResponseEntity.ok(saveCheck);
+
+    }
+
+
 
 
 }

@@ -1,6 +1,5 @@
 package com.example.demo.jpa.eclass.service;
 
-import com.example.demo.jpa.eclass.dto.EClassDTO;
 import com.example.demo.jpa.eclass.entity.EClass;
 import com.example.demo.jpa.eclass.repository.EclassRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +27,38 @@ public class EclassService {
     public List<EClass> getEclass(){
         return eclassRepository.findAll();
     }
+
+    @Transactional
+    public boolean isEClassStarted(String eClassUuid) {
+        return eclassRepository.findStartedEClassByUuid(eClassUuid).isPresent();
+    }
+
+    @Transactional
+    public boolean startEClass(String eClassUuid) {
+        EClass eClass = eclassRepository.findById(eClassUuid)
+                .orElseThrow(() -> new RuntimeException("EClass not found with UUID: " + eClassUuid));
+
+        eClass.setEclassStart(true);
+
+        // 저장된 엔티티를 반환하여 null이 아닌지 확인
+        EClass savedEClass = eclassRepository.save(eClass);
+
+        return savedEClass != null;
+    }
+
+    @Transactional
+    public boolean closeEClass(String eClassUuid) {
+        EClass eClass = eclassRepository.findById(eClassUuid)
+                .orElseThrow(() -> new RuntimeException("EClass not found with UUID: " + eClassUuid));
+
+        eClass.setEclassStart(false);
+
+        // 저장된 엔티티를 반환하여 null이 아닌지 확인
+        EClass savedEClass = eclassRepository.save(eClass);
+
+        return savedEClass != null;
+    }
+
 
     @Transactional
     public boolean deleteEclassByUuid(String eClassUuid) {

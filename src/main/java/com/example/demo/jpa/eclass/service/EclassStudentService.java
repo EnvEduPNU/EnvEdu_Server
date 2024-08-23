@@ -50,6 +50,24 @@ public class EclassStudentService {
             return false;
         }
     }
+    @Transactional
+    public boolean deleteAllByEclassUuid(String eclassUuid) {
+
+        if (eClassUuidRepository.existsByEclassUuid(eclassUuid)) {
+            // studentId를 기준으로 삭제
+            eClassUuidRepository.deleteByEclassUuid(eclassUuid);
+            return true;
+        } else {
+            log.info("학생이 존재하지 않습니다.");
+            return false;
+        }
+
+    }
+
+    public boolean isStudentAlreadyEnrolled(Long studentId, String eclassUuid) {
+        return eClassUuidRepository.existsByStudentIdAndEclassUuid(studentId, eclassUuid);
+    }
+
 
     public Optional<EClassStudent> findByStudentId(Long studentId) {
         return Optional.ofNullable(eclassStudentRepository.findByStudentId(studentId));

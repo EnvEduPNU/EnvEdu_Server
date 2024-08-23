@@ -9,4 +9,11 @@ public interface EClassUuidRepository extends JpaRepository<EClassUuid, Long> {
 
     List<EClassUuid> findByStudentId(Long studentId);
 
+    boolean existsByStudentIdAndEclassUuid(Long studentId, String eclassUuid);
+
+    void deleteByEclassUuid(String eclassUuid);
+
+    boolean existsByEclassUuid(String eclassUuid);
+
+
 }

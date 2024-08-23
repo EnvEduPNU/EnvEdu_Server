@@ -18,4 +18,7 @@ public class EClassUuid {
 
     @Column(name = "studentId", nullable = false)
     private Long studentId;
+
+    @Column(name = "assignmentData", nullable = true)
+    private String assignmentData;
 }

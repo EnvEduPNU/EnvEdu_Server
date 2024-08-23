@@ -45,22 +45,86 @@ public class MessageController {
         ObjectMapper objectMapper = new ObjectMapper();
         String pageValue = null;
         String stepCountValue = null;
+        String lectureDataUuid = null;
+
         try {
             // JSON 메시지를 파싱하여 값들을 가져옵니다.
             JsonNode rootNode = objectMapper.readTree(switchMessage);
             pageValue = rootNode.path("page").asText();
             stepCountValue = rootNode.path("stepCount").asText();
+            lectureDataUuid = rootNode.path("lectureDataUuid").asText();
+
 
             // JSON 객체를 만들어 그대로 로그에 출력
             ObjectNode payloadNode = objectMapper.createObjectNode();
             payloadNode.put("page", pageValue);
             payloadNode.put("stepCount", stepCountValue);
+            payloadNode.put("lectureDataUuid", lectureDataUuid);
+
 
             log.info("device 전달 완료 : {}", payloadNode.toString());
 
             // JSON 객체를 문자열로 변환하여 전송
             String jsonPayload = objectMapper.writeValueAsString(payloadNode);
             template.convertAndSend("/topic/switchPage", jsonPayload);
+        } catch (JsonProcessingException e) {
+            log.error("JSON 파싱 오류", e);
+        }
+    }
+
+
+    @MessageMapping("/screen-share-status")
+    private void fromEClassScreenShare(@Payload String switchMessage) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String pageValue = null;
+
+
+        try {
+            // JSON 메시지를 파싱하여 값들을 가져옵니다.
+            JsonNode rootNode = objectMapper.readTree(switchMessage);
+            pageValue = rootNode.path("screenStatus").asText();
+
+
+
+            // JSON 객체를 만들어 그대로 로그에 출력
+            ObjectNode payloadNode = objectMapper.createObjectNode();
+            payloadNode.put("screenStatus", pageValue);
+
+
+            log.info("화면 공유 상태 : {}", payloadNode.toString());
+
+            // JSON 객체를 문자열로 변환하여 전송
+            String jsonPayload = objectMapper.writeValueAsString(payloadNode);
+            template.convertAndSend("/topic/screen-share-status", jsonPayload);
+        } catch (JsonProcessingException e) {
+            log.error("JSON 파싱 오류", e);
+        }
+    }
+
+    @MessageMapping("/assginment-status")
+    private void fromEClassAssginmentCheck(@Payload String switchMessage) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String pageValue = null;
+        String sessionId = null;
+
+        try {
+            // JSON 메시지를 파싱하여 값들을 가져옵니다.
+            JsonNode rootNode = objectMapper.readTree(switchMessage);
+            pageValue = rootNode.path("assginmentStatus").asText();
+            sessionId = rootNode.path("sessionId").asText();
+
+
+            // JSON 객체를 만들어 그대로 로그에 출력
+            ObjectNode payloadNode = objectMapper.createObjectNode();
+            payloadNode.put("assginmentStatus", pageValue);
+            payloadNode.put("sessionId", sessionId);
+
+
+            log.info("과제 공유 상태 : {}", payloadNode.toString());
+
+            // JSON 객체를 문자열로 변환하여 전송
+            String jsonPayload = objectMapper.writeValueAsString(payloadNode);
+            template.convertAndSend("/topic/assginment-status", jsonPayload);
         } catch (JsonProcessingException e) {
             log.error("JSON 파싱 오류", e);
         }

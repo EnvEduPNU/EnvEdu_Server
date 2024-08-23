@@ -33,4 +33,7 @@ public class EClass {
     @Column(nullable = false)
     private int eClassAssginSubmitNum;
 
+    @Column(nullable = false)
+    private boolean eclassStart;
+
 }

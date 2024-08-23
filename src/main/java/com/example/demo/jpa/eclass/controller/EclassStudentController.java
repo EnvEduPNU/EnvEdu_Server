@@ -36,28 +36,28 @@ public class EclassStudentController {
             String studentName = (String) enrollStudent.get("studentName");
             String studentGroup = (String) enrollStudent.get("studentGroup");
             String joinDate = (String) enrollStudent.get("joinDate");
+            List<String> eclassUuidList = (List<String>) enrollStudent.get("eclassUuid");
+            String eclassUuid = eclassUuidList.get(0); // 첫 번째 UUID 사용
+
+            // 이미 등록된 학생인지 확인
+            if (eclassStudentService.isStudentAlreadyEnrolled(studentId, eclassUuid)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("Error: The student is already enrolled in this class.");
+            }
+
             // 학생 정보 객체 생성
             EClassStudent student = new EClassStudent();
             student.setStudentId(studentId);
             student.setStudentName(studentName);
             student.setStudentGroup(studentGroup);
             student.setJoinDate(joinDate);
-            // 서비스 호출하여 저장
             eclassStudentService.saveStudent(student);
 
             // ---------------------- EClassUuid 저장 -------------------------------
-            List<String> eclassUuid = (List<String>) enrollStudent.get("eclassUuid");
-
-            log.info("eclassUuid 확인 : " + eclassUuid.get(0));
-            log.info("studentId 확인 : " + studentId);
-
             EClassUuid uuid = new EClassUuid();
-            uuid.setEclassUuid(eclassUuid.get(0));
+            uuid.setEclassUuid(eclassUuid);
             uuid.setStudentId(studentId);
-
             eclassStudentService.saveUuid(uuid);
-
-
 
             return ResponseEntity.ok("Student " + studentId + " has successfully joined.");
         } catch (NullPointerException | ClassCastException e) {
@@ -66,24 +66,38 @@ public class EclassStudentController {
         }
     }
 
+    @DeleteMapping("/joined/delete")
+    public ResponseEntity<String> deleteStudentInEclass(@RequestParam String eClassUuid) {
+        boolean deleted =   eclassStudentService.deleteAllByEclassUuid(eClassUuid);
+        if (deleted) {
+            return ResponseEntity.ok("Deleted Completed!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("EClass not found");
+        }
+    }
+
+
 
 
     // 해당 E-Class에 참여한 모든 학생들의 리스트를 가져오는 메서드 (E-Class Controller로 옮김 예정)
     @GetMapping("/joinList")
-    public ResponseEntity<List<Optional<EClassStudent>>> getJoinedStudentList(@RequestParam String eclassUuid) {
+    public ResponseEntity<List<EClassStudent>> getJoinedStudentList(@RequestParam String eclassUuid) {
         log.info("eclassUuid 어떻게 되는데 : " + eclassUuid);
 
-        List<EClassUuid> EclassList = eclassStudentService.getEclassUuidByUuid(eclassUuid);
+        List<EClassUuid> eclassList = eclassStudentService.getEclassUuidByUuid(eclassUuid);
 
-        log.info("리스트가 어떻게 되는데 : " + EclassList);
+        log.info("리스트가 어떻게 되는데 : " + eclassList);
 
         // EclassList의 각 항목에 대해 studentId를 사용하여 EClassStudent 정보를 조회하고 리스트에 추가
-        List<Optional<EClassStudent>> EclassStudents = EclassList.stream()
+        List<EClassStudent> eclassStudents = eclassList.stream()
                 .map(eclassUuidItem -> eclassStudentService.findByStudentId(eclassUuidItem.getStudentId()))
+                .filter(Optional::isPresent) // Optional이 존재하는 경우만 필터링
+                .map(Optional::get) // Optional에서 실제 값을 가져옴
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(EclassStudents);
+        return ResponseEntity.ok(eclassStudents);
     }
+
 
     @GetMapping("/allList")
     public ResponseEntity<List<User>> getAllStudentList() {
