@@ -1,7 +1,11 @@
 package com.example.demo.jpa.eclass.controller;
 
+import com.example.demo.jpa.eclass.dto.AssginmentStepListDTO;
+import com.example.demo.jpa.eclass.dto.AssignmentStepCheckDTO;
+import com.example.demo.jpa.eclass.dto.ReportDTO;
 import com.example.demo.jpa.eclass.entity.EClassStudent;
 import com.example.demo.jpa.eclass.entity.EClassUuid;
+import com.example.demo.jpa.eclass.service.EClassUuidService;
 import com.example.demo.jpa.eclass.service.EclassStudentService;
 import com.example.demo.jpa.user.model.entity.User;
 import com.example.demo.jpa.user.service.UserService;
@@ -12,10 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class EclassStudentController {
 
     private final EclassStudentService eclassStudentService;
     private final UserService userService;
+    private final EClassUuidService eClassUuidService;
 
 
     // --------------------------------- E-Class Student 조회/삽입/삭제 ---------------------------------
@@ -75,8 +79,6 @@ public class EclassStudentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("EClass not found");
         }
     }
-
-
 
 
     // 해당 E-Class에 참여한 모든 학생들의 리스트를 가져오는 메서드 (E-Class Controller로 옮김 예정)
@@ -130,8 +132,6 @@ public class EclassStudentController {
 
     @GetMapping("/eclassUuids")
     public ResponseEntity<List<String>> getEclassUuidsByStudentName(@RequestParam String studentName) {
-
-
         try {
             List<String> eclassUuids = eclassStudentService.getEclassUuidsByStudentName(studentName);
             return ResponseEntity.ok(eclassUuids);
@@ -139,4 +139,131 @@ public class EclassStudentController {
             return ResponseEntity.status(404).body(null);
         }
     }
+
+
+    @PostMapping("/assignment/stepCheck")
+    public ResponseEntity<String> setAssignmentStepCheck(@RequestBody AssignmentStepCheckDTO assignmentStepCheckDTO) {
+
+        boolean[] stepCheckArray = assignmentStepCheckDTO.getStepCheck();
+        Long studentId = assignmentStepCheckDTO.getStudentId();
+
+        log.info("studentId ? : " + studentId);
+
+        // boolean[]을 List<Boolean>으로 변환
+        List<Boolean> stepCheckList = IntStream.range(0, stepCheckArray.length)
+                .mapToObj(i -> stepCheckArray[i])
+                .collect(Collectors.toList());
+
+        // studentId에 맞는 assignmentData 업데이트
+        eClassUuidService.updateAssignmentData(studentId, stepCheckList);
+
+        return ResponseEntity.ok("success!");
+    }
+
+    @GetMapping("/assignment/stepCheck/{id}")
+    public ResponseEntity<boolean[]> getAssignmentStepCheck(@PathVariable Long id) {
+        boolean[] stepCheckArray = eClassUuidService.getAssignmentData(id);
+
+        return ResponseEntity.ok(stepCheckArray);
+    }
+
+
+    @PostMapping("/assignment/getCheckList")
+    public ResponseEntity<Map<String, boolean[]>> handleStudentAssignmentCheck(
+            @RequestBody AssginmentStepListDTO assginmentStepListDTO) {
+
+        String eclassUuid = assginmentStepListDTO.getEclassUuid();
+        List<String> studentData = assginmentStepListDTO.getStudentData();
+
+        // 학생의 username을 키로, assignmentData를 값으로 하는 맵을 생성
+        Map<String, boolean[]> assignmentDataMap = new HashMap<>();
+
+        // studentData 리스트의 각 username에 대해 studentId를 조회하고 assignmentData를 가져옴
+        for (String username : studentData) {
+            Long studentId = eclassStudentService.getEclassStudentId(username, eclassUuid);
+            log.info("학생 아이디 : " + studentId);
+
+            boolean[] assignmentData = eClassUuidService.getAssignmentData(studentId);
+            log.info("학생 스텝체크 : " + Arrays.toString(assignmentData));
+
+            assignmentDataMap.put(username, assignmentData);
+        }
+
+        log.info("제대로 나오는지 크기로 확인 : " + assignmentDataMap.size());
+
+        // 결과 반환
+        return ResponseEntity.ok(assignmentDataMap);
+    }
+
+    // Report Uuid 가져 오는 메서드
+    @PostMapping("/assignment/reportUuid/get")
+    public ResponseEntity<String> getReportData(
+            @RequestBody AssginmentStepListDTO assginmentStepListDTO) {
+
+        String eclassUuid = assginmentStepListDTO.getEclassUuid();
+        List<String> studentData = assginmentStepListDTO.getStudentData();
+
+        String reportUuid = null;
+        for (String username : studentData) {
+            Long studentId = eclassStudentService.getEclassStudentId(username, eclassUuid);
+            log.info("학생 아이디 : " + studentId);
+
+            reportUuid = eClassUuidService.getReportUuid(studentId);
+        }
+        return ResponseEntity.ok(reportUuid);
+    }
+
+    /**
+     * 보고서 제출 및 저장하는 메서드
+     * @param reportDTO
+     * @Author 김선규
+     * @return 저장 결과
+     */
+    @PostMapping("/assignment/report/save")
+    public ResponseEntity<String> saveReportUuid(@RequestBody ReportDTO reportDTO) {
+        String studentId = reportDTO.getStudentId();
+        String reportUuid = reportDTO.getReportUuid();
+
+        try {
+            boolean isUpdated = eClassUuidService.updateReportData(Long.valueOf(studentId), reportUuid);
+
+            if (isUpdated) {
+                return ResponseEntity.ok("Report updated successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Failed to update report");
+            }
+        } catch (RuntimeException e) {
+            // EClassUuid를 찾지 못했을 때의 예외 처리
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        } catch (Exception e) {
+            // 기타 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + e.getMessage());
+        }
+    }
+
+    // 보고서 테이블에 누가 보고서를 썼는지 학생 이름과 보고서를 반환해주는 메서드
+    @GetMapping("/assignment/report/get/{eclassUuid}")
+    public ResponseEntity<Map<String, String>> getReportAndStudent(@PathVariable String eclassUuid) {
+        List<EClassUuid> eclassUuidData = eClassUuidService.getReportByEclassUuid(eclassUuid);
+
+        Map<String, String> reportInfoMap = new HashMap<>();
+
+        for (EClassUuid eclassUuidObj : eclassUuidData) {
+            Long studentId = eclassUuidObj.getStudentId();
+            Optional<User> studentData = userService.findById(studentId); // studentId로 User 객체 찾기
+            String username = null;
+            if(studentData.isPresent()){
+                username = studentData.get().getUsername();
+            }
+            String reportData = eclassUuidObj.getReportData();
+
+            reportInfoMap.put(reportData, username);
+        }
+
+        return ResponseEntity.ok(reportInfoMap);
+    }
+
 }

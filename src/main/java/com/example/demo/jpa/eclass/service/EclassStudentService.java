@@ -5,6 +5,7 @@ import com.example.demo.jpa.eclass.entity.EClassUuid;
 import com.example.demo.jpa.eclass.repository.EClassUuidRepository;
 import com.example.demo.jpa.eclass.repository.EclassStudentRepository;
 import com.example.demo.jpa.user.model.entity.User;
+import com.example.demo.jpa.user.repository.UserRepository;
 import com.example.demo.jpa.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class EclassStudentService {
     private final EclassStudentRepository eclassStudentRepository;
     private final UserService userService;
     private final EClassUuidRepository eClassUuidRepository;
+    private final UserRepository userRepository;
 
     // -------------------------------------- E-Class 학생 참여/조회/삭제 -------------------------------
     @Transactional
@@ -129,6 +131,25 @@ public class EclassStudentService {
 
     public List<EClassUuid> getEclassUuidByUuid(String eclassUuid) {
         return eClassUuidRepository.findByEclassUuid(eclassUuid);
+    }
+
+    public long getEclassStudentId(String username, String uuid) {
+        // username을 통해 studentId 조회
+        long studentId = userRepository.findIdByUsername(username);
+        log.info("학생 확인 : " + studentId);
+        log.info("uuid 확인 : " + uuid);
+
+        // uuid와 studentId를 통해 EClassUuid 조회
+        Optional<EClassUuid> EclassStudent = eClassUuidRepository.findIdByEclassUuidAndStudentId(uuid, studentId);
+
+        // Optional에서 EClassUuid의 ID 추출
+        long EclassStudentId = EclassStudent
+                .orElseThrow(() -> new RuntimeException("EClassUuid not found for uuid: " + uuid + " and studentId: " + studentId))
+                .getId();
+
+        log.info("EclassStudentId 확인 : " + EclassStudentId);
+
+        return EclassStudentId;
     }
 
 
