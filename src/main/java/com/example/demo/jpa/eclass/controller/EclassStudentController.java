@@ -2,6 +2,7 @@ package com.example.demo.jpa.eclass.controller;
 
 import com.example.demo.jpa.eclass.dto.AssginmentStepListDTO;
 import com.example.demo.jpa.eclass.dto.AssignmentStepCheckDTO;
+import com.example.demo.jpa.eclass.dto.AssignmentUuidDTO;
 import com.example.demo.jpa.eclass.dto.ReportDTO;
 import com.example.demo.jpa.eclass.entity.EClassStudent;
 import com.example.demo.jpa.eclass.entity.EClassUuid;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -139,6 +141,56 @@ public class EclassStudentController {
             return ResponseEntity.status(404).body(null);
         }
     }
+
+    @PostMapping("/assginmentUuid/update")
+    public ResponseEntity<String> setAssignmentUuidByUsernameAndEclassUuid(@RequestBody AssignmentUuidDTO assignmentUuidDTO) {
+        try {
+            Optional<User> studentData = userService.findByName(assignmentUuidDTO.getUsername());
+
+            long studentId = studentData.get().getId();
+
+            log.info("[uuid 업데이트] uuid : " + assignmentUuidDTO.getEclassUuid());
+            log.info("[uuid 업데이트] id : " + studentId);
+
+
+            Optional<EClassUuid> assignData = eClassUuidService.findByEclassUuidAndStudentId(assignmentUuidDTO.getEclassUuid(), studentId);
+
+            assignData.ifPresent(eClassUuid -> eClassUuidService.updateAssignmentUuid(eClassUuid.getId(), assignmentUuidDTO.getAssginmentUuid()));
+
+            return ResponseEntity.ok("update successed");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
+    @PostMapping("/assginmentUuid/get")
+    public ResponseEntity<String> getAssignmentUuidByUsernameAndEclassUuid(@RequestBody AssignmentUuidDTO assignmentUuidDTO) {
+
+        try {
+            Optional<User> studentData = userService.findByName(assignmentUuidDTO.getUsername());
+
+            if (studentData.isPresent()) {
+                long studentId = studentData.get().getId();
+
+                log.info("스튜던트 아이디 : " + studentId);
+                log.info("getEclassUuid 아이디 : " + assignmentUuidDTO.getEclassUuid());
+
+
+                Optional<EClassUuid> assignData = eClassUuidService.findByEclassUuidAndStudentId(assignmentUuidDTO.getEclassUuid(), studentId);
+
+                log.info("assignmentUuid 아이디 : " + assignData.get().getAssignmentUuid());
+
+                String assignmentUuid = assignData.get().getAssignmentUuid();
+                return ResponseEntity.ok(assignmentUuid != null ? assignmentUuid : "noData");
+            }
+
+            return ResponseEntity.ok("noData");  // 조건을 만족하지 못하면 null 반환
+        } catch (RuntimeException e) {
+            // 예외가 발생해도 null 반환
+            return ResponseEntity.ok("noData");
+        }
+    }
+
 
 
     @PostMapping("/assignment/stepCheck")

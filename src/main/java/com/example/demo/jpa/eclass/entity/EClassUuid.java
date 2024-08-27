@@ -20,6 +20,9 @@ public class EClassUuid {
     @Column(name = "eclassUuid", nullable = false)
     private String eclassUuid;
 
+    @Column(name = "assignmentUuid", nullable = true)
+    private String assignmentUuid;
+
     @Column(name = "studentId", nullable = false)
     private Long studentId;
 

@@ -28,6 +28,29 @@ public class EClassUuidService {
         }
     }
 
+    public void updateAssignmentUuid(Long id, String assignmentUuid) {
+        Optional<EClassUuid> optionalEClassUuid = eClassUuidRepository.findById(id);
+
+        if (optionalEClassUuid.isPresent()) {
+            EClassUuid eClassUuid = optionalEClassUuid.get();
+            eClassUuid.setAssignmentUuid(assignmentUuid); // assignmentData 업데이트
+            eClassUuidRepository.save(eClassUuid); // 변경사항 저장
+        } else {
+            throw new RuntimeException("EClassUuid not found for id: " + id);
+        }
+    }
+
+    public String getAssignmentUuid(Long id) {
+        Optional<EClassUuid> optionalEClassUuid = eClassUuidRepository.findById(id);
+
+        if (optionalEClassUuid.isPresent()) {
+            EClassUuid eClassUuid = optionalEClassUuid.get();
+            return eClassUuid.getAssignmentUuid();
+        } else {
+            throw new RuntimeException("EClassUuid not found for id: " + id);
+        }
+    }
+
     // id에 맞는 reportData를 업데이트 하는 메서드
     public boolean updateReportData(Long studentId, String reportUuid) {
         Optional<EClassUuid> optionalEClassUuid = eClassUuidRepository.findById(studentId);
