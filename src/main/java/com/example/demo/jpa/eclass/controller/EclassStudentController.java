@@ -312,7 +312,13 @@ public class EclassStudentController {
             }
             String reportData = eclassUuidObj.getReportData();
 
-            reportInfoMap.put(reportData, username);
+            log.info("레포트 가진 사람 이름 : " + username);
+            log.info("레포트 uuid : " + reportData);
+
+            if(reportData!=null){
+                reportInfoMap.put(reportData, username);
+
+            }
         }
 
         return ResponseEntity.ok(reportInfoMap);
