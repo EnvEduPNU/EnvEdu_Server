@@ -130,6 +130,34 @@ public class MessageController {
         }
     }
 
+    @MessageMapping("/student-entered")
+    private void fromEClassStudenetCheck(@Payload String switchMessage) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        boolean entered = false;
+
+        log.info("학생 입장 부분 소켓");
+
+        try {
+            // JSON 메시지를 파싱하여 값들을 가져옵니다.
+            JsonNode rootNode = objectMapper.readTree(switchMessage);
+            entered = rootNode.path("entered").asBoolean();
+
+
+            // JSON 객체를 만들어 그대로 로그에 출력
+            ObjectNode payloadNode = objectMapper.createObjectNode();
+            payloadNode.put("entered", entered);
+
+
+            log.info("과제 공유 상태 : {}", payloadNode.toString());
+
+            // JSON 객체를 문자열로 변환하여 전송
+            String jsonPayload = objectMapper.writeValueAsString(payloadNode);
+            template.convertAndSend("/topic/student-entered", jsonPayload);
+        } catch (JsonProcessingException e) {
+            log.error("JSON 파싱 오류", e);
+        }
+    }
+
 
 
 
