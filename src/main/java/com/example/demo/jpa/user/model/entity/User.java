@@ -130,9 +130,19 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return "DataCompilation{" +"owner_id=" + id +
-                "username=" + username +
-                "role=" + role +
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", birthday=" + birthday +
+                ", role=" + role +
+                ", gender=" + gender +
+                ", state=" + state +
+                ", nickname='" + nickname + '\'' +
+                ", studentGroup='" + studentGroup + '\'' +
+                ", createdTime=" + createdTime +
+                ", updatedTime=" + updatedTime +
+                ", sessionId=" + sessionId +
                 '}';
     }
 }

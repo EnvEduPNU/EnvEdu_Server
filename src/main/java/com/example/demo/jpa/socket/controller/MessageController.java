@@ -1,6 +1,7 @@
 package com.example.demo.jpa.socket.controller;
 
 import com.example.demo.jpa.seed.model.Seed;
+import com.example.demo.jpa.socket.service.SessionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,7 @@ import java.time.ZoneId;
 @Slf4j
 public class MessageController {
     private final SimpMessagingTemplate template;
+    private final SessionService sessionService;
 
     /**
      * 기기에서 전송하는 메세지를 받는 controller
@@ -106,18 +108,26 @@ public class MessageController {
         ObjectMapper objectMapper = new ObjectMapper();
         String pageValue = null;
         String sessionId = null;
+        Boolean assginmentShared = false;
+        String timestamp = null;
 
         try {
             // JSON 메시지를 파싱하여 값들을 가져옵니다.
             JsonNode rootNode = objectMapper.readTree(switchMessage);
             pageValue = rootNode.path("assginmentStatus").asText();
             sessionId = rootNode.path("sessionId").asText();
+            assginmentShared = rootNode.path("assginmentShared").asBoolean();
+            timestamp = rootNode.path("timestamp").asText();
+
 
 
             // JSON 객체를 만들어 그대로 로그에 출력
             ObjectNode payloadNode = objectMapper.createObjectNode();
             payloadNode.put("assginmentStatus", pageValue);
             payloadNode.put("sessionId", sessionId);
+            payloadNode.put("assginmentShared", assginmentShared);
+            payloadNode.put("timestamp", timestamp);
+
 
 
             log.info("과제 공유 상태 : {}", payloadNode.toString());
@@ -134,6 +144,7 @@ public class MessageController {
     private void fromEClassStudenetCheck(@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
         boolean entered = false;
+        String sessionId = "";
 
         log.info("학생 입장 부분 소켓");
 
@@ -141,11 +152,17 @@ public class MessageController {
             // JSON 메시지를 파싱하여 값들을 가져옵니다.
             JsonNode rootNode = objectMapper.readTree(switchMessage);
             entered = rootNode.path("entered").asBoolean();
+            sessionId = rootNode.path("sessionId").asText();
 
+            // 브라우저 창 강제 종료를 대비 false 일시 세션 제거
+            if(!entered){
+                sessionService.deleteSession(sessionId);
+            }
 
             // JSON 객체를 만들어 그대로 로그에 출력
             ObjectNode payloadNode = objectMapper.createObjectNode();
             payloadNode.put("entered", entered);
+            payloadNode.put("sessionId", sessionId);
 
 
             log.info("과제 공유 상태 : {}", payloadNode.toString());

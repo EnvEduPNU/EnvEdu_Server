@@ -249,21 +249,25 @@ public class EclassStudentController {
 
     // Report Uuid 가져 오는 메서드
     @PostMapping("/assignment/reportUuid/get")
-    public ResponseEntity<String> getReportData(
+    public ResponseEntity<List<String>> getReportData(
             @RequestBody AssginmentStepListDTO assginmentStepListDTO) {
 
         String eclassUuid = assginmentStepListDTO.getEclassUuid();
         List<String> studentData = assginmentStepListDTO.getStudentData();
 
-        String reportUuid = null;
+        List<String> reportUuidList = new ArrayList<>();
+
         for (String username : studentData) {
             Long studentId = eclassStudentService.getEclassStudentId(username, eclassUuid);
             log.info("학생 아이디 : " + studentId);
 
-            reportUuid = eClassUuidService.getReportUuid(studentId);
+            String reportUuid = eClassUuidService.getReportUuid(studentId);
+            reportUuidList.add(reportUuid); // 각 reportUuid를 리스트에 추가
         }
-        return ResponseEntity.ok(reportUuid);
+
+        return ResponseEntity.ok(reportUuidList); // 리스트를 반환
     }
+
 
     /**
      * 보고서 제출 및 저장하는 메서드

@@ -26,32 +26,46 @@ public class SessionService {
     // Save a new session
     @Transactional
     public String saveSession(Session session) {
-        log.info("서비스 세션아이디 : {}", session.getSessionId());
-        log.info("서비스 유저 이름 : {}", session.getUserName());
-
+        // 유저 정보 조회
         Optional<User> userInfo = userRepository.findByUsername(session.getUserName());
-        final String[] originalSessionId = {null};
 
-        // 람다 표현식이나 익명 클래스 내부에서 로컬 변수 변경 못하기 때문에 배열로 우회
-        userInfo.ifPresent(user -> {
-            if (user.getSessionId() != null) {
-                // 기존 세션이 존재하는 경우, 세션을 업데이트
-                Optional<Session> existingSessionOpt = sessionRepository.findById(user.getSessionId());
-                existingSessionOpt.ifPresent(existingSession -> {
-                    originalSessionId[0] = existingSession.getSessionId();
-                    log.info("Updated existing session for user: {}", user.getUsername());
-                });
+        if (userInfo.isEmpty()) {
+            log.warn("User not found: {}", session.getUserName());
+            return null;
+        }
+
+        User user = userInfo.get();
+        String originalSessionId = null;
+
+        if (user.getSessionId() != null) {
+            // 기존 세션이 있는 경우, 기존 세션 정보 조회
+            Optional<Session> existingSessionOpt = sessionRepository.findById(user.getSessionId());
+            if (existingSessionOpt.isPresent()) {
+                originalSessionId = existingSessionOpt.get().getSessionId();
+                log.info("Updated existing session for user: {}", user.getUsername());
             } else {
-                // 기존 세션이 없는 경우, 새로운 세션을 저장
-                sessionRepository.save(session);
-                user.setSessionId(session.getId());
-                userRepository.save(user);
-                log.info("Saved new session for user: {}", user.getUsername());
+                log.warn("Session not found for sessionId: {}", user.getSessionId());
             }
-        });
+        }
 
-        return originalSessionId[0];
+        // 세션 저장 또는 업데이트
+        Session savedSession = sessionRepository.save(session);
+        log.info("Session saved with ID: {}", savedSession.getId());
+
+// 유저의 세션 ID 업데이트 후 저장
+        user.setSessionId(session.getId());
+
+        log.info("user 세션아이디 : {}", user.toString());
+
+        User savedUser = userRepository.save(user);
+        log.info("User saved with updated session ID: {}", savedUser.getSessionId());
+
+
+        log.info("Saved new session for user: {}", user.getUsername());
+
+        return originalSessionId;
     }
+
 
     // Retrieve all session IDs
     @Transactional
@@ -59,6 +73,8 @@ public class SessionService {
         return sessionRepository.findAll().stream()
                 .map(Session::getSessionId)
                 .collect(Collectors.toList());
+
+
     }
 
     @Transactional
