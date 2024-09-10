@@ -41,20 +41,6 @@ public class UserController {
         return ResponseEntity.ok().body("loginSuccess");
     }
 
-    @GetMapping("/student")
-    public ResponseEntity<?> GetStudentList(@RequestParam String sessionId){
-
-        log.info("확인 : " + sessionId);
-
-        Session studentSession = sessionRepository.findBySessionId(sessionId);
-
-        log.info("세션 아이디 : " +studentSession.getId());
-        Optional<User> student = userRepository.findBySessionId(studentSession.getId());
-
-        log.info("학생 확인 : " + student.toString());
-        return ResponseEntity.ok().body(student);
-    }
-
     @GetMapping("/api/student/get/{username}")
     public ResponseEntity<Optional<User>> GetStudentData(@PathVariable String username){
 
@@ -68,7 +54,7 @@ public class UserController {
     // 해당 EClass에 일대일 관계로 들어가있는 학생의 pk Id 가져오는 메서드 (Table: EClassUuidTable)
     @GetMapping("/api/student/getStudentId")
     public ResponseEntity<Long> getStudentId(@RequestParam String username, @RequestParam String uuid) {
-        long studentId = userRepository.findIdByUsername(username);
+        Long studentId = userRepository.findIdByUsername(username);
         log.info("학생 확인 : " + studentId);
         log.info("uuid 확인 : " + uuid);
 

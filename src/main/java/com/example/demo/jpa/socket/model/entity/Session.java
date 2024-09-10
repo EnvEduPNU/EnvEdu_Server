@@ -18,6 +18,9 @@ public class Session {
     private long id;
 
     @Column(nullable = false)
+    private String eclassUuid;
+
+    @Column(nullable = false)
     private String sessionId;
 
     @Column(nullable = false)

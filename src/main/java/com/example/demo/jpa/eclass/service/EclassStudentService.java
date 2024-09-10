@@ -136,21 +136,30 @@ public class EclassStudentService {
     public long getEclassStudentId(String username, String uuid) {
         // username을 통해 studentId 조회
         long studentId = userRepository.findIdByUsername(username);
-        log.info("학생 확인 : " + studentId);
-        log.info("uuid 확인 : " + uuid);
+
+        Optional<Long> studentIdOpt = Optional.of(studentId);
+
+        if (studentIdOpt.isEmpty()) {
+            log.warn("학생을 찾을 수 없습니다: {}", username);
+            throw new RuntimeException("학생을 찾을 수 없습니다: " + username);
+        }
+
+        log.info("학생 ID 확인: {}", studentId);
+        log.info("uuid 확인: {}", uuid);
 
         // uuid와 studentId를 통해 EClassUuid 조회
-        Optional<EClassUuid> EclassStudent = eClassUuidRepository.findIdByEclassUuidAndStudentId(uuid, studentId);
+        Optional<EClassUuid> eclassStudentOpt = eClassUuidRepository.findIdByEclassUuidAndStudentId(uuid, studentId);
 
         // Optional에서 EClassUuid의 ID 추출
-        long EclassStudentId = EclassStudent
-                .orElseThrow(() -> new RuntimeException("EClassUuid not found for uuid: " + uuid + " and studentId: " + studentId))
-                .getId();
+        EClassUuid eclassStudent = eclassStudentOpt
+                .orElseThrow(() -> new RuntimeException("EClassUuid not found for uuid: " + uuid + " and studentId: " + studentId));
 
-        log.info("EclassStudentId 확인 : " + EclassStudentId);
+        long eclassStudentId = eclassStudent.getId();
+        log.info("EclassStudentId 확인: {}", eclassStudentId);
 
-        return EclassStudentId;
+        return eclassStudentId;
     }
+
 
 
 }
