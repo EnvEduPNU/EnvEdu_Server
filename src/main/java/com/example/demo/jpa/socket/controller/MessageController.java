@@ -175,6 +175,33 @@ public class MessageController {
         }
     }
 
+    @MessageMapping("/ScreenShareFlag")
+    private void fromEClassScreenShareFlag (@Payload String switchMessage) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        boolean screenShared = false;
+
+        log.info("화면 공유 부분 소켓 ");
+
+        try {
+            // JSON 메시지를 파싱하여 값들을 가져옵니다.
+            JsonNode rootNode = objectMapper.readTree(switchMessage);
+            screenShared = rootNode.path("screenShared").asBoolean();
+
+            // JSON 객체를 만들어 그대로 로그에 출력
+            ObjectNode payloadNode = objectMapper.createObjectNode();
+            payloadNode.put("screenShared", screenShared);
+
+
+            log.info("화면 공유 상태 : {}", payloadNode.toString());
+
+            // JSON 객체를 문자열로 변환하여 전송
+            String jsonPayload = objectMapper.writeValueAsString(payloadNode);
+            template.convertAndSend("/topic/ScreenShareFlag", jsonPayload);
+        } catch (JsonProcessingException e) {
+            log.error("JSON 파싱 오류", e);
+        }
+    }
+
 
 
 
