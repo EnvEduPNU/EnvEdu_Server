@@ -175,7 +175,7 @@ public class MessageController {
         }
     }
 
-    @MessageMapping("/ScreenShareFlag")
+    @MessageMapping("/screen-share-flag")
     private void fromEClassScreenShareFlag (@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
         boolean screenShared = false;
@@ -196,7 +196,7 @@ public class MessageController {
 
             // JSON 객체를 문자열로 변환하여 전송
             String jsonPayload = objectMapper.writeValueAsString(payloadNode);
-            template.convertAndSend("/topic/ScreenShareFlag", jsonPayload);
+            template.convertAndSend("/topic/screen-share-flag", jsonPayload);
         } catch (JsonProcessingException e) {
             log.error("JSON 파싱 오류", e);
         }
