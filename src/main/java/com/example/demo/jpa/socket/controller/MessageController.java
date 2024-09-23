@@ -179,6 +179,7 @@ public class MessageController {
     private void fromEClassScreenShareFlag (@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
         boolean screenShared = false;
+        String sessionId = "";
 
         log.info("화면 공유 부분 소켓 ");
 
@@ -186,11 +187,13 @@ public class MessageController {
             // JSON 메시지를 파싱하여 값들을 가져옵니다.
             JsonNode rootNode = objectMapper.readTree(switchMessage);
             screenShared = rootNode.path("screenShared").asBoolean();
+            sessionId = rootNode.path("sessionId").asText();
+
 
             // JSON 객체를 만들어 그대로 로그에 출력
             ObjectNode payloadNode = objectMapper.createObjectNode();
             payloadNode.put("screenShared", screenShared);
-
+            payloadNode.put("sessionId", sessionId);
 
             log.info("화면 공유 상태 : {}", payloadNode.toString());
 
