@@ -155,9 +155,9 @@ public class MessageController {
             sessionId = rootNode.path("sessionId").asText();
 
             // 브라우저 창 강제 종료를 대비 false 일시 세션 제거
-//            if(!entered){
-//                sessionService.deleteSession(sessionId);
-//            }
+            if(!entered){
+                sessionService.deleteSession(sessionId);
+            }
 
             // JSON 객체를 만들어 그대로 로그에 출력
             ObjectNode payloadNode = objectMapper.createObjectNode();
