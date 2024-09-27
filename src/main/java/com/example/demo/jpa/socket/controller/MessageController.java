@@ -186,7 +186,7 @@ public class MessageController {
         try {
             // JSON 메시지를 파싱하여 값들을 가져옵니다.
             JsonNode rootNode = objectMapper.readTree(switchMessage);
-            screenShared = rootNode.path("entered").asBoolean();
+            screenShared = rootNode.path("screenShared").asBoolean();
             sessionId = rootNode.path("sessionId").asText();
 
             // JSON 객체를 만들어 그대로 로그에 출력
