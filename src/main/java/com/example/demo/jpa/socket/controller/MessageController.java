@@ -143,7 +143,7 @@ public class MessageController {
     @MessageMapping("/student-entered")
     private void fromEClassStudenetCheck(@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
-        boolean entered = false;
+        boolean screenShared = false;
         String sessionId = "";
 
         log.info("학생 입장 부분 소켓");
@@ -151,17 +151,17 @@ public class MessageController {
         try {
             // JSON 메시지를 파싱하여 값들을 가져옵니다.
             JsonNode rootNode = objectMapper.readTree(switchMessage);
-            entered = rootNode.path("entered").asBoolean();
+            screenShared = rootNode.path("screenShared").asBoolean();
             sessionId = rootNode.path("sessionId").asText();
 
             // 브라우저 창 강제 종료를 대비 false 일시 세션 제거
-            if(!entered){
-                sessionService.deleteSession(sessionId);
-            }
+//            if(!entered){
+//                sessionService.deleteSession(sessionId);
+//            }
 
             // JSON 객체를 만들어 그대로 로그에 출력
             ObjectNode payloadNode = objectMapper.createObjectNode();
-            payloadNode.put("entered", entered);
+            payloadNode.put("screenShared", screenShared);
             payloadNode.put("sessionId", sessionId);
 
 
