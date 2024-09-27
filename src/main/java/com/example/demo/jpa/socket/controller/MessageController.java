@@ -175,36 +175,6 @@ public class MessageController {
         }
     }
 
-    @MessageMapping("/student-entereds")
-    private void fromEClassStudenetChecks(@Payload String switchMessage) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        boolean screen = false;
-        String sessionId = "";
-
-        log.info("학생 입장 부분 소켓");
-
-        try {
-            // JSON 메시지를 파싱하여 값들을 가져옵니다.
-            JsonNode rootNode = objectMapper.readTree(switchMessage);
-            screen = rootNode.path("screen").asBoolean();
-            sessionId = rootNode.path("sessionId").asText();
-
-            // JSON 객체를 만들어 그대로 로그에 출력
-            ObjectNode payloadNode = objectMapper.createObjectNode();
-            payloadNode.put("screen", screen);
-            payloadNode.put("sessionId", sessionId);
-
-
-            log.info("학생 입장 상태 : {}", payloadNode.toString());
-
-            // JSON 객체를 문자열로 변환하여 전송
-            String jsonPayload = objectMapper.writeValueAsString(payloadNode);
-            template.convertAndSend("/topic/student-entereds", jsonPayload);
-        } catch (JsonProcessingException e) {
-            log.error("JSON 파싱 오류", e);
-        }
-    }
-
     @MessageMapping("/screen")
     private void fromEClassScreenShareFlag (@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
