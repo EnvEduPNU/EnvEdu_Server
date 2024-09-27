@@ -73,7 +73,7 @@ public class WebSocketEventController {
             boolean deviceStatus = userDeviceService.setDeviceOff(MAC);
             log.info("Session disconnected: sessionId={}, MAC={}, status={} ", sessionId, MAC , deviceStatus);
         } else {
-            log.warn("Session data not found: {}", sessionId);
+            log.warn("Session data not found or Not Seed device: {}", sessionId);
         }
     }
 }

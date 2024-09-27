@@ -23,7 +23,6 @@ import org.springframework.web.socket.config.annotation.*;
         registry.enableSimpleBroker("/topic");
         registry.setApplicationDestinationPrefixes("/app");
     }
-    // Stomp 사용해서 아두이노 기기와 연결해주는 메서드, 10초마다 연결의 가용성을 확인한다.
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 

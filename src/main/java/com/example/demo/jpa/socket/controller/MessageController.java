@@ -165,7 +165,7 @@ public class MessageController {
             payloadNode.put("sessionId", sessionId);
 
 
-            log.info("과제 공유 상태 : {}", payloadNode.toString());
+            log.info("학생 입장 상태 : {}", payloadNode.toString());
 
             // JSON 객체를 문자열로 변환하여 전송
             String jsonPayload = objectMapper.writeValueAsString(payloadNode);
@@ -175,7 +175,7 @@ public class MessageController {
         }
     }
 
-    @MessageMapping("/screen-share-flag")
+    @MessageMapping("/screen")
     private void fromEClassScreenShareFlag (@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
         boolean screenShared = false;
@@ -199,7 +199,7 @@ public class MessageController {
 
             // JSON 객체를 문자열로 변환하여 전송
             String jsonPayload = objectMapper.writeValueAsString(payloadNode);
-            template.convertAndSend("/topic/screen-share-flag", jsonPayload);
+            template.convertAndSend("/topic/screenflag", jsonPayload);
         } catch (JsonProcessingException e) {
             log.error("JSON 파싱 오류", e);
         }
