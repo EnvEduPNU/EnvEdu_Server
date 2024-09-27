@@ -130,7 +130,7 @@ public class MessageController {
 
 
 
-            log.info("과제 공유????? 상태 : {}", payloadNode.toString());
+            log.info("과제 공유 상태 : {}", payloadNode.toString());
 
             // JSON 객체를 문자열로 변환하여 전송
             String jsonPayload = objectMapper.writeValueAsString(payloadNode);
@@ -143,8 +143,8 @@ public class MessageController {
     @MessageMapping("/student-entered")
     private void fromEClassStudenetCheck(@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
-        boolean entered;
-        String sessionId;
+        boolean entered = false;
+        String sessionId = "";
 
         log.info("학생 입장 부분 소켓");
 
@@ -165,7 +165,7 @@ public class MessageController {
             payloadNode.put("sessionId", sessionId);
 
 
-            log.info("학생 입장 상태 : {}", payloadNode.toString());
+            log.info("과제 공유 상태 : {}", payloadNode.toString());
 
             // JSON 객체를 문자열로 변환하여 전송
             String jsonPayload = objectMapper.writeValueAsString(payloadNode);
@@ -175,7 +175,7 @@ public class MessageController {
         }
     }
 
-    @MessageMapping("/screen")
+    @MessageMapping("/screen-share-flag")
     private void fromEClassScreenShareFlag (@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
         boolean screenShared = false;
@@ -199,7 +199,7 @@ public class MessageController {
 
             // JSON 객체를 문자열로 변환하여 전송
             String jsonPayload = objectMapper.writeValueAsString(payloadNode);
-            template.convertAndSend("/topic/screenflag", jsonPayload);
+            template.convertAndSend("/topic/screen-share-flag", jsonPayload);
         } catch (JsonProcessingException e) {
             log.error("JSON 파싱 오류", e);
         }
