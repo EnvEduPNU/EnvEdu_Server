@@ -110,6 +110,7 @@ public class MessageController {
         String sessionId = null;
         Boolean assginmentShared = false;
         String timestamp = null;
+        Boolean shared = false;
 
         try {
             // JSON 메시지를 파싱하여 값들을 가져옵니다.
@@ -118,6 +119,8 @@ public class MessageController {
             sessionId = rootNode.path("sessionId").asText();
             assginmentShared = rootNode.path("assginmentShared").asBoolean();
             timestamp = rootNode.path("timestamp").asText();
+            shared = rootNode.path("shared").asBoolean();
+
 
 
 
@@ -127,6 +130,7 @@ public class MessageController {
             payloadNode.put("sessionId", sessionId);
             payloadNode.put("assginmentShared", assginmentShared);
             payloadNode.put("timestamp", timestamp);
+            payloadNode.put("shared", shared);
 
 
 
@@ -145,6 +149,7 @@ public class MessageController {
         ObjectMapper objectMapper = new ObjectMapper();
         boolean entered = false;
         String sessionId = "";
+        boolean sharedScreenState = false;
 
         log.info("학생 입장 부분 소켓");
 
@@ -153,6 +158,7 @@ public class MessageController {
             JsonNode rootNode = objectMapper.readTree(switchMessage);
             entered = rootNode.path("entered").asBoolean();
             sessionId = rootNode.path("sessionId").asText();
+            sharedScreenState = rootNode.path("sharedScreenState").asBoolean();
 
             // 브라우저 창 강제 종료를 대비 false 일시 세션 제거
             if(!entered){
@@ -163,6 +169,7 @@ public class MessageController {
             ObjectNode payloadNode = objectMapper.createObjectNode();
             payloadNode.put("entered", entered);
             payloadNode.put("sessionId", sessionId);
+            payloadNode.put("sharedScreenState", sharedScreenState);
 
 
             log.info("과제 공유 상태 : {}", payloadNode.toString());
