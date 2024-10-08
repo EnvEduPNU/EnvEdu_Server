@@ -60,17 +60,6 @@ public class SeedController {
         return new ResponseDTO<>(HttpStatus.OK.value(), list);
     }
 
-    @Deprecated
-    @PostMapping("/seed/save/single")
-    private ResponseEntity<?> saveSingleSeed(@RequestBody Seed seed, HttpServletRequest request){
-
-        String userName = String.valueOf(request.getHeader("userName"));
-        log.info("Username : " + userName);
-
-        seedService.saveSingleData(seed, userName, "");
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
     @DeleteMapping("/seed/delete")
     public ResponseEntity<?> deleteSingle(@RequestBody List<DeleteSeedDto> deleteSeedDto) throws NoSuchFieldException, IllegalAccessException {

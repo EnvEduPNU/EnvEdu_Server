@@ -1,8 +1,6 @@
 package com.example.demo.jpa.user.model.entity;
 
 import com.example.demo.jpa.device.model.UserDevice;
-import com.example.demo.jpa.datacontrol.datachunk.model.MeasuredUnit;
-import com.example.demo.jpa.socket.model.entity.Session;
 import com.example.demo.jpa.user.model.enumerate.Gender;
 import com.example.demo.jpa.user.model.enumerate.Role;
 import com.example.demo.jpa.model.Location;
@@ -86,20 +84,11 @@ public abstract class User {
     @UpdateTimestamp
     private Timestamp updatedTime;
 
-    @Nullable
-    @ManyToOne
-    @JsonIgnore
-    private MeasuredUnit measuredUnit;
-
     @Column(nullable = true)
     private Long sessionId;
 
 
     //--------------------------------------------------------------------------------------------------
-
-    public void updateMeasuredUnit(MeasuredUnit updatedMeasuredUnit){
-        measuredUnit = updatedMeasuredUnit;
-    }
 
     public void setUsername(String username)
     {

@@ -118,18 +118,18 @@ public class SeedService {
         seedRepository.saveAll(list);
     }
 
-    @Transactional
-    public void saveSingleData(Seed seed, String username, String memo) {
-        Optional<User> user = userRepository.findByUsername(username);
-        UUID uuid = UUID.randomUUID();
-        LocalDateTime now = LocalDateTime.now();
-        user.ifPresent(value -> {
-            assert value.getMeasuredUnit() != null;
-            seed.updateUnit(value.getMeasuredUnit().getUnit());
-            seed.addUuid(uuid);
-            seed.addSaveDate(now);
-        });
-        seedRepository.save(seed);
-        dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.SEED.name(), user.get(), seed.getMeasuredDate(), 1, memo);
-    }
+//    @Transactional
+//    public void saveSingleData(Seed seed, String username, String memo) {
+//        Optional<User> user = userRepository.findByUsername(username);
+//        UUID uuid = UUID.randomUUID();
+//        LocalDateTime now = LocalDateTime.now();
+//        user.ifPresent(value -> {
+//            assert value.getMeasuredUnit() != null;
+//            seed.updateUnit(value.getMeasuredUnit().getUnit());
+//            seed.addUuid(uuid);
+//            seed.addSaveDate(now);
+//        });
+//        seedRepository.save(seed);
+//        dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.SEED.name(), user.get(), seed.getMeasuredDate(), 1, memo);
+//    }
 }

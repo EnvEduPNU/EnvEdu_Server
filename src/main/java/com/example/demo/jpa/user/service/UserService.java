@@ -1,21 +1,10 @@
 package com.example.demo.jpa.user.service;
 
-import com.example.demo.jpa.datacontrol.datachunk.model.MeasuredUnit;
-import com.example.demo.jpa.exceptions.CustomMailException;
-import com.example.demo.jpa.exceptions.DuplicateAttributeException;
-//import com.example.demo.jpa.jwt.util.JwtUtil;
-import com.example.demo.jpa.service.MailService;
-import com.example.demo.jpa.redis.entity.AuthNum;
-import com.example.demo.jpa.redis.repo.AuthNumRepository;
-import com.example.demo.jpa.user.dto.request.EmailDTO;
-import com.example.demo.jpa.user.dto.request.RegisterDTO;
-import com.example.demo.jpa.user.dto.request.StudentAddDTO;
-import com.example.demo.jpa.user.dto.response.Student_EducatorDTO;
+
 import com.example.demo.jpa.user.model.entity.*;
 import com.example.demo.jpa.user.model.enumerate.Role;
 import com.example.demo.jpa.user.repository.*;
-import com.example.demo.jpa.user.model.enumerate.State;
-import com.example.demo.jpa.user.util.Utils;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

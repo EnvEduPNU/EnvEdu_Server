@@ -1,6 +1,5 @@
 package com.example.demo.jpa.user.dto.response;
 
-import com.example.demo.jpa.datacontrol.datachunk.model.MeasuredUnit;
 import com.example.demo.jpa.user.model.entity.User;
 import com.example.demo.jpa.user.model.enumerate.Gender;
 import com.example.demo.jpa.user.model.enumerate.Role;
@@ -21,7 +20,6 @@ public class UserDto {
     private final State state;
     private final String nickname;
     private final Timestamp updatedTime;
-    private final MeasuredUnit measuredUnit;
 
     public UserDto(User user) {
         id = user.getId();
@@ -32,7 +30,6 @@ public class UserDto {
         gender = user.getGender();
         state = user.getState();
         updatedTime = user.getUpdatedTime();
-        measuredUnit = user.getMeasuredUnit();
         nickname = user.getNickname();
     }
 }
