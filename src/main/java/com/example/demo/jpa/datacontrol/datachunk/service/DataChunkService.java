@@ -56,4 +56,8 @@ public class DataChunkService {
 
         dataRepository.save(dataCompilation);
     }
+
+    public void deleteDataCompilationsById(Long id) {
+        dataRepository.deleteById(id);
+    }
 }

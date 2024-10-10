@@ -7,8 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -30,6 +32,12 @@ public class DataChunkController {
         log.info("mydata/list 비었냐? : " + check.stream().map(DataCompilation::toString).collect(Collectors.joining(", ")));
 
         return new ResponseEntity<>(dataChunkService.findMyDataCompilation(userName), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/data/{id}")
+    public ResponseEntity<String> deleteDataCompilationsByOwnerId(@PathVariable Long id) {
+        dataChunkService.deleteDataCompilationsById(id);
+        return ResponseEntity.ok("DataCompilations deleted successfully for ownerId: " + id);
     }
 
     @ExceptionHandler(NoSuchElementException.class)
