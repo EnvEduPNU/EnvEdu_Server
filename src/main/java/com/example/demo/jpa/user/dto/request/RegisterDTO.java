@@ -21,9 +21,9 @@ public class RegisterDTO {
     @Pattern(regexp = "^[\\da-zA-Z]([-_.]?[\\da-zA-Z])*@[\\da-zA-Z]([-_.]?[\\da-zA-Z])*.[a-zA-Z]{2,3}$", message = "잘못된 형식의 이메일입니다")
     private String email;
 
-    private Gender gender;
+    private String gender;
 
-    private Role role;
+    private String role;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
@@ -32,7 +32,7 @@ public class RegisterDTO {
 
     public RegisterDTO() {}
 
-    public RegisterDTO(String username, String password, String email, Gender gender, Role role, Date birthday, String nickname) {
+    public RegisterDTO(String username, String password, String email, String gender, String role, Date birthday, String nickname) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -41,4 +41,18 @@ public class RegisterDTO {
         this.birthday = birthday;
         this.nickname = nickname;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterDTO{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", gender=" + gender +
+                ", role=" + role +
+                ", birthday=" + birthday +
+                ", nickname='" + nickname + '\'' +
+                '}';
+    }
+
 }

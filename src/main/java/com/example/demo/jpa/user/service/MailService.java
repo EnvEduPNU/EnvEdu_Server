@@ -1,4 +1,4 @@
-package com.example.demo.jpa.service;
+package com.example.demo.jpa.user.service;
 
 import com.example.demo.jpa.exceptions.CustomMailException;
 import com.example.demo.jpa.user.dto.request.EmailDTO;

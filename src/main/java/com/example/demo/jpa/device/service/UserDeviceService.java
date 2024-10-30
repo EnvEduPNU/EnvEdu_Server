@@ -67,7 +67,7 @@ public class UserDeviceService {
             userDevice.updateName(null);
         }
         if(!reset) {
-            User user = userRepository.findByUsernameAndState(deviceUpdateDTO.getUsername(), State.ACTIVE).orElseThrow(()->new IllegalArgumentException("해당 유저가 존재하지 않습니다"));
+            User user = userRepository.findByUsername(deviceUpdateDTO.getUsername()).orElseThrow(()->new IllegalArgumentException("해당 유저가 존재하지 않습니다"));
             userDevice.updateUser(user);
             userDevice.updateName(deviceUpdateDTO.getDeviceName());
         }
@@ -86,7 +86,7 @@ public class UserDeviceService {
      */
     @Transactional(readOnly = true)
     public RelatedUserDeviceListDTO getDeviceList(String username) {
-        User user = userRepository.findByUsernameAndState(username, State.ACTIVE).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다"));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다"));
 
         // 유저 자신도 해당 관련된 디바이스의 사용자라고 추가해 준다.
         List<User> allRelatedUsers = new ArrayList<>();

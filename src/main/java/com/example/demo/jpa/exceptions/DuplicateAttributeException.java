@@ -3,12 +3,8 @@ package com.example.demo.jpa.exceptions;
 import lombok.Getter;
 
 public class DuplicateAttributeException extends RuntimeException {
-    private final String attribute;
     public DuplicateAttributeException(String attribute) {
-        this.attribute = attribute;
+        super(attribute);
     }
 
-    public String getAttribute() {
-        return attribute;
-    }
 }

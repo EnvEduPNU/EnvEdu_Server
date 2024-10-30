@@ -31,8 +31,6 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> LoginMethod(HttpServletRequest request , HttpServletResponse response){
 
-        log.info("어떻게 되는지 보자 : " + request.getRequestURI());
-
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();

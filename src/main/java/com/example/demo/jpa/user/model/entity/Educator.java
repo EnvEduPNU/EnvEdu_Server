@@ -1,8 +1,5 @@
 package com.example.demo.jpa.user.model.entity;
 
-import com.example.demo.jpa.user.model.enumerate.Gender;
-import com.example.demo.jpa.user.model.enumerate.Role;
-import com.example.demo.jpa.user.model.enumerate.State;
 import com.example.demo.jpa.user.model.enumerate.IsAuthorized;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -16,9 +13,9 @@ public class Educator extends User {
     public Educator() {}
 
     @Builder(builderMethodName = "educatorBuilder")
-    public Educator(String username, String password, String email, Date birthday, Role role, Gender gender, State state, String nickname, IsAuthorized isAuthorized)
+    public Educator(String username, String password, String email, Date birthday, String role, String gender, String nickname, IsAuthorized isAuthorized)
     {
-        super(username, password, email, birthday, role, gender, state, nickname);
+        super(username, password, email, birthday, role, gender, nickname);
         this.isAuthorized = isAuthorized;
     }
 

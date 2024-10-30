@@ -1,8 +1,5 @@
 package com.example.demo.jpa.user.model.entity;
 
-import com.example.demo.jpa.user.model.enumerate.Gender;
-import com.example.demo.jpa.user.model.enumerate.Role;
-import com.example.demo.jpa.user.model.enumerate.State;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -16,9 +13,9 @@ public class Student extends User {
     public Student() {}
 
     @Builder(builderMethodName = "studentBuilder")
-    public Student(String username, String password, String email, Date birthday, Role role, Gender gender, State state, String nickname)
+    public Student(String username, String password, String email, Date birthday, String role, String gender,  String nickname)
     {
-        super(username, password, email, birthday, role, gender, state, nickname);
+        super(username, password, email, birthday, role, gender, nickname);
     }
 
 //    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
