@@ -29,7 +29,7 @@ public class DataChunkController {
         log.info("Username : " + userName);
 
         List<DataCompilation> check = dataChunkService.findMyDataCompilation(userName);
-        log.info("mydata/list 비었냐? : " + check.stream().map(DataCompilation::toString).collect(Collectors.joining(", ")));
+        log.info("mydata/list : " + check.stream().map(DataCompilation::toString).collect(Collectors.joining(", ")));
 
         return new ResponseEntity<>(dataChunkService.findMyDataCompilation(userName), HttpStatus.OK);
     }

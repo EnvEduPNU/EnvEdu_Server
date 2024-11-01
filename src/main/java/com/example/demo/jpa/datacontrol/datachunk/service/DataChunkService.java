@@ -5,6 +5,7 @@ import com.example.demo.jpa.datacontrol.datachunk.repository.DataCompilationRepo
 import com.example.demo.jpa.user.model.entity.User;
 import com.example.demo.jpa.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DataChunkService {
@@ -48,6 +50,7 @@ public class DataChunkService {
 
     public List<DataCompilation> findMyDataCompilation(String username){
         Optional<User> user = userRepository.findByUsername(username);
+        log.info("가져와야 하는 유저 아이디 : " + user.get().getId());
         return dataRepository.findAllByOwnerIdOrderBySaveDate(user.get().getId());
     }
     @Transactional
