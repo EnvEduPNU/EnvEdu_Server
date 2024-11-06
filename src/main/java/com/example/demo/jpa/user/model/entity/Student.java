@@ -13,9 +13,9 @@ public class Student extends User {
     public Student() {}
 
     @Builder(builderMethodName = "studentBuilder")
-    public Student(String username, String password, String email, Date birthday, String role, String gender,  String nickname)
+    public Student(String username, String password, String email, Date birthday, String role, String studentGroup, String gender,  String nickname)
     {
-        super(username, password, email, birthday, role, gender, nickname);
+        super(username, password, email, birthday, role, studentGroup, gender, nickname);
     }
 
 //    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)

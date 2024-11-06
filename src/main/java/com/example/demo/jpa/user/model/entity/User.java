@@ -21,12 +21,13 @@ import java.util.regex.Pattern;
 public class User {
     public User() {}
 
-    protected User(String username, String password, String email, Date birthday, String role, String gender, String nickname) {
+    protected User(String username, String password, String email, Date birthday, String role, String studentGroup, String gender, String nickname) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.birthday = birthday;
         this.role = role;
+        this.studentGroup = studentGroup;
         this.gender = gender;
         this.nickname = nickname;
     }

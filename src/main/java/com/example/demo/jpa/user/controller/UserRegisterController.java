@@ -73,6 +73,8 @@ public class UserRegisterController {
             String hashedPassword = PasswordUtils.hashPassword(registerDTO.getPassword(), salt);
             registerDTO.setPassword(hashedPassword);
 
+            log.info("DTO 체크 : " + registerDTO.getStudentGroup());
+
             userService.addUser(registerDTO);
             return new ResponseEntity<>(HttpStatus.OK);
 

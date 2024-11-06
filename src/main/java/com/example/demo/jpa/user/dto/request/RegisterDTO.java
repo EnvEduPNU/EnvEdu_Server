@@ -25,6 +25,8 @@ public class RegisterDTO {
 
     private String role;
 
+    private String studentGroup;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
@@ -32,27 +34,16 @@ public class RegisterDTO {
 
     public RegisterDTO() {}
 
-    public RegisterDTO(String username, String password, String email, String gender, String role, Date birthday, String nickname) {
+    public RegisterDTO(String username, String password, String email, String gender, String role, String studentGroup, Date birthday, String nickname) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.gender = gender;
         this.role = role;
+        this.studentGroup = studentGroup;
         this.birthday = birthday;
         this.nickname = nickname;
     }
 
-    @Override
-    public String toString() {
-        return "RegisterDTO{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", gender=" + gender +
-                ", role=" + role +
-                ", birthday=" + birthday +
-                ", nickname='" + nickname + '\'' +
-                '}';
-    }
 
 }

@@ -42,6 +42,7 @@ public class UserService {
         user.setEmail(registerDTO.getEmail());
         user.setGender(registerDTO.getGender());
         user.setRole(registerDTO.getRole());
+        user.setStudentGroup(registerDTO.getStudentGroup());
         user.setBirthday(registerDTO.getBirthday());
         user.setNickname(registerDTO.getNickname());
 
@@ -61,7 +62,7 @@ public class UserService {
 
 
     public List<User> getAllStudents() {
-        return userRepository.findByRole(Role.ROLE_STUDENT);
+        return userRepository.findByRole("ROLE_STUDENT");
     }
 
     public List<Student_Educator> findStudentsByStudentOrEducator(String username){

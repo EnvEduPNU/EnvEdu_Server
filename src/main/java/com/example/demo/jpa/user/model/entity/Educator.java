@@ -13,9 +13,9 @@ public class Educator extends User {
     public Educator() {}
 
     @Builder(builderMethodName = "educatorBuilder")
-    public Educator(String username, String password, String email, Date birthday, String role, String gender, String nickname, IsAuthorized isAuthorized)
+    public Educator(String username, String password, String email, Date birthday, String role, String studentGroup, String gender, String nickname, IsAuthorized isAuthorized)
     {
-        super(username, password, email, birthday, role, gender, nickname);
+        super(username, password, email, birthday, role,studentGroup, gender, nickname);
         this.isAuthorized = isAuthorized;
     }
 

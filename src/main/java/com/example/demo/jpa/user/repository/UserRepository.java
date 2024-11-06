@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findBySessionId(long id);
 
-    List<User> findByRole(Role role);
+    List<User> findByRole(String role);
 
     @Query("SELECT s.id FROM Student s WHERE s.username = :username")
     Long findIdByUsername(@Param("username") String username);

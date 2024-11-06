@@ -13,6 +13,7 @@ public class UserDto {
     private final String email;
     private final Date birthday;
     private final String role;
+    private final String studentGroup;
     private final String gender;
     private final String nickname;
     private final Timestamp updatedTime;
@@ -23,6 +24,7 @@ public class UserDto {
         email = user.getEmail();
         birthday = user.getBirthday();
         role = user.getRole();
+        studentGroup = user.getStudentGroup();
         gender = user.getGender();
         updatedTime = user.getUpdatedTime();
         nickname = user.getNickname();
