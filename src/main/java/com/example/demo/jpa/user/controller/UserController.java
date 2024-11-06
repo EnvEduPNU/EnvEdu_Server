@@ -7,6 +7,7 @@ import com.example.demo.jpa.socket.repository.SessionRepository;
 import com.example.demo.jpa.user.dto.request.LoginDTO;
 import com.example.demo.jpa.user.model.entity.User;
 import com.example.demo.jpa.user.repository.UserRepository;
+import com.example.demo.jpa.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
     private final EClassUuidRepository eClassUuidRepository;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<?> LoginMethod(HttpServletRequest request , HttpServletResponse response){
@@ -54,11 +56,11 @@ public class UserController {
     // 해당 EClass에 일대일 관계로 들어가있는 학생의 pk Id 가져오는 메서드 (Table: EClassUuidTable)
     @GetMapping("/api/student/getStudentId")
     public ResponseEntity<Long> getStudentId(@RequestParam String username, @RequestParam String uuid) {
-        Long studentId = userRepository.findIdByUsername(username);
-        log.info("학생 확인 : " + studentId);
+        Optional<User> studentUser = userService.findByName(username);
+        log.info("학생 확인 : " + studentUser.get().getId());
         log.info("uuid 확인 : " + uuid);
 
-        Optional<EClassUuid> EclassStudent =  eClassUuidRepository.findIdByEclassUuidAndStudentId(uuid,studentId);
+        Optional<EClassUuid> EclassStudent =  eClassUuidRepository.findIdByEclassUuidAndStudentId(uuid,studentUser.get().getId());
         long EclassStudentId = EclassStudent.get().getId();
 
         log.info("EclassStudentId 확인 : " + EclassStudentId);

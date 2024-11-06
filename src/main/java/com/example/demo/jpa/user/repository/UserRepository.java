@@ -21,8 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByRole(String role);
 
-    @Query("SELECT s.id FROM Student s WHERE s.username = :username")
-    Long findIdByUsername(@Param("username") String username);
+    Long findIdByUsername(String username);
 
     boolean existsByEmail(@Pattern(regexp = "^[\\da-zA-Z]([-_.]?[\\da-zA-Z])*@[\\da-zA-Z]([-_.]?[\\da-zA-Z])*.[a-zA-Z]{2,3}$", message = "잘못된 형식의 이메일입니다") String email);
 }
