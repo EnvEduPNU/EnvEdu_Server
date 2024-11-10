@@ -135,7 +135,10 @@ public class EclassStudentService {
 
     public long getEclassStudentId(String username, String uuid) {
         // username을 통해 studentId 조회
-        long studentId = userRepository.findIdByUsername(username);
+
+        Optional<EClassStudent> studentOptional = eclassStudentRepository.findByStudentName(username);
+
+        long studentId = studentOptional.get().getStudentId();
 
         Optional<Long> studentIdOpt = Optional.of(studentId);
 
