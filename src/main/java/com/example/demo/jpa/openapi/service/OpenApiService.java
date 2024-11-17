@@ -72,6 +72,7 @@ public class OpenApiService {
             oceanQuality.setOwner(user.get());
             oceanQuality.updateBasicAttribute(uuid, now, memo,title, DataEnumTypes.OCEANQUALITY);
         }
+
         dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.OCEANQUALITY.name(), user.get(), now, oceanQualities.size(), memo, title);
 
         if(openApiRepositoryImpl.saveOceanQuality(oceanQualities)){

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -90,26 +91,56 @@ public class OpenApiController {
     }
 
     @PostMapping("/air-quality")
-    public ResponseEntity<?> setAirQuality(@RequestBody AirQualityRequestDto airQualityRequestDto, HttpServletRequest request){
+    public ResponseEntity<?> setAirQuality(
+            @RequestBody AirQualityRequestDto airQualityRequestDto,
+            HttpServletRequest request) {
 
         String userName = String.valueOf(request.getHeader("userName"));
-        log.info("Username : " + userName);
+        log.info("Username : {}", userName);
 
-        List<AirQuality> respAir = openApiService.saveAirQuality(airQualityRequestDto.getData(), userName, airQualityRequestDto.getMemo(), airQualityRequestDto.getTitle());
+        // 데이터 저장 로직 호출
+        List<AirQuality> respAir = openApiService.saveAirQuality(
+                airQualityRequestDto.getData(),
+                userName,
+                airQualityRequestDto.getMemo(),
+                airQualityRequestDto.getTitle()
+        );
 
-        return ResponseEntity.of(Optional.of(respAir));
+        // 저장 결과 확인
+        if (respAir == null || respAir.isEmpty()) {
+            log.error("AirQuality 저장 실패: 사용자 {}, 요청 데이터 {}", userName, airQualityRequestDto);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Air quality data could not be saved.");
+        }
+
+        // 성공 응답 반환
+        return ResponseEntity.ok(respAir);
     }
+
 
     @PostMapping("/ocean-quality")
-    public ResponseEntity<List<OceanQuality>> setOceanQuality(@RequestBody OceanQualityRequestDto oceanQualityRequestDto, HttpServletRequest request) {
+    public ResponseEntity<List<OceanQuality>> setOceanQuality(
+            @RequestBody OceanQualityRequestDto oceanQualityRequestDto,
+            HttpServletRequest request) {
 
         String userName = String.valueOf(request.getHeader("userName"));
         log.info("Username : " + userName);
 
-        List<OceanQuality> respOcean = openApiService.saveOceanQuality(oceanQualityRequestDto.getData(), userName, oceanQualityRequestDto.getTitle(), oceanQualityRequestDto.getMemo());
+        List<OceanQuality> respOcean = openApiService.saveOceanQuality(
+                oceanQualityRequestDto.getData(),
+                userName,
+                oceanQualityRequestDto.getTitle(),
+                oceanQualityRequestDto.getMemo()
+        );
 
-        return ResponseEntity.of(Optional.ofNullable(respOcean));
+        // 저장 결과 검증
+        if (respOcean == null || respOcean.isEmpty()) {
+            log.error("OceanQuality 저장 실패: 사용자 {}, 요청 데이터 {}", userName, oceanQualityRequestDto);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ocean quality data could not be saved.");
+        }
+
+        return ResponseEntity.ok(respOcean);
     }
+
 
     @DeleteMapping("/air-quality/mine/{airQualityId}")
     public ResponseEntity<?> deleteAirQuality(@PathVariable long airQualityId){
