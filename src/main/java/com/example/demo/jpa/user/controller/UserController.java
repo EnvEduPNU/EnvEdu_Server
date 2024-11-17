@@ -37,7 +37,7 @@ public class UserController {
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             String headerValue = request.getHeader(headerName);
-            log.info("Header: {} = {}", headerName, headerValue);
+//            log.info("Header: {} = {}", headerName, headerValue);
             response.addHeader(headerName, headerValue);
         }
         return ResponseEntity.ok().body("loginSuccess");

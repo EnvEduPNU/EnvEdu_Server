@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Slf4j
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OceanQualityDTO extends OceanQualityParent {
 
@@ -27,7 +29,11 @@ public class OceanQualityDTO extends OceanQualityParent {
         for (Iterator<JsonNode> it = result.elements(); it.hasNext(); ) {
             JsonNode node = it.next();
             oceanQualityDTOS.add(mapper.treeToValue(node, OceanQualityDTO.class));
+
+            log.info("가지고 있는 것 : " + node);
         }
+
+        log.info("전제 DTO : " + oceanQualityDTOS);
 
         return oceanQualityDTOS;
     }

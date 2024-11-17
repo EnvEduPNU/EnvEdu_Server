@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -64,6 +63,10 @@ public class OpenApiController {
 
         AirQualityDTO airQualityDTO = new AirQualityDTO();
 
+        String airData = String.valueOf(openApiService.callApi(url, key, value));
+
+        log.info("가져오는 에어 데이터 확인 : " + airData);
+
 
         List<AirQualityDTO> airQualityDTOS = airQualityDTO.convertToAirQuality(openApiService.callApi(url, key, value));
 
@@ -87,43 +90,30 @@ public class OpenApiController {
         ResponseEntity<String> stringResponseEntity = openApiService.callApi("https://apis.data.go.kr/1480523/WaterQualityService/getWaterMeasuringListMavg?", key, value);
         OceanQualityDTO oceanQualityDTO = new OceanQualityDTO();
 
-        return new ResponseEntity<>(oceanQualityDTO.convertToOceanQuality(stringResponseEntity), HttpStatus.OK);
+        List<OceanQualityDTO> convertOceant = oceanQualityDTO.convertToOceanQuality(stringResponseEntity);
+
+        log.info("받아온것 확인 ConvertDTO: " + convertOceant);
+        log.info("받아온것 확인 DTO: " + stringResponseEntity.getBody());
+
+
+        return new ResponseEntity<>(convertOceant, HttpStatus.OK);
     }
 
     @PostMapping("/air-quality")
-    public ResponseEntity<?> setAirQuality(
-            @RequestBody AirQualityRequestDto airQualityRequestDto,
-            HttpServletRequest request) {
-
-        String userName = String.valueOf(request.getHeader("userName"));
-        log.info("Username : {}", userName);
-
-        // 데이터 저장 로직 호출
-        List<AirQuality> respAir = openApiService.saveAirQuality(
-                airQualityRequestDto.getData(),
-                userName,
-                airQualityRequestDto.getMemo(),
-                airQualityRequestDto.getTitle()
-        );
-
-        // 저장 결과 확인
-        if (respAir == null || respAir.isEmpty()) {
-            log.error("AirQuality 저장 실패: 사용자 {}, 요청 데이터 {}", userName, airQualityRequestDto);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Air quality data could not be saved.");
-        }
-
-        // 성공 응답 반환
-        return ResponseEntity.ok(respAir);
-    }
-
-
-    @PostMapping("/ocean-quality")
-    public ResponseEntity<List<OceanQuality>> setOceanQuality(
-            @RequestBody OceanQualityRequestDto oceanQualityRequestDto,
-            HttpServletRequest request) {
+    public ResponseEntity<?> setAirQuality(@RequestBody AirQualityRequestDto airQualityRequestDto, HttpServletRequest request){
 
         String userName = String.valueOf(request.getHeader("userName"));
         log.info("Username : " + userName);
+
+        List<AirQuality> respAir = openApiService.saveAirQuality(airQualityRequestDto.getData(), userName, airQualityRequestDto.getMemo(), airQualityRequestDto.getTitle());
+
+        return ResponseEntity.of(Optional.of(respAir));
+    }
+
+    @PostMapping("/ocean-quality")
+    public ResponseEntity<?> setOceanQuality(@RequestBody OceanQualityRequestDto oceanQualityRequestDto, HttpServletRequest request) {
+        String userName = request.getHeader("userName");
+        log.info("Username: {}", userName);
 
         List<OceanQuality> respOcean = openApiService.saveOceanQuality(
                 oceanQualityRequestDto.getData(),
@@ -132,10 +122,8 @@ public class OpenApiController {
                 oceanQualityRequestDto.getMemo()
         );
 
-        // 저장 결과 검증
         if (respOcean == null || respOcean.isEmpty()) {
-            log.error("OceanQuality 저장 실패: 사용자 {}, 요청 데이터 {}", userName, oceanQualityRequestDto);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ocean quality data could not be saved.");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
         return ResponseEntity.ok(respOcean);

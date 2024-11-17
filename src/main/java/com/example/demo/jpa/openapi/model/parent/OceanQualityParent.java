@@ -14,15 +14,36 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @MappedSuperclass
 public abstract class OceanQualityParent extends Data {
+    @JsonProperty("PTNM")
     private String PTNM;
+
+    @JsonProperty("ITEMDATE")
     private LocalDateTime ITEMDATE;
+
+    @JsonProperty("ITEMWMWK")
     private String ITEMWMWK;
+
+    @JsonProperty("ITEMWNDEP")
     private String ITEMWNDEP;
+
+    @JsonProperty("ITEMMDO")
     private String ITEMMDO;
+
+    @JsonProperty("ITEMBOD")
     private String ITEMBOD;
+
+    @JsonProperty("ITEMCOD")
     private String ITEMCOD;
+
+    @JsonProperty("ITEMSS")
     private String ITEMSS;
+
+    @JsonProperty("ITEMTN")
     private String ITEMTN;
+
+    @JsonProperty("ITEMTP")
     private String ITEMTP;
+
+    @JsonProperty("ITEMTOC")
     private String ITEMTOC;
 }
