@@ -8,5 +8,6 @@ import java.util.List;
 @Getter
 public class AirQualityRequestDto {
     List<AirQuality> data;
+    String title;
     String memo;
 }

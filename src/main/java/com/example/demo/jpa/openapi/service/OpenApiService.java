@@ -10,6 +10,7 @@ import com.example.demo.jpa.user.model.entity.User;
 import com.example.demo.jpa.user.repository.UserRepository;
 import com.example.demo.jpa.openapi.repository.OpenApiRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OpenApiService {
@@ -43,31 +45,40 @@ public class OpenApiService {
     }
 
     @Transactional
-    public boolean saveAirQuality(List<AirQuality> airQualities, String username, String memo) throws NoSuchElementException {
+    public List<AirQuality> saveAirQuality(List<AirQuality> airQualities, String username, String memo, String title) throws NoSuchElementException {
         Optional<User> user = userRepository.findByUsername(username);
         LocalDateTime now = LocalDateTime.now();
         UUID uuid = UUID.randomUUID();
         for (AirQuality airQuality : airQualities) {
             airQuality.setOwner(user.get());
-            airQuality.updateBasicAttribute(uuid, now, memo, DataEnumTypes.AIRQUALITY);
+            airQuality.updateBasicAttribute(uuid, now, memo, title, DataEnumTypes.AIRQUALITY);
         }
 
-        dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.AIRQUALITY.name(), user.get(), now, airQualities.size(), memo);
-        return openApiRepositoryImpl.saveAirQuality(airQualities);
+        dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.AIRQUALITY.name(), user.get(), now, airQualities.size(), memo, title);
+
+        if(openApiRepositoryImpl.saveAirQuality(airQualities)){
+            return airQualities;
+        }
+
+        throw new NoSuchElementException();
     }
 
     @Transactional
-    public boolean saveOceanQuality(List<OceanQuality> oceanQualities, String username, String memo) throws NoSuchElementException {
+    public List<OceanQuality> saveOceanQuality(List<OceanQuality> oceanQualities, String username, String memo, String title) throws NoSuchElementException {
         Optional<User> user = userRepository.findByUsername(username);
         LocalDateTime now = LocalDateTime.now();
         UUID uuid = UUID.randomUUID();
         for (OceanQuality oceanQuality : oceanQualities) {
             oceanQuality.setOwner(user.get());
-            oceanQuality.updateBasicAttribute(uuid, now, memo, DataEnumTypes.OCEANQUALITY);
+            oceanQuality.updateBasicAttribute(uuid, now, memo,title, DataEnumTypes.OCEANQUALITY);
         }
-        dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.OCEANQUALITY.name(), user.get(), now, oceanQualities.size(), memo);
+        dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.OCEANQUALITY.name(), user.get(), now, oceanQualities.size(), memo, title);
 
-        return openApiRepositoryImpl.saveOceanQuality(oceanQualities);
+        if(openApiRepositoryImpl.saveOceanQuality(oceanQualities)){
+            log.info("공공데이터 OceanQuality 저장 완료");
+            return oceanQualities;
+        }
+        throw new NoSuchElementException();
     }
 
     public List<AirQuality> findMyAirQualityChunked(UUID uuid, String username){

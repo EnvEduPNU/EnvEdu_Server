@@ -1,6 +1,8 @@
 package com.example.demo.jpa.openapi.controller;
 
 import com.example.demo.jpa.openapi.dto.*;
+import com.example.demo.jpa.openapi.model.entity.AirQuality;
+import com.example.demo.jpa.openapi.model.entity.OceanQuality;
 import com.example.demo.jpa.openapi.service.OpenApiService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -93,20 +95,20 @@ public class OpenApiController {
         String userName = String.valueOf(request.getHeader("userName"));
         log.info("Username : " + userName);
 
-        openApiService.saveAirQuality(airQualityRequestDto.getData(), userName, airQualityRequestDto.getMemo());
+        List<AirQuality> respAir = openApiService.saveAirQuality(airQualityRequestDto.getData(), userName, airQualityRequestDto.getMemo(), airQualityRequestDto.getTitle());
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.of(Optional.of(respAir));
     }
 
     @PostMapping("/ocean-quality")
-    public ResponseEntity<?> setOceanQuality(@RequestBody OceanQualityRequestDto oceanQualityRequestDto, HttpServletRequest request) {
+    public ResponseEntity<List<OceanQuality>> setOceanQuality(@RequestBody OceanQualityRequestDto oceanQualityRequestDto, HttpServletRequest request) {
 
         String userName = String.valueOf(request.getHeader("userName"));
         log.info("Username : " + userName);
 
-        openApiService.saveOceanQuality(oceanQualityRequestDto.getData(), userName, oceanQualityRequestDto.getMemo());
+        List<OceanQuality> respOcean = openApiService.saveOceanQuality(oceanQualityRequestDto.getData(), userName, oceanQualityRequestDto.getTitle(), oceanQualityRequestDto.getMemo());
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.of(Optional.ofNullable(respOcean));
     }
 
     @DeleteMapping("/air-quality/mine/{airQualityId}")

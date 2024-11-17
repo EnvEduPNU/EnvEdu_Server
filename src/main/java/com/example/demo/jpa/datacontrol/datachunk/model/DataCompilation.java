@@ -25,14 +25,16 @@ public class DataCompilation {
     private UUID dataUUID;
     private int dataSize;
     private String memo;
+    private String title;
 
-    public DataCompilation(User owner, LocalDateTime saveDate, String dataLabel, UUID uuid, int dataSize, String memo) {
+    public DataCompilation(User owner, LocalDateTime saveDate, String dataLabel, UUID uuid, int dataSize, String memo, String title) {
         this.owner = owner;
         this.saveDate = saveDate;
         this.dataLabel = dataLabel;
         this.dataUUID = uuid;
         this.dataSize = dataSize;
         this.memo = memo;
+        this.title = title;
     }
 
     @Override
@@ -42,6 +44,7 @@ public class DataCompilation {
                 "saveDate=" + saveDate +
                 ", dataLabel='" + dataLabel + '\'' +
                 ", memo='" + memo + '\'' +
+                ", title=" + title +
                 '}';
     }
 }

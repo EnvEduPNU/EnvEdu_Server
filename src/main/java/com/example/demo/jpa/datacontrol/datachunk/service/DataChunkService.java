@@ -54,8 +54,8 @@ public class DataChunkService {
         return dataRepository.findAllByOwnerIdOrderBySaveDate(user.get().getId());
     }
     @Transactional
-    public void saveMyDataCompilation(UUID uuid, String dataLabel, User owner, LocalDateTime saveDate, int size, String memo){
-        DataCompilation dataCompilation = new DataCompilation(owner, saveDate, dataLabel, uuid, size, memo);
+    public void saveMyDataCompilation(UUID uuid, String dataLabel, User owner, LocalDateTime saveDate, int size, String memo, String title){
+        DataCompilation dataCompilation = new DataCompilation(owner, saveDate, dataLabel, uuid, size, memo, title);
 
         dataRepository.save(dataCompilation);
     }

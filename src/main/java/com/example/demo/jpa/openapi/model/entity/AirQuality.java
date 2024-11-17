@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "AirQuality",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"dataTime", "stationName"}))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"stationName"}))
 public class AirQuality extends AirQualityParent {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,8 +26,5 @@ public class AirQuality extends AirQualityParent {
 
     public AirQuality() {
         super();
-    }
-    public AirQuality(LocalDateTime dataTime, String stationName, String so2Value, String coValue, String o3Value, String no2Value, String pm10Value, String pm25Value) {
-        super(dataTime, stationName, so2Value, coValue, o3Value, no2Value, pm10Value, pm25Value);
     }
 }

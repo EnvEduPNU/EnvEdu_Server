@@ -14,18 +14,14 @@ public abstract class Data {
     private UUID dataUUID;
     private LocalDateTime saveDate;
     private String memo;
+    private String title;
     private DataEnumTypes dataLabel;
-    public void addUuid(UUID uuid){
-        this.dataUUID = uuid;
-    }
-    public void addSaveDate(LocalDateTime saveDate) {
-        this.saveDate = saveDate;
-    }
 
-    public void updateBasicAttribute(UUID uuid, LocalDateTime saveDate, String memo, DataEnumTypes dataLabel) {
+    public void updateBasicAttribute(UUID uuid, LocalDateTime saveDate, String memo, String title, DataEnumTypes dataLabel) {
         this.dataUUID = uuid;
         this.saveDate = saveDate;
         this.memo = memo;
+        this.title = title;
         this.dataLabel = dataLabel;
     }
 }

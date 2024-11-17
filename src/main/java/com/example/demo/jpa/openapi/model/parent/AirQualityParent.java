@@ -20,15 +20,13 @@ import java.time.LocalDateTime;
 public abstract class AirQualityParent extends Data {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
-    private LocalDateTime dataTime;
     private String stationName;
-    private String so2Value;
-    private String coValue;
-    private String o3Value;
-    private String no2Value;
-    private String pm10Value;
-    private String pm25Value;
+    private String ITEMDATE;
+    private String ITEMN02;
+    private String ITEM03;
+    private String ITEMPM10;
+    private String ITEMPM25;
+    private String ITEMS02VALUE;
     public void setStationName(String stationName) {
         this.stationName = stationName;
     }

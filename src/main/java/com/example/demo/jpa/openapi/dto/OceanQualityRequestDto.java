@@ -9,4 +9,5 @@ import java.util.List;
 public class OceanQualityRequestDto {
     List<OceanQuality> data;
     String memo;
+    String title;
 }
