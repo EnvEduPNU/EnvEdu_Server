@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Table(name = "AirQuality",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"stationName"}))
+@Table(name = "AirQuality")
 public class AirQuality extends AirQualityParent {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

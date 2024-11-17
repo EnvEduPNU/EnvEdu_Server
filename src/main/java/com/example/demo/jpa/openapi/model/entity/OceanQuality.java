@@ -9,8 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @Entity
-@Table(name = "OceanQuality"
-        , uniqueConstraints = @UniqueConstraint(columnNames = {"PTNM", "WMYR", "WMOD"}))
+@Table(name = "OceanQuality")
 public class OceanQuality extends OceanQualityParent {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,9 +22,6 @@ public class OceanQuality extends OceanQualityParent {
     }
     public OceanQuality(){
         super();
-    }
-    public OceanQuality(String ptNm, Integer wmyr,Integer wmod, String itemTemp,String itemPh, String itemDoc,String itemBod, String itemCod,String itemTn, String itemTp,String itemTrans, String itemCloa,String itemEc, String itemToc){
-        super(ptNm, wmyr, wmod, itemTemp, itemPh, itemDoc, itemBod, itemCod, itemTn, itemTp, itemTrans, itemCloa, itemEc, itemToc);
     }
 
 }

@@ -109,12 +109,16 @@ public class SeedService {
 
         log.info("userName : " + user.toString());
 
+        // TODO 1 : SEED 쪽도 나중에 title 프론트에서 받아오기
+
+        String title = "TestTitle";
+
         UUID uuid = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
         for(Seed seed : list){
-            seed.updateBasicAttribute(uuid, now, memo, DataEnumTypes.SEED);
+            seed.updateBasicAttribute(uuid, now, memo, title,DataEnumTypes.SEED);
         }
-        dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.SEED.name(), user.get(), now, list.size(), memo);
+        dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.SEED.name(), user.get(), now, list.size(), memo,title);
         seedRepository.saveAll(list);
     }
 
