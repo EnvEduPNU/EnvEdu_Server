@@ -171,14 +171,14 @@ public class OpenApiController {
 
         List<String> memoList = checkOcean.stream()
                 .map(OceanQuality::getMemo) // Data 클래스의 memo 필드
-                .toList();
+                .collect(Collectors.toList()); // Collectors.toList() 사용
 
         log.info("Memo List: " + memoList);
 
 
         List<String> titleList = checkOcean.stream()
                 .map(OceanQuality::getTitle) // Data 클래스의 memo 필드
-                .toList();
+                .collect(Collectors.toList()); // Collectors.toList() 사용
 
         log.info("titleList: " + titleList);
 
@@ -198,7 +198,7 @@ public class OpenApiController {
                         ocean.getITEMTOC(),
                         ocean.getITEMTEMP()
                 ))
-                .toList();
+                .collect(Collectors.toList()); // Collectors.toList() 사용
 
         // 최종 DTO 생성
         List<OceanQualityResponseFinalDto> responseFinal = List.of(
