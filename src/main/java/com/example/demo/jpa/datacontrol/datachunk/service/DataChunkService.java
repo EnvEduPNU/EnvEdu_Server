@@ -60,6 +60,13 @@ public class DataChunkService {
         dataRepository.save(dataCompilation);
     }
 
+    @Transactional
+    public void savePublicAPIDataCompilation(UUID uuid, String dataLabel, LocalDateTime saveDate, int size, String memo, String title){
+        DataCompilation dataCompilation = new DataCompilation( saveDate, dataLabel, uuid, size, memo, title);
+
+        dataRepository.save(dataCompilation);
+    }
+
     public void deleteDataCompilationsById(Long id) {
         dataRepository.deleteById(id);
     }

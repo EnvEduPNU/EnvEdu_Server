@@ -37,6 +37,16 @@ public class DataCompilation {
         this.title = title;
     }
 
+    public DataCompilation( LocalDateTime saveDate, String dataLabel, UUID uuid, int dataSize, String memo, String title) {
+        this.saveDate = saveDate;
+        this.dataLabel = dataLabel;
+        this.dataUUID = uuid;
+        this.dataSize = dataSize;
+        this.memo = memo;
+        this.title = title;
+    }
+
+
     @Override
     public String toString() {
         return "DataCompilation{" +"id=" + id +

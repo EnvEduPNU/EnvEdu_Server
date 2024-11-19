@@ -3,6 +3,7 @@ package com.example.demo.jpa.openapi.controller;
 import com.example.demo.jpa.openapi.dto.*;
 import com.example.demo.jpa.openapi.model.entity.AirQuality;
 import com.example.demo.jpa.openapi.model.entity.OceanQuality;
+import com.example.demo.jpa.openapi.model.parent.OceanQualityParent;
 import com.example.demo.jpa.openapi.service.OpenApiService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -108,12 +109,16 @@ public class OpenApiController {
         List<AirQuality> respAir = openApiService.saveAirQuality(airQualityRequestDto.getData(), userName, airQualityRequestDto.getMemo(), airQualityRequestDto.getTitle());
 
         return ResponseEntity.of(Optional.of(respAir));
+
+//        return new ResponseEntity<>(airQualityRequestDto, HttpStatus.OK);
     }
 
     @PostMapping("/ocean-quality")
     public ResponseEntity<?> setOceanQuality(@RequestBody OceanQualityRequestDto oceanQualityRequestDto, HttpServletRequest request) {
         String userName = request.getHeader("userName");
         log.info("Username: {}", userName);
+
+        log.info("data : {}", oceanQualityRequestDto.getData());
 
         List<OceanQuality> respOcean = openApiService.saveOceanQuality(
                 oceanQualityRequestDto.getData(),

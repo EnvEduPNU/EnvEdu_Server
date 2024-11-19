@@ -1,10 +1,12 @@
 package com.example.demo.jpa.openapi.model.parent;
 
 import com.example.demo.jpa.datacontrol.datachunk.model.parent.Data;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.MappedSuperclass;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,8 +19,10 @@ public abstract class OceanQualityParent extends Data {
     @JsonProperty("PTNM")
     private String PTNM;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd")
     @JsonProperty("ITEMDATE")
-    private LocalDateTime ITEMDATE;
+    private LocalDate ITEMDATE;
+
 
     @JsonProperty("ITEMWMWK")
     private String ITEMWMWK;
@@ -46,4 +50,7 @@ public abstract class OceanQualityParent extends Data {
 
     @JsonProperty("ITEMTOC")
     private String ITEMTOC;
+
+    @JsonProperty("ITEMTEMP")
+    private String ITEMTEMP;
 }

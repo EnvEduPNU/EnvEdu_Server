@@ -5,6 +5,7 @@ import com.example.demo.jpa.datacontrol.datachunk.service.DataChunkService;
 import com.example.demo.jpa.openapi.dto.OpenApiParam;
 import com.example.demo.jpa.openapi.model.entity.AirQuality;
 import com.example.demo.jpa.openapi.model.entity.OceanQuality;
+import com.example.demo.jpa.openapi.model.parent.OceanQualityParent;
 import com.example.demo.jpa.openapi.module.OpenApiRequest;
 import com.example.demo.jpa.user.model.entity.User;
 import com.example.demo.jpa.user.repository.UserRepository;
@@ -54,6 +55,8 @@ public class OpenApiService {
             airQuality.updateBasicAttribute(uuid, now, memo, title, DataEnumTypes.AIRQUALITY);
         }
 
+        log.info("저장하기 전에 확인 : " + airQualities);
+
         dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.AIRQUALITY.name(), user.get(), now, airQualities.size(), memo, title);
 
         if(openApiRepositoryImpl.saveAirQuality(airQualities)){
@@ -69,11 +72,12 @@ public class OpenApiService {
         LocalDateTime now = LocalDateTime.now();
         UUID uuid = UUID.randomUUID();
         for (OceanQuality oceanQuality : oceanQualities) {
-            oceanQuality.setOwner(user.get());
             oceanQuality.updateBasicAttribute(uuid, now, memo,title, DataEnumTypes.OCEANQUALITY);
         }
 
-        dataChunkService.saveMyDataCompilation(uuid, DataEnumTypes.OCEANQUALITY.name(), user.get(), now, oceanQualities.size(), memo, title);
+        log.info("값 검증 : " +oceanQualities.get(0));
+
+        dataChunkService.savePublicAPIDataCompilation(uuid, username, now, oceanQualities.size(), memo, title);
 
         if(openApiRepositoryImpl.saveOceanQuality(oceanQualities)){
             log.info("공공데이터 OceanQuality 저장 완료");

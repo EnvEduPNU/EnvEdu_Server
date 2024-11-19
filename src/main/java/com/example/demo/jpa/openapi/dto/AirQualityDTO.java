@@ -1,6 +1,7 @@
 package com.example.demo.jpa.openapi.dto;
 
 import com.example.demo.jpa.openapi.model.parent.AirQualityParent;
+import com.example.demo.jpa.openapi.model.parent.AirQualityParentGet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AirQualityDTO extends AirQualityParent {
+public class AirQualityDTO extends AirQualityParentGet {
 
     public List<AirQualityDTO> convertToAirQuality(ResponseEntity<String> response) throws JsonProcessingException {
 
