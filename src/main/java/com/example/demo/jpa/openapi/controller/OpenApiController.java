@@ -20,6 +20,7 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -166,8 +167,20 @@ public class OpenApiController {
         log.info("Username : " + userName);
         log.info("dataUUID : " + dataUUID);
 
-
         List<OceanQuality> checkOcean = openApiService.findMyOceanQualityChunked(dataUUID, userName);
+
+        List<String> memoList = checkOcean.stream()
+                .map(OceanQuality::getMemo) // Data 클래스의 memo 필드
+                .toList();
+
+        log.info("Memo List: " + memoList);
+
+
+        List<String> titleList = checkOcean.stream()
+                .map(OceanQuality::getTitle) // Data 클래스의 memo 필드
+                .toList();
+
+        log.info("titleList: " + titleList);
 
         // OceanQuality를 OceanQualityResponseDto로 매핑
         List<OceanQualityResponseDto> response = checkOcean.stream()
@@ -187,7 +200,12 @@ public class OpenApiController {
                 ))
                 .toList();
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        // 최종 DTO 생성
+        List<OceanQualityResponseFinalDto> responseFinal = List.of(
+                new OceanQualityResponseFinalDto(response, memoList.get(0), titleList.get(0))
+        );
+
+        return new ResponseEntity<>(responseFinal, HttpStatus.OK);
     }
 
     // 연.월.일 시간:분
