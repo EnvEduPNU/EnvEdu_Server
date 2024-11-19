@@ -13,7 +13,7 @@ public interface OpenApiRepository {
     OceanQuality findOceanQualityById(Long id);
     List<AirQuality> findAirQualityAllByUserIdAndDataUuid(UUID uuid, Long id);
     List<AirQuality> findAirQualityAllByUserId(Long id);
-    List<OceanQuality> findOceanQualityAllByUserIdAndDataUuid(UUID uuid, Long id);
+    List<OceanQuality> findOceanQualityAllByDataUuid(UUID uuid);
     List<OceanQuality> findOceanQualityAllByUserId(Long id);
     boolean saveAirQuality(List<AirQuality> airQualities);
     boolean saveOceanQuality(List<OceanQuality> oceanQualities);

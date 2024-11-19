@@ -164,6 +164,13 @@ public class OpenApiController {
 
         String userName = String.valueOf(request.getHeader("userName"));
         log.info("Username : " + userName);
+        log.info("dataUUID : " + dataUUID);
+
+
+        List<OceanQuality> checkOcean = openApiService.findMyOceanQualityChunked(dataUUID, userName);
+
+        log.info("오션 체크 : " + checkOcean.get(0));
+
 
         return new ResponseEntity<>(openApiService.findMyOceanQualityChunked(dataUUID, userName), HttpStatus.OK);
     }

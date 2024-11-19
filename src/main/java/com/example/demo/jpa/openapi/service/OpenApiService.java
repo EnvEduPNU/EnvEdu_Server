@@ -75,7 +75,7 @@ public class OpenApiService {
             oceanQuality.updateBasicAttribute(uuid, now, memo,title, DataEnumTypes.OCEANQUALITY);
         }
 
-        log.info("값 검증 : " +oceanQualities.get(0));
+        log.info("값 검증 : " +oceanQualities);
 
         dataChunkService.saveMyDataCompilation(uuid, "OCEANQUALITY", user.get(), now, oceanQualities.size(), title, memo);
 
@@ -93,7 +93,10 @@ public class OpenApiService {
 
     public List<OceanQuality> findMyOceanQualityChunked(UUID uuid, String username){
         Optional<User> user = userRepository.findByUsername(username);
-        return openApiRepositoryImpl.findOceanQualityAllByUserIdAndDataUuid(uuid, user.get().getId());
+
+        log.info("dataUUID : " + uuid);
+
+        return openApiRepositoryImpl.findOceanQualityAllByDataUuid(uuid);
     }
 
     public List<AirQuality> findMyAirQuality(String username, LocalDateTime start, LocalDateTime end) throws NoSuchElementException {
