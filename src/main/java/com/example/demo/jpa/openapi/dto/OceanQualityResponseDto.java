@@ -1,28 +1,24 @@
-package com.example.demo.jpa.openapi.model.parent;
+package com.example.demo.jpa.openapi.dto;
 
-import com.example.demo.jpa.datacontrol.datachunk.model.parent.Data;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
-public abstract class OceanQualityParent extends Data {
+@NoArgsConstructor
+public class OceanQualityResponseDto {
+
     @JsonProperty("PTNM")
     private String PTNM;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd")
     @JsonProperty("ITEMDATE")
     private LocalDate ITEMDATE;
-
 
     @JsonProperty("ITEMWMWK")
     private String ITEMWMWK;

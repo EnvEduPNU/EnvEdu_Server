@@ -169,10 +169,25 @@ public class OpenApiController {
 
         List<OceanQuality> checkOcean = openApiService.findMyOceanQualityChunked(dataUUID, userName);
 
-        log.info("오션 체크 : " + checkOcean.get(0));
+        // OceanQuality를 OceanQualityResponseDto로 매핑
+        List<OceanQualityResponseDto> response = checkOcean.stream()
+                .map(ocean -> new OceanQualityResponseDto(
+                        ocean.getPTNM(),
+                        ocean.getITEMDATE(),
+                        ocean.getITEMWMWK(),
+                        ocean.getITEMWNDEP(),
+                        ocean.getITEMDO(),
+                        ocean.getITEMBOD(),
+                        ocean.getITEMCOD(),
+                        ocean.getITEMSS(),
+                        ocean.getITEMTN(),
+                        ocean.getITEMTP(),
+                        ocean.getITEMTOC(),
+                        ocean.getITEMTEMP()
+                ))
+                .toList();
 
-
-        return new ResponseEntity<>(openApiService.findMyOceanQualityChunked(dataUUID, userName), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 연.월.일 시간:분
