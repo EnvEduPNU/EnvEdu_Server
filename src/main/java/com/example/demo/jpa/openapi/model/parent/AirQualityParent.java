@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.MappedSuperclass;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,12 +20,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @MappedSuperclass
 public abstract class AirQualityParent extends Data {
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonProperty("stationName")
     private String stationName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("ITEMDATE")
-    private String ITEMDATE;
+    private LocalDate ITEMDATE;
     @JsonProperty("ITEMN02")
     private String ITEMN02;
     @JsonProperty("ITEM03")
