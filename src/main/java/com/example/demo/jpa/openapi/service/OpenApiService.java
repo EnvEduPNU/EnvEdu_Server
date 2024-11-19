@@ -77,7 +77,7 @@ public class OpenApiService {
 
         log.info("값 검증 : " +oceanQualities.get(0));
 
-        dataChunkService.saveMyDataCompilation(uuid, "OCEANQUALITY", user.get(), now, oceanQualities.size(), memo, title);
+        dataChunkService.saveMyDataCompilation(uuid, "OCEANQUALITY", user.get(), now, oceanQualities.size(), title, memo);
 
         if(openApiRepositoryImpl.saveOceanQuality(oceanQualities)){
             log.info("공공데이터 OceanQuality 저장 완료");
