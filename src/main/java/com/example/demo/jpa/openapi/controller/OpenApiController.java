@@ -107,6 +107,8 @@ public class OpenApiController {
         String userName = String.valueOf(request.getHeader("userName"));
         log.info("Username : " + userName);
 
+        log.info("데이터 왜이래 : " + airQualityRequestDto.getData());
+
         List<AirQuality> respAir = openApiService.saveAirQuality(airQualityRequestDto.getData(), userName, airQualityRequestDto.getMemo(), airQualityRequestDto.getTitle());
 
         return ResponseEntity.of(Optional.of(respAir));
@@ -178,11 +180,11 @@ public class OpenApiController {
                     Map<String, Object> map = new HashMap<>();
                     map.put("stationName", airQuality.getStationName());
                     map.put("ITEMDATE", airQuality.getITEMDATE());
-                    map.put("ITEMNO2", airQuality.getITEMN02());
-                    map.put("ITEMO3", airQuality.getITEM03());
+                    map.put("ITEMNO2", airQuality.getITEMNO2());
+                    map.put("ITEMO3", airQuality.getITEMO3());
                     map.put("ITEMPM10", airQuality.getITEMPM10());
                     map.put("ITEMPM25", airQuality.getITEMPM25());
-                    map.put("ITEMSO2VALUE", airQuality.getITEMS02VALUE());
+                    map.put("ITEMSO2VALUE", airQuality.getITEMSO2VALUE());
                     return map;
                 })
                 .collect(Collectors.toList());

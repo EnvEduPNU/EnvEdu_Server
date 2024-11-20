@@ -7,35 +7,40 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
 public abstract class AirQualityParent extends Data {
     @JsonProperty("stationName")
     private String stationName;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("ITEMDATE")
     private LocalDate ITEMDATE;
-    @JsonProperty("ITEMN02")
-    private String ITEMN02;
-    @JsonProperty("ITEM03")
-    private String ITEM03;
+
+    @JsonProperty("ITEMNO2")
+    private String ITEMNO2;
+
+    @JsonProperty("ITEMO3")
+    private String ITEMO3;
+
     @JsonProperty("ITEMPM10")
     private String ITEMPM10;
+
     @JsonProperty("ITEMPM25")
     private String ITEMPM25;
-    @JsonProperty("ITEMS02VALUE")
-    private String ITEMS02VALUE;
-    public void setStationName(String stationName) {
-        this.stationName = stationName;
-    }
+
+    @JsonProperty("ITEMSO2VALUE") // JSON 요청의 키와 일치하도록 수정
+    private String ITEMSO2VALUE;
+
+
 }

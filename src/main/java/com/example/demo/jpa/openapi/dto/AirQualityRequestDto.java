@@ -2,6 +2,8 @@ package com.example.demo.jpa.openapi.dto;
 
 import com.example.demo.jpa.openapi.model.entity.AirQuality;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
