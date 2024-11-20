@@ -111,7 +111,6 @@ public class OpenApiController {
 
         return ResponseEntity.of(Optional.of(respAir));
 
-//        return new ResponseEntity<>(airQualityRequestDto, HttpStatus.OK);
     }
 
     @PostMapping("/ocean-quality")
@@ -152,13 +151,51 @@ public class OpenApiController {
     }
 
     @GetMapping("/air-quality/mine/chunk")
-    public ResponseEntity<?> getMyAirQualityChunked(@RequestParam UUID dataUUID, HttpServletRequest request){
+    public ResponseEntity<?> getMyAirQualityChunked(@RequestParam UUID dataUUID, HttpServletRequest request) {
 
-        String userName = String.valueOf(request.getHeader("userName"));
-        log.info("Username : " + userName);
+        String userName = request.getHeader("userName");
+        log.info("Username : {}", userName);
+        log.info("dataUUID : {}", dataUUID);
 
-        return new ResponseEntity<>(openApiService.findMyAirQualityChunked(dataUUID, userName), HttpStatus.OK);
+        // 서비스 호출
+        List<AirQuality> checkAirQuality = openApiService.findMyAirQualityChunked(dataUUID, userName);
+
+        // Memo 리스트 추출
+        List<String> memoList = checkAirQuality.stream()
+                .map(AirQuality::getMemo)
+                .collect(Collectors.toList());
+        log.info("Memo List: {}", memoList);
+
+        // Title 리스트 추출
+        List<String> titleList = checkAirQuality.stream()
+                .map(AirQuality::getTitle)
+                .collect(Collectors.toList());
+        log.info("Title List: {}", titleList);
+
+        // AirQuality 객체를 Map으로 변환
+        List<Map<String, Object>> response = checkAirQuality.stream()
+                .map(airQuality -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("stationName", airQuality.getStationName());
+                    map.put("ITEMDATE", airQuality.getITEMDATE());
+                    map.put("ITEMNO2", airQuality.getITEMN02());
+                    map.put("ITEMO3", airQuality.getITEM03());
+                    map.put("ITEMPM10", airQuality.getITEMPM10());
+                    map.put("ITEMPM25", airQuality.getITEMPM25());
+                    map.put("ITEMSO2VALUE", airQuality.getITEMS02VALUE());
+                    return map;
+                })
+                .collect(Collectors.toList());
+
+        // 최종 응답 구조 생성
+        Map<String, Object> responseFinal = new HashMap<>();
+        responseFinal.put("data", response);
+        responseFinal.put("memo", memoList.isEmpty() ? null : memoList.get(0)); // 첫 번째 Memo 사용
+        responseFinal.put("title", titleList.isEmpty() ? null : titleList.get(0)); // 첫 번째 Title 사용
+
+        return new ResponseEntity<>(responseFinal, HttpStatus.OK);
     }
+
 
     @GetMapping("/ocean-quality/mine/chunk")
     public ResponseEntity<?> getMyOceanQualityChunked(@RequestParam UUID dataUUID, HttpServletRequest request){
