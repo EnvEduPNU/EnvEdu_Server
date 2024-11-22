@@ -265,6 +265,65 @@ public class OpenApiController {
         return new ResponseEntity<>(responseFinal, HttpStatus.OK);
     }
 
+    @GetMapping("/city-air-quality/mine/chunk")
+    public ResponseEntity<?> getcityAirQualityChunked(@RequestParam UUID dataUUID, HttpServletRequest request){
+
+        String userName = String.valueOf(request.getHeader("userName"));
+        log.info("Username : " + userName);
+        log.info("dataUUID : " + dataUUID);
+
+        List<CityAirQuality> checkCityAir = openApiService.findCityAirQualityChunked(dataUUID, userName);
+
+        List<String> memoList = checkCityAir.stream()
+                .map(CityAirQuality::getMemo) // Data 클래스의 memo 필드
+                .collect(Collectors.toList()); // Collectors.toList() 사용
+
+        log.info("Memo List: " + memoList);
+
+
+        List<String> titleList = checkCityAir.stream()
+                .map(CityAirQuality::getTitle) // Data 클래스의 memo 필드
+                .collect(Collectors.toList()); // Collectors.toList() 사용
+
+        log.info("titleList: " + titleList);
+
+        List<Map<String, Object>> response = checkCityAir.stream()
+                .map(cityAirQuality -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("ITEMCODE", cityAirQuality.getITEMCODE());
+                    map.put("ITEMDATETIME", cityAirQuality.getITEMDATETIME().toString());
+                    map.put("ITEMDAEGU", cityAirQuality.getITEMDAEGU());
+                    map.put("ITEMCHUNGNAM", cityAirQuality.getITEMCHUNGNAM());
+                    map.put("ITEMINCHEON", cityAirQuality.getITEMINCHEON());
+                    map.put("ITEMDAEJEON", cityAirQuality.getITEMDAEJEON());
+                    map.put("ITEMGYONGBUK", cityAirQuality.getITEMGYONGBUK());
+                    map.put("ITEMSEJONG", cityAirQuality.getITEMSEJONG());
+                    map.put("ITEMGWANGJU", cityAirQuality.getITEMGWANGJU());
+                    map.put("ITEMJEONBUK", cityAirQuality.getITEMJEONBUK());
+                    map.put("ITEMGANGWON", cityAirQuality.getITEMGANGWON());
+                    map.put("ITEMULSAN", cityAirQuality.getITEMULSAN());
+                    map.put("ITEMJEONNAM", cityAirQuality.getITEMJEONNAM());
+                    map.put("ITEMSEOUL", cityAirQuality.getITEMSEOUL());
+                    map.put("ITEMBUSAN", cityAirQuality.getITEMBUSAN());
+                    map.put("ITEMJEJU", cityAirQuality.getITEMJEJU());
+                    map.put("ITEMCHUNGBUK", cityAirQuality.getITEMCHUNGBUK());
+                    map.put("ITEMGYEONGNAM", cityAirQuality.getITEMGYEONGNAM());
+                    map.put("ITEMGYEONGGI", cityAirQuality.getITEMGYEONGGI());
+
+
+                    return map;
+                })
+                .collect(Collectors.toList());
+
+        // 최종 응답 구조 생성
+        Map<String, Object> responseFinal = new HashMap<>();
+        responseFinal.put("data", response);
+        responseFinal.put("memo", memoList.isEmpty() ? null : memoList.get(0)); // 첫 번째 Memo 사용
+        responseFinal.put("title", titleList.isEmpty() ? null : titleList.get(0)); // 첫 번째 Title 사용
+
+        return new ResponseEntity<>(responseFinal, HttpStatus.OK);
+    }
+
     // 연.월.일 시간:분
     @GetMapping("/air-quality/mine")
     public ResponseEntity<?> getMyAirQuality(@RequestParam String username,

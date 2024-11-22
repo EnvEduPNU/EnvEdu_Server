@@ -113,11 +113,13 @@ public class OpenApiService {
     }
 
     public List<OceanQuality> findMyOceanQualityChunked(UUID uuid, String username){
-        Optional<User> user = userRepository.findByUsername(username);
-
-        log.info("dataUUID : " + uuid);
 
         return openApiRepositoryImpl.findOceanQualityAllByDataUuid(uuid);
+    }
+
+    public List<CityAirQuality> findCityAirQualityChunked(UUID uuid, String username){
+
+        return openApiRepositoryImpl.findCityAirQualityAllByDataUuid(uuid);
     }
 
     public List<AirQuality> findMyAirQuality(String username, LocalDateTime start, LocalDateTime end) throws NoSuchElementException {
