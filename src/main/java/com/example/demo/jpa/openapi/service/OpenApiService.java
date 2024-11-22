@@ -4,6 +4,7 @@ import com.example.demo.jpa.datacontrol.datachunk.model.parent.DataEnumTypes;
 import com.example.demo.jpa.datacontrol.datachunk.service.DataChunkService;
 import com.example.demo.jpa.openapi.dto.OpenApiParam;
 import com.example.demo.jpa.openapi.model.entity.AirQuality;
+import com.example.demo.jpa.openapi.model.entity.CityAirQuality;
 import com.example.demo.jpa.openapi.model.entity.OceanQuality;
 import com.example.demo.jpa.openapi.model.parent.OceanQualityParent;
 import com.example.demo.jpa.openapi.module.OpenApiRequest;
@@ -82,6 +83,26 @@ public class OpenApiService {
         if(openApiRepositoryImpl.saveOceanQuality(oceanQualities)){
             log.info("공공데이터 OceanQuality 저장 완료");
             return oceanQualities;
+        }
+        throw new NoSuchElementException();
+    }
+
+    @Transactional
+    public List<CityAirQuality> saveCityAirQuality(List<CityAirQuality> cityAirQualities, String username, String memo, String title) throws NoSuchElementException {
+        Optional<User> user = userRepository.findByUsername(username);
+        LocalDateTime now = LocalDateTime.now();
+        UUID uuid = UUID.randomUUID();
+        for (CityAirQuality cityAirQuality : cityAirQualities) {
+            cityAirQuality.updateBasicAttribute(uuid, now, memo,title, DataEnumTypes.CITYAIRQUALITY);
+        }
+
+        log.info("값 검증 : " +cityAirQualities);
+
+        dataChunkService.saveMyDataCompilation(uuid, "CITYAIRQUALITY", user.get(), now, cityAirQualities.size(), title, memo);
+
+        if(openApiRepositoryImpl.saveCityAirQuality(cityAirQualities)){
+            log.info("공공데이터 cityAirQuality 저장 완료");
+            return cityAirQualities;
         }
         throw new NoSuchElementException();
     }

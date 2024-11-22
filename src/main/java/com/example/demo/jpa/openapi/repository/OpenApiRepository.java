@@ -1,6 +1,7 @@
 package com.example.demo.jpa.openapi.repository;
 
 import com.example.demo.jpa.openapi.model.entity.AirQuality;
+import com.example.demo.jpa.openapi.model.entity.CityAirQuality;
 import com.example.demo.jpa.openapi.model.entity.OceanQuality;
 import com.example.demo.jpa.openapi.model.parent.OceanQualityParent;
 
@@ -17,6 +18,8 @@ public interface OpenApiRepository {
     List<OceanQuality> findOceanQualityAllByUserId(Long id);
     boolean saveAirQuality(List<AirQuality> airQualities);
     boolean saveOceanQuality(List<OceanQuality> oceanQualities);
+    boolean saveCityAirQuality(List<CityAirQuality> cityAirQualities);
+
 
     // todo: 여기 뜯어 고쳐야됨
     List<AirQuality> findAllByDataTimeBetween(LocalDateTime start, LocalDateTime end);

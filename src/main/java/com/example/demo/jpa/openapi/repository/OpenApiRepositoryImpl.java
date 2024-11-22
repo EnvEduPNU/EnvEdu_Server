@@ -1,6 +1,7 @@
 package com.example.demo.jpa.openapi.repository;
 
 import com.example.demo.jpa.openapi.model.entity.AirQuality;
+import com.example.demo.jpa.openapi.model.entity.CityAirQuality;
 import com.example.demo.jpa.openapi.model.entity.OceanQuality;
 import com.example.demo.jpa.openapi.model.parent.OceanQualityParent;
 import lombok.RequiredArgsConstructor;
@@ -79,6 +80,20 @@ public class OpenApiRepositoryImpl implements OpenApiRepository{
         try {
             for (OceanQuality oceanQuality : oceanQualities) {
                 em.persist(oceanQuality);
+            }
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean saveCityAirQuality(List<CityAirQuality> cityAirQualities) {
+
+        try {
+            for (CityAirQuality cityAirQuality : cityAirQualities) {
+                em.persist(cityAirQuality);
             }
 
             return true;

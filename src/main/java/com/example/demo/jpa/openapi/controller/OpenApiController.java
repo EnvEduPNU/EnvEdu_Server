@@ -2,6 +2,7 @@ package com.example.demo.jpa.openapi.controller;
 
 import com.example.demo.jpa.openapi.dto.*;
 import com.example.demo.jpa.openapi.model.entity.AirQuality;
+import com.example.demo.jpa.openapi.model.entity.CityAirQuality;
 import com.example.demo.jpa.openapi.model.entity.OceanQuality;
 import com.example.demo.jpa.openapi.model.parent.OceanQualityParent;
 import com.example.demo.jpa.openapi.service.OpenApiService;
@@ -107,8 +108,6 @@ public class OpenApiController {
         String userName = String.valueOf(request.getHeader("userName"));
         log.info("Username : " + userName);
 
-        log.info("데이터 왜이래 : " + airQualityRequestDto.getData());
-
         List<AirQuality> respAir = openApiService.saveAirQuality(airQualityRequestDto.getData(), userName, airQualityRequestDto.getMemo(), airQualityRequestDto.getTitle());
 
         return ResponseEntity.of(Optional.of(respAir));
@@ -134,6 +133,25 @@ public class OpenApiController {
         }
 
         return ResponseEntity.ok(respOcean);
+
+    }
+
+    @PostMapping("/city-air-quality")
+    public ResponseEntity<?> setCityAirQuality(@RequestBody CityAirQualityRequestDto cityAirQualityRequestDto, HttpServletRequest request) {
+        String userName = request.getHeader("userName");
+
+        List<CityAirQuality> respCityAir = openApiService.saveCityAirQuality(
+                cityAirQualityRequestDto.getData(),
+                userName,
+                cityAirQualityRequestDto.getTitle(),
+                cityAirQualityRequestDto.getMemo()
+        );
+
+        if (respCityAir == null || respCityAir.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return ResponseEntity.ok(respCityAir);
 
     }
 
