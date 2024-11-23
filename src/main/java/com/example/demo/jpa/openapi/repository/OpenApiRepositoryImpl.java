@@ -56,6 +56,13 @@ public class OpenApiRepositoryImpl implements OpenApiRepository{
     }
 
     @Override
+    public List<CityAirQuality> findCityAirQualityAllByDataUuid(UUID uuid) {
+        return em.createQuery("SELECT t FROM CityAirQuality t WHERE t.dataUUID = :uuid", CityAirQuality.class)
+                .setParameter("uuid", uuid)
+                .getResultList();
+    }
+
+    @Override
     public List<OceanQuality> findOceanQualityAllByUserId(Long id) {
         //return em.createQuery("SELECT t FROM OceanQuality t", OceanQuality.class).getResultList();
         return em.createQuery("SELECT t FROM OceanQuality t WHERE t.owner.id = :id", OceanQuality.class).setParameter("id", id).getResultList();
