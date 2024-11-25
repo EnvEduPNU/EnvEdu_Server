@@ -2,6 +2,7 @@ package com.example.demo.jpa.eclass.service;
 
 import com.example.demo.jpa.eclass.entity.EClass;
 import com.example.demo.jpa.eclass.repository.EclassRepository;
+import com.example.demo.jpa.eclass.repository.EclassUuidTableRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class EclassService {
 
     private final EclassRepository eclassRepository;
+    private final EclassUuidTableRepository eclassUuidTableRepository;
 
     // ------------------------------------- E-Class 생성/조회/삭제 서비스 ------------------------------
     @Transactional
@@ -69,6 +71,17 @@ public class EclassService {
             return false;
         }
     }
+
+    @Transactional
+    public boolean deleteEclassUuidTableByUuidAndStudentId(String eClassUuid, Long studentId) {
+        if (eclassUuidTableRepository.existsByEclassUuidAndStudentId(eClassUuid, studentId)) {
+            eclassUuidTableRepository.deleteByEclassUuidAndStudentId(eClassUuid, studentId);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
 }

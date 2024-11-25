@@ -2,6 +2,8 @@ package com.example.demo.jpa.eclass.controller;
 
 import com.example.demo.jpa.eclass.entity.EClass;
 import com.example.demo.jpa.eclass.service.EclassService;
+import com.example.demo.jpa.user.model.entity.User;
+import com.example.demo.jpa.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/eclass")
@@ -18,6 +21,7 @@ import java.util.List;
 public class EclassController {
 
     private final EclassService eclassService;
+    private final UserService userService;
 
     //--------------------------------- E-Class 생성/조회/삭제 ---------------------------------------
     @PostMapping("/create")
@@ -34,6 +38,19 @@ public class EclassController {
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteEclassList(@RequestParam String eClassUuid) {
         boolean deleted = eclassService.deleteEclassByUuid(eClassUuid);
+        if (deleted) {
+            return ResponseEntity.ok("Deleted Completed!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("EClass not found");
+        }
+    }
+
+    @DeleteMapping("/stuent/delete")
+    public ResponseEntity<String> deleteStuentEclass(@RequestParam String eClassUuid, @RequestParam String studentName ) {
+
+        Optional<User> student = userService.findByName(studentName);
+
+        boolean deleted = eclassService.deleteEclassUuidTableByUuidAndStudentId(eClassUuid,student.get().getId());
         if (deleted) {
             return ResponseEntity.ok("Deleted Completed!");
         } else {
