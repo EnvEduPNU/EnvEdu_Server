@@ -56,6 +56,7 @@ public class EclassStudentController {
 
             String eclassUuid = eclassUuidList.get(0); // 첫 번째 UUID 사용
 
+//
 //            String eclassUuid = (String) enrollStudent.get("eclassUuid");; // 첫 번째 UUID 사용
 //            log.info("eclassUuid : " + eclassUuid);
 
@@ -65,8 +66,6 @@ public class EclassStudentController {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
                         .body("Error: The student is already enrolled in this class.");
             }
-
-            log.info("여기");
 
             // 학생 정보 객체 생성
             EClassStudent student = new EClassStudent();
@@ -88,6 +87,60 @@ public class EclassStudentController {
             return ResponseEntity.badRequest().body("Error: Invalid input data.");
         }
     }
+
+    @PostMapping("/enroll-by-teacher")
+    public ResponseEntity<String> joinStudentByTeacher(@RequestBody Map<String, Object> enrollStudent) {
+        try {
+            // ---------------------- EClassStudent 저장 ------------------------------
+            Long studentId = Long.parseLong(enrollStudent.get("studentId").toString());
+            log.info("studentId : " + studentId);
+
+            String studentName = (String) enrollStudent.get("studentName");
+            log.info("studentName : " + studentName);
+
+            String studentGroup = (String) enrollStudent.get("studentGroup");
+            log.info("studentGroup :" + studentGroup);
+
+            String joinDate = (String) enrollStudent.get("joinDate");
+            log.info("joinDate : " + joinDate);
+
+//            List<String> eclassUuidList = (List<String>) enrollStudent.get("eclassUuid");
+//            log.info("eclassUuidList: " + eclassUuidList);
+//
+//            String eclassUuid = eclassUuidList.get(0); // 첫 번째 UUID 사용
+
+
+            String eclassUuid = (String) enrollStudent.get("eclassUuid");; // 첫 번째 UUID 사용
+            log.info("eclassUuid : " + eclassUuid);
+
+
+            // 이미 등록된 학생인지 확인
+            if (eclassStudentService.isStudentAlreadyEnrolled(studentId, eclassUuid)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("Error: The student is already enrolled in this class.");
+            }
+
+            // 학생 정보 객체 생성
+            EClassStudent student = new EClassStudent();
+            student.setStudentId(studentId);
+            student.setStudentName(studentName);
+            student.setStudentGroup(studentGroup);
+            student.setJoinDate(joinDate);
+            eclassStudentService.saveStudent(student);
+
+            // ---------------------- EClassUuid 저장 -------------------------------
+            EClassUuid uuid = new EClassUuid();
+            uuid.setEclassUuid(eclassUuid);
+            uuid.setStudentId(studentId);
+            eclassStudentService.saveUuid(uuid);
+
+            return ResponseEntity.ok("Student " + studentId + " has successfully joined.");
+        } catch (NullPointerException | ClassCastException e) {
+            // 입력 데이터 오류 처리
+            return ResponseEntity.badRequest().body("Error: Invalid input data.");
+        }
+    }
+
 
     @DeleteMapping("/joined/delete")
     public ResponseEntity<String> deleteStudentInEclass(@RequestParam String eClassUuid) {
@@ -125,7 +178,7 @@ public class EclassStudentController {
         List<User> EclassList = userService.getAllStudents();
         return ResponseEntity.ok(EclassList);
     }
-    @DeleteMapping("/delete")
+    @DeleteMapping("/class/delete")
     public ResponseEntity<String> deleteStudent(@RequestParam long studentId) {
         boolean deleted = eclassStudentService.deleteStudentByUuid(studentId);
         if (deleted) {

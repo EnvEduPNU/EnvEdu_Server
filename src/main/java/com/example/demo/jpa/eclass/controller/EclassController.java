@@ -45,9 +45,9 @@ public class EclassController {
         }
     }
 
-    @DeleteMapping("/stuent/delete")
+    @DeleteMapping("/student/delete")
     public ResponseEntity<String> deleteStuentEclass(@RequestParam String eClassUuid, @RequestParam String studentName ) {
-
+log.info("dsdfs : " + eClassUuid + " " + studentName);
         Optional<User> student = userService.findByName(studentName);
 
         boolean deleted = eclassService.deleteEclassUuidTableByUuidAndStudentId(eClassUuid,student.get().getId());
