@@ -85,6 +85,14 @@ log.info("dsdfs : " + eClassUuid + " " + studentName);
 
     }
 
+    // lecture 데이터가 하나라도 eclass에 쓰이고 있으면 true 반환해 주는 메서드
+    @GetMapping("/eclass-check")
+    public ResponseEntity<Boolean> getEclassCheck(@RequestParam String lectureDataUuid) {
+        boolean EclassStartedCheck = eclassService.isEClassExsist(lectureDataUuid);
+        log.info("E-Class 존재 여부 :" + EclassStartedCheck);
+        return ResponseEntity.ok(EclassStartedCheck);
+    }
+
 
 
 

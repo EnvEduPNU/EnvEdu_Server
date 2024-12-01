@@ -12,5 +12,10 @@ public interface EclassRepository extends JpaRepository<EClass, String> {
     @Query("SELECT e FROM EClass e WHERE e.eClassUuid = :eClassUuid AND e.eclassStart = true")
     Optional<EClass> findStartedEClassByUuid(String eClassUuid);
 
+    @Query("SELECT e FROM EClass e WHERE e.lectureDataUuid = :lectureDataUuid")
+    Optional<EClass> findEClassByLectureUuid(String lectureDataUuid);
+
+
+
 
 }

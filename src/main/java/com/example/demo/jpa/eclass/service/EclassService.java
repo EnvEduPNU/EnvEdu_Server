@@ -36,6 +36,11 @@ public class EclassService {
     }
 
     @Transactional
+    public boolean isEClassExsist(String lectureDataUuid) {
+        return eclassRepository.findEClassByLectureUuid(lectureDataUuid).isPresent();
+    }
+
+    @Transactional
     public boolean startEClass(String eClassUuid) {
         EClass eClass = eclassRepository.findById(eClassUuid)
                 .orElseThrow(() -> new RuntimeException("EClass not found with UUID: " + eClassUuid));
