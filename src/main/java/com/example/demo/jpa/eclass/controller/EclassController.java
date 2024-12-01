@@ -35,6 +35,12 @@ public class EclassController {
         List<EClass> EclassList = eclassService.getEclass();
         return ResponseEntity.ok(EclassList);
     }
+
+    @GetMapping("/get")
+    public ResponseEntity<Optional<EClass>> getEclass(@RequestParam String eClassUuid) {
+        Optional<EClass> Eclass = eclassService.getEclassOne(eClassUuid);
+        return ResponseEntity.ok(Eclass);
+    }
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteEclassList(@RequestParam String eClassUuid) {
         boolean deleted = eclassService.deleteEclassByUuid(eClassUuid);

@@ -31,6 +31,11 @@ public class EclassService {
     }
 
     @Transactional
+    public Optional<EClass> getEclassOne(String eClassUuid){
+        return eclassRepository.findEClassByEClassUuid(eClassUuid);
+    }
+
+    @Transactional
     public boolean isEClassStarted(String eClassUuid) {
         return eclassRepository.findStartedEClassByUuid(eClassUuid).isPresent();
     }

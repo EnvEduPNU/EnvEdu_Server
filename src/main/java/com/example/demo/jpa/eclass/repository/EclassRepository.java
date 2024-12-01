@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface EclassRepository extends JpaRepository<EClass, String> {
-//    Optional<EClass> findByEClassUuidAndEclassStartTrue(String eClassUuid);
 
     @Query("SELECT e FROM EClass e WHERE e.eClassUuid = :eClassUuid AND e.eclassStart = true")
     Optional<EClass> findStartedEClassByUuid(String eClassUuid);
@@ -16,6 +15,8 @@ public interface EclassRepository extends JpaRepository<EClass, String> {
     Optional<EClass> findEClassByLectureUuid(String lectureDataUuid);
 
 
+    @Query("SELECT e FROM EClass e WHERE e.eClassUuid = :eClassUuid")
+    Optional<EClass> findEClassByEClassUuid(String eClassUuid);
 
 
 }
