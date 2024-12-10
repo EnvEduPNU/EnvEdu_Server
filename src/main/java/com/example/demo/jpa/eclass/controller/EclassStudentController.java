@@ -6,6 +6,7 @@ import com.example.demo.jpa.eclass.dto.AssignmentUuidDTO;
 import com.example.demo.jpa.eclass.dto.ReportDTO;
 import com.example.demo.jpa.eclass.entity.EClassStudent;
 import com.example.demo.jpa.eclass.entity.EClassUuid;
+import com.example.demo.jpa.eclass.service.EClassSessionService;
 import com.example.demo.jpa.eclass.service.EClassUuidService;
 import com.example.demo.jpa.eclass.service.EclassStudentService;
 import com.example.demo.jpa.user.model.entity.User;
@@ -31,6 +32,7 @@ public class EclassStudentController {
     private final EclassStudentService eclassStudentService;
     private final UserService userService;
     private final EClassUuidService eClassUuidService;
+    private final EClassSessionService eClassSessionService;
 
 
     // --------------------------------- E-Class Student 조회/삽입/삭제 ---------------------------------
@@ -397,5 +399,27 @@ public class EclassStudentController {
 
         return ResponseEntity.ok(reportInfoMap);
     }
+
+    // eclassUuid 와 username 으로 해당 세션이 존재하는지 반환하는 api
+    @GetMapping("/getSession")
+    public ResponseEntity<String> getSessionByEclassuuidAndUsername(@RequestParam String eclassUuid, @RequestParam String userName) {
+        log.info("현재 eclassUuid 가져오기 : " + eclassUuid);
+        log.info("현재 userName 가져오기 : " + userName);
+
+//         서비스에서 sessionId 조회
+        Optional<String> sessionIdOpt = eClassSessionService.getSessionByEclassuuidAndUsername(eclassUuid, userName);
+
+        if (sessionIdOpt.isPresent()) {
+            String sessionId = sessionIdOpt.get();
+            log.info("현재 세션 가져오기 : " + sessionId);
+            return ResponseEntity.ok(sessionId); // 성공적으로 sessionId 반환
+        } else {
+            log.info("세션 없음");
+            return ResponseEntity.ok(""); // 404 상태 반환
+        }
+
+
+    }
+
 
 }

@@ -3,7 +3,6 @@ package com.example.demo.jpa.eclass.service;
 import com.example.demo.jpa.eclass.entity.EClassUuid;
 import com.example.demo.jpa.eclass.repository.EClassUuidRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -116,4 +115,5 @@ public class EClassUuidService {
     public List<EClassUuid> getReportByEclassUuid(String eclassUuid) {
         return eClassUuidRepository.findByEclassUuid(eclassUuid);
     }
+
 }
