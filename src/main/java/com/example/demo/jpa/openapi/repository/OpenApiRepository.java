@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface OpenApiRepository {
     AirQuality findAirQualityById(Long id);
     OceanQuality findOceanQualityById(Long id);
-    List<AirQuality> findAirQualityAllByUserIdAndDataUuid(UUID uuid, Long id);
+    List<AirQuality> findAirQualityAllByDataUuid(UUID uuid);
     List<AirQuality> findAirQualityAllByUserId(Long id);
     List<OceanQuality> findOceanQualityAllByDataUuid(UUID uuid);
     List<CityAirQuality> findCityAirQualityAllByDataUuid(UUID uuid);

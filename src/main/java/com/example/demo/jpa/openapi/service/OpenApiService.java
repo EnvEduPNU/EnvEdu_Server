@@ -109,7 +109,7 @@ public class OpenApiService {
 
     public List<AirQuality> findMyAirQualityChunked(UUID uuid, String username){
         Optional<User> user = userRepository.findByUsername(username);
-        return openApiRepositoryImpl.findAirQualityAllByUserIdAndDataUuid(uuid, user.get().getId());
+        return openApiRepositoryImpl.findAirQualityAllByDataUuid(uuid);
     }
 
     public List<OceanQuality> findMyOceanQualityChunked(UUID uuid, String username){
