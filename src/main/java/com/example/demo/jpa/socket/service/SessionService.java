@@ -90,6 +90,18 @@ public class SessionService {
     }
 
     @Transactional
+    public List<Session> getSessionIdsByEclassUuid(String eclassUuid) {
+        // Validate the input parameter
+        if (eclassUuid == null || eclassUuid.isEmpty()) {
+            throw new IllegalArgumentException("Eclass UUID must not be null or empty");
+        }
+
+        // Fetch the session IDs from the repository
+        return sessionRepository.findSessionIdByEclassUuid(eclassUuid);
+    }
+
+
+    @Transactional
     public void deleteSession(String sessionName) {
         log.info("삭제할 세션 이름 : {}", sessionName);
 

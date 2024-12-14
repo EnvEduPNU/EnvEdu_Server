@@ -4,11 +4,13 @@ import com.example.demo.jpa.socket.util.TableChangeListener;
 import com.example.demo.jpa.user.model.entity.User;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @EntityListeners(TableChangeListener.class)
 @Entity
+@ToString
 @Table(name = "sessions")
 @Getter
 @Setter
