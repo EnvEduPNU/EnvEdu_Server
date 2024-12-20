@@ -20,28 +20,28 @@ import java.util.Map;
 public class UserDeviceController {
     private final UserDeviceService userDeviceService;
 
-    @PostMapping("/admin/device")
-    private ResponseEntity<?> addDevice(@RequestBody AddMACDTO addMACDTO) {
-        userDeviceService.addDevice(addMACDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/admin/devices")
-    private ResponseEntity<?> getAllDevices() {
-        return new ResponseEntity<>(userDeviceService.getAllDevices(), HttpStatus.OK);
-    }
-
-    @PutMapping("/admin/device")
-    private ResponseEntity<?> updateDevice(@RequestBody DeviceUpdateDTO deviceUpdateDTO) {
-        userDeviceService.updateDevice(deviceUpdateDTO);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping("/admin/device/{mac}")
-    private ResponseEntity<?> deleteDevice(@PathVariable String mac) {
-        userDeviceService.deleteDevice(mac);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+//    @PostMapping("/admin/device")
+//    private ResponseEntity<?> addDevice(@RequestBody AddMACDTO addMACDTO) {
+//        userDeviceService.addDevice(addMACDTO);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/admin/devices")
+//    private ResponseEntity<?> getAllDevices() {
+//        return new ResponseEntity<>(userDeviceService.getAllDevices(), HttpStatus.OK);
+//    }
+//
+//    @PutMapping("/admin/device")
+//    private ResponseEntity<?> updateDevice(@RequestBody DeviceUpdateDTO deviceUpdateDTO) {
+//        userDeviceService.updateDevice(deviceUpdateDTO);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
+//
+//    @DeleteMapping("/admin/device/{mac}")
+//    private ResponseEntity<?> deleteDevice(@PathVariable String mac) {
+//        userDeviceService.deleteDevice(mac);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
     /**
      * 자신과 연관된 기기 목록 조회

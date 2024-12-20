@@ -20,6 +20,7 @@ public class SessionController {
 
     private final SessionService sessionService;
 
+    // 세선 생성 메서드
     @PostMapping("/register-session")
     public ResponseEntity<String> registerSession(@RequestBody Session session) {
         log.info("[register-session] 세션아이디 : {}", session.getSessionId());
@@ -46,7 +47,7 @@ public class SessionController {
     }
 
 
-
+    // eclass 에서 현재 존재하는 세션 아이디 가져오는 메서드
     @GetMapping("/get-session-ids/{eclassUuid}")
     public ResponseEntity<List<Session>> getSessionIds(@PathVariable String eclassUuid) {
         List<Session> sessionIds = sessionService.getSessionIdsByEclassUuid(eclassUuid);
@@ -54,6 +55,7 @@ public class SessionController {
         return ResponseEntity.ok(sessionIds);
     }
 
+    // 세션 아이디 삭제 메서드
     @DeleteMapping("/delete-session/{sessionId}")
     public ResponseEntity<String> deleteSession(@PathVariable String sessionId) {
         log.info("세션아이디 : {}", sessionId);
@@ -61,6 +63,7 @@ public class SessionController {
         return ResponseEntity.ok("Session deleted successfully");
     }
 
+    //학생리스트 조회 메서드
     @PostMapping("/student/get")
     public ResponseEntity<Optional<User>> GetStudentList(@RequestBody Session session){
 

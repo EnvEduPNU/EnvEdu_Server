@@ -12,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
+// 자신이 저장한 공공데이터 저장 테이블/ 실제 데이터 테이블은 각 데이터별 테이블(AirQuality, OceanQuality, CityAirQuality)에 있음
 public class DataCompilation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

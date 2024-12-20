@@ -30,6 +30,7 @@ public class UserController {
     private final EClassUuidRepository eClassUuidRepository;
     private final UserService userService;
 
+    // 로그인 메서드
     @PostMapping("/login")
     public ResponseEntity<?> LoginMethod(HttpServletRequest request , HttpServletResponse response){
 
@@ -43,6 +44,7 @@ public class UserController {
         return ResponseEntity.ok().body("loginSuccess");
     }
 
+    // 학생 조회 메서드
     @GetMapping("/api/student/get/{username}")
     public ResponseEntity<Optional<User>> GetStudentData(@PathVariable String username){
 

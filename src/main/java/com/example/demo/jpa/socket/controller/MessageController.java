@@ -42,6 +42,7 @@ public class MessageController {
         template.convertAndSend("/topic/user/" + seed.getMac(), seed);
     }
 
+    // 페이지 전환 용 소켓 메시지 메서드
     @MessageMapping("/switch")
     private void fromEClassClient(@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -74,7 +75,7 @@ public class MessageController {
         }
     }
 
-
+    // 화면 공유 소켓 메서드
     @MessageMapping("/screen-share-status")
     private void fromEClassScreenShare(@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -103,6 +104,7 @@ public class MessageController {
         }
     }
 
+    // 과제 공유 소켓 메서드
     @MessageMapping("/assginment-status")
     private void fromEClassAssginmentCheck(@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -144,6 +146,7 @@ public class MessageController {
         }
     }
 
+    // 학생 입장 소켓 메서드
     @MessageMapping("/student-entered")
     private void fromEClassStudenetCheck(@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -182,6 +185,7 @@ public class MessageController {
         }
     }
 
+    // 화면 공유 소켓 메서드
     @MessageMapping("/screen-share-flag")
     private void fromEClassScreenShareFlag (@Payload String switchMessage) {
         ObjectMapper objectMapper = new ObjectMapper();

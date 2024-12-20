@@ -63,6 +63,8 @@ public class WebSocketEventController {
 
     }
 
+
+    // 연결 해제 이벤트 리스너
     @EventListener
     public void handleSessionDisconnected(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());

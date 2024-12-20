@@ -36,6 +36,7 @@ public class EclassStudentController {
 
 
     // --------------------------------- E-Class Student 조회/삽입/삭제 ---------------------------------
+    //학생 등록 메서드
     @PostMapping("/enroll")
     public ResponseEntity<String> joinStudent(@RequestBody Map<String, Object> enrollStudent) {
 
@@ -90,6 +91,7 @@ public class EclassStudentController {
         }
     }
 
+    // 선생님이 학생을 등록하는 메서드
     @PostMapping("/enroll-by-teacher")
     public ResponseEntity<String> joinStudentByTeacher(@RequestBody Map<String, Object> enrollStudent) {
         try {
@@ -144,6 +146,7 @@ public class EclassStudentController {
     }
 
 
+    // eclass 나가기 메서드
     @DeleteMapping("/joined/delete")
     public ResponseEntity<String> deleteStudentInEclass(@RequestParam String eClassUuid) {
         boolean deleted =   eclassStudentService.deleteAllByEclassUuid(eClassUuid);
@@ -158,11 +161,8 @@ public class EclassStudentController {
     // 해당 E-Class에 참여한 모든 학생들의 리스트를 가져오는 메서드 (E-Class Controller로 옮김 예정)
     @GetMapping("/joinList")
     public ResponseEntity<List<EClassStudent>> getJoinedStudentList(@RequestParam String eclassUuid) {
-        log.info("eclassUuid 어떻게 되는데 : " + eclassUuid);
 
         List<EClassUuid> eclassList = eclassStudentService.getEclassUuidByUuid(eclassUuid);
-
-        log.info("리스트가 어떻게 되는데 : " + eclassList);
 
         // EclassList의 각 항목에 대해 studentId를 사용하여 EClassStudent 정보를 조회하고 리스트에 추가
         List<EClassStudent> eclassStudents = eclassList.stream()
@@ -174,12 +174,14 @@ public class EclassStudentController {
         return ResponseEntity.ok(eclassStudents);
     }
 
-
+    // 모든 학생 리스트 조회
     @GetMapping("/allList")
     public ResponseEntity<List<User>> getAllStudentList() {
         List<User> EclassList = userService.getAllStudents();
         return ResponseEntity.ok(EclassList);
     }
+
+    // eclass 나가기 메서드 (eclass를 삭제하는게 아니라 자신이 등록된 eclass 해제)
     @DeleteMapping("/class/delete")
     public ResponseEntity<String> deleteStudent(@RequestParam long studentId) {
         boolean deleted = eclassStudentService.deleteStudentByUuid(studentId);
@@ -189,7 +191,7 @@ public class EclassStudentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("EClass not found");
         }
     }
-
+    // 학생이 Eclass 등록하는 메서드
     @GetMapping("/addEclassUuid")
     public ResponseEntity<String> addEclassUuid(@RequestParam String studentName, @RequestParam String eclassUuid) {
 
@@ -203,7 +205,7 @@ public class EclassStudentController {
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
-
+    // 학생이 등록한 eclass 리스트 uuid 가져오는 메서드
     @GetMapping("/eclassUuids")
     public ResponseEntity<List<String>> getEclassUuidsByStudentName(@RequestParam String studentName) {
         try {
@@ -213,7 +215,7 @@ public class EclassStudentController {
             return ResponseEntity.status(404).body(null);
         }
     }
-
+    // 저장된 과제 스텝 리스트 확인 메서드 (현재는 안씀)
     @PostMapping("/assginmentUuid/update")
     public ResponseEntity<String> setAssignmentUuidByUsernameAndEclassUuid(@RequestBody AssignmentUuidDTO assignmentUuidDTO) {
         try {
@@ -234,7 +236,7 @@ public class EclassStudentController {
             return ResponseEntity.status(404).body(null);
         }
     }
-
+    // 저장된 과제 스텝 리스트 확인 메서드 (현재는 안씀)
     @PostMapping("/assginmentUuid/get")
     public ResponseEntity<String> getAssignmentUuidByUsernameAndEclassUuid(@RequestBody AssignmentUuidDTO assignmentUuidDTO) {
 
@@ -264,7 +266,7 @@ public class EclassStudentController {
     }
 
 
-
+    // 저장된 과제 스텝 리스트 확인 메서드 (현재는 안씀)
     @PostMapping("/assignment/stepCheck")
     public ResponseEntity<String> setAssignmentStepCheck(@RequestBody AssignmentStepCheckDTO assignmentStepCheckDTO) {
 
@@ -284,6 +286,7 @@ public class EclassStudentController {
         return ResponseEntity.ok("success!");
     }
 
+    // 저장된 과제 스텝 리스트 확인 메서드 (현재는 안씀)
     @GetMapping("/assignment/stepCheck/{id}")
     public ResponseEntity<boolean[]> getAssignmentStepCheck(@PathVariable Long id) {
         boolean[] stepCheckArray = eClassUuidService.getAssignmentData(id);
@@ -291,7 +294,7 @@ public class EclassStudentController {
         return ResponseEntity.ok(stepCheckArray);
     }
 
-
+    // 저장된 과제 스텝 리스트 확인 메서드 (현재는 안씀)
     @PostMapping("/assignment/getCheckList")
     public ResponseEntity<Map<String, boolean[]>> handleStudentAssignmentCheck(
             @RequestBody AssginmentStepListDTO assginmentStepListDTO) {

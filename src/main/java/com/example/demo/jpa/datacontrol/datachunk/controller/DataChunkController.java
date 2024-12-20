@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+// MyData 메뉴, 자신의 데이터를 조회 하거나 삭제 하는 api 클래스 
 public class DataChunkController {
     private final DataChunkService dataChunkService;
     @GetMapping("/mydata/list")

@@ -62,6 +62,7 @@ public class UserRegisterController {
 //    }
 
 
+    // 학생 등록 메서드
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody String bodyContent) {
         try {

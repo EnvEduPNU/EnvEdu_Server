@@ -25,6 +25,7 @@ import java.util.*;
 public class SeedController {
     private final SeedService seedService;
 
+    // 아두이노 자신이 측정한 데이터 가져오는 메서드
     @GetMapping("/seed/mine/chunk")
     private ResponseEntity<?> getMySeedChunked(@RequestParam UUID dataUUID, HttpServletRequest request){
 
@@ -38,8 +39,8 @@ public class SeedController {
      * 테스트에 사용된 api
      * 사용자명, 날짜를 이용해 해당되는 데이터 조회
      * /test/fetch url에서 예시 확인할 수 있음
-     * todo: ResponseEntity로 return 수정
      */
+    // 예전 개발자가 개발한 메서드 현재는 사용방향 모름
     @GetMapping("/seed/fetch")
     private ResponseDTO<List<Seed>> fetchData(@RequestParam Map<String,String> mp)
     {
@@ -60,7 +61,7 @@ public class SeedController {
         return new ResponseDTO<>(HttpStatus.OK.value(), list);
     }
 
-
+    // 예전 개발자가 개발한 메서드 현재는 사용방향 모름
     @DeleteMapping("/seed/delete")
     public ResponseEntity<?> deleteSingle(@RequestBody List<DeleteSeedDto> deleteSeedDto) throws NoSuchFieldException, IllegalAccessException {
 
@@ -69,11 +70,7 @@ public class SeedController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /**
-     * todo: url을 restful하게 수정
-     * todo: 문자열 형태의 seed 데이터를 적절히 Seed.class로 변환해 저장 구현
-     * todo: ResponseEntity로 return 수정
-     */
+    // 예전 개발자가 개발한 메서드 현재는 사용방향 모름
     @PostMapping("/seed/save/continuous")
     private ResponseDTO<Object> saveData(@RequestBody DataSaveDTO data){
 
