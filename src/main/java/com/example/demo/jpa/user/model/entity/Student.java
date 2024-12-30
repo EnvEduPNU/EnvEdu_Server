@@ -1,27 +1,29 @@
-package com.example.demo.jpa.user.model.entity;
-
-import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import java.sql.Date;
-import java.util.List;
-
-@Entity
-public class Student extends User {
-    public Student() {}
-
-    @Builder(builderMethodName = "studentBuilder")
-    public Student(String username, String password, String email, Date birthday, String role, String studentGroup, String gender,  String nickname)
-    {
-        super(username, password, email, birthday, role, studentGroup, gender, nickname);
-    }
-
-//    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-//    private List<Student_Educator> student_educators;
+//package com.example.demo.jpa.user.model.entity;
 //
-//    public List<Student_Educator> getStudent_educators() {
-//        return student_educators;
+//import com.example.demo.jpa.user.model.enumerate.Gender;
+//import com.example.demo.jpa.user.model.enumerate.Role;
+//import com.example.demo.jpa.user.model.enumerate.State;
+//import lombok.Builder;
+//import java.time.LocalDate;
+//
+//import javax.persistence.*;
+//import lombok.Getter;
+//import lombok.Setter;
+//
+//@Table("students")
+//@Getter
+//@Setter
+//public class Student extends User {
+//
+//    @Builder(builderMethodName = "studentBuilder")
+//    public Student(String username, String password, String email, LocalDate birthday, String role, String gender, String state, String nickname) {
+//        super(username, password, email, birthday, role, gender, state, nickname);
 //    }
-}
+//
+////    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+////    private List<Student_Educator> student_educators;
+////
+////    public List<Student_Educator> getStudent_educators() {
+////        return student_educators;
+////    }
+//}

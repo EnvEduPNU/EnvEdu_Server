@@ -1,6 +1,8 @@
 package com.example.demo.jpa.user.dto.response;
 
 import com.example.demo.jpa.user.model.entity.User;
+import com.example.demo.jpa.user.model.enumerate.Gender;
+import com.example.demo.jpa.user.model.enumerate.Role;
 import lombok.Getter;
 
 import java.sql.Timestamp;

@@ -41,25 +41,25 @@ public class SeedController {
      * /test/fetch url에서 예시 확인할 수 있음
      */
     // 예전 개발자가 개발한 메서드 현재는 사용방향 모름
-    @GetMapping("/seed/fetch")
-    private ResponseDTO<List<Seed>> fetchData(@RequestParam Map<String,String> mp)
-    {
-        String username = mp.get("username");
-        String start = mp.get("startDate");
-        String end = mp.get("endDate");
-
-        LocalDateTime startDate = LocalDateTime.of(2000, Month.JANUARY, 1, 0, 0, 0);
-        LocalDateTime endDate = LocalDateTime.now();
-
-        if (start != null && end != null){
-            startDate = LocalDateTime.parse(start, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            endDate = LocalDateTime.parse(end, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        }
-
-        List<Seed> list = seedService.refactorSeedData(seedService.extendSeedData(seedService.getDataByDateAndUsername(startDate, endDate, username)));
-
-        return new ResponseDTO<>(HttpStatus.OK.value(), list);
-    }
+//    @GetMapping("/seed/fetch")
+//    private ResponseDTO<List<Seed>> fetchData(@RequestParam Map<String,String> mp)
+//    {
+//        String username = mp.get("username");
+//        String start = mp.get("startDate");
+//        String end = mp.get("endDate");
+//
+//        LocalDateTime startDate = LocalDateTime.of(2000, Month.JANUARY, 1, 0, 0, 0);
+//        LocalDateTime endDate = LocalDateTime.now();
+//
+//        if (start != null && end != null){
+//            startDate = LocalDateTime.parse(start, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+//            endDate = LocalDateTime.parse(end, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+//        }
+//
+//        List<Seed> list = seedService.refactorSeedData(seedService.extendSeedData(seedService.getDataByDateAndUsername(startDate, endDate, username)));
+//
+//        return new ResponseDTO<>(HttpStatus.OK.value(), list);
+//    }
 
     // 예전 개발자가 개발한 메서드 현재는 사용방향 모름
     @DeleteMapping("/seed/delete")

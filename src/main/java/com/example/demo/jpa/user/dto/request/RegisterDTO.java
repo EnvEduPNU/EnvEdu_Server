@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import javax.validation.constraints.Pattern;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter

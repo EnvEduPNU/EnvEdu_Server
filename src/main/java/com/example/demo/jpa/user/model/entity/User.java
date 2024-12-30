@@ -2,6 +2,9 @@ package com.example.demo.jpa.user.model.entity;
 
 import com.example.demo.jpa.device.model.UserDevice;
 import com.example.demo.jpa.model.Location;
+import com.example.demo.jpa.user.model.enumerate.Gender;
+import com.example.demo.jpa.user.model.enumerate.Role;
+import com.example.demo.jpa.user.model.enumerate.State;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,7 +24,7 @@ import java.util.regex.Pattern;
 public class User {
     public User() {}
 
-    protected User(String username, String password, String email, Date birthday, String role, String studentGroup, String gender, String nickname) {
+    protected User(String username, String password, String email, Date birthday, String role, String studentGroup, String gender, String state, String nickname) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -29,6 +32,7 @@ public class User {
         this.role = role;
         this.studentGroup = studentGroup;
         this.gender = gender;
+        this.state = state;
         this.nickname = nickname;
     }
 
@@ -48,10 +52,10 @@ public class User {
     @Column(nullable = false)
     private Date birthday;
 
-    @Column(nullable = false, length = 13)
+    @Column(nullable = false, length = 20)
     private String role;
 
-    @Column(nullable = false, length = 6)
+    @Column(nullable = false, length = 10)
     @Nullable
     private String gender;
 
@@ -60,6 +64,9 @@ public class User {
 
     @Column(nullable = true, length = 20)
     private String studentGroup;
+
+    @Column(nullable = true)
+    private String state;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
@@ -77,36 +84,6 @@ public class User {
 
     @Column(nullable = true)
     private Long sessionId;
-
-
-    //--------------------------------------------------------------------------------------------------
-
-//    public void setUsername(String username)
-//    {
-//        if(!Pattern.matches("^[\\w_]{5,20}$",username))
-//        {
-//            throw new IllegalArgumentException();
-//        }
-//        this.username = username;
-//    }
-
-//    public void setPassword(String password)
-//    {
-//        if(!Pattern.matches("^.*(?=^.{8,20}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$",password))
-//        {
-//            throw new IllegalArgumentException();
-//        }
-//        this.password = password;
-//    }
-
-//    public void setEmail(String email)
-//    {
-//        if(!Pattern.matches("^[\\da-zA-Z]([-_.]?[\\da-zA-Z])*@[\\da-zA-Z]([-_.]?[\\da-zA-Z])*.[a-zA-Z]{2,3}$",email))
-//        {
-//            throw new IllegalArgumentException();
-//        }
-//        this.email = email;
-//    }
 
     @Override
     public String toString() {

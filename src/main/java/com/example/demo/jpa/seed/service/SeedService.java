@@ -81,24 +81,24 @@ public class SeedService {
         return seedRepository.findAllByDataUUIDAndUsername(dataUUID, username);
     }
 
-    @Transactional(readOnly = true)
-    public List<Seed> getDataByDateAndUsername(LocalDateTime start, LocalDateTime end, String username)
-    {
-
-        if(username.equals(""))
-        {
-            return seedRepository.findAllByMeasuredDateBetween(start, end);
-        }
-        else
-        {
-
-            List<String> MacList = new ArrayList<>();
-            userRepository.findByUsername(username).orElseThrow(()-> {throw new IllegalArgumentException();}).getDevices().forEach(elem -> {
-                MacList.add(elem.getMac());
-            });
-            return seedRepository.findAllByMeasuredDateBetweenAndMacIn(start, end, MacList);
-        }
-    }
+//    @Transactional(readOnly = true)
+//    public List<Seed> getDataByDateAndUsername(LocalDateTime start, LocalDateTime end, String username)
+//    {
+//
+//        if(username.equals(""))
+//        {
+//            return seedRepository.findAllByMeasuredDateBetween(start, end);
+//        }
+//        else
+//        {
+//
+//            List<String> MacList = new ArrayList<>();
+//            userRepository.findByUsername(username).orElseThrow(()-> {throw new IllegalArgumentException();}).getDevices().forEach(elem -> {
+//                MacList.add(elem.getMac());
+//            });
+//            return seedRepository.findAllByMeasuredDateBetweenAndMacIn(start, end, MacList);
+//        }
+//    }
 
     @Transactional
     public void saveData(List<Seed> list, String memo)

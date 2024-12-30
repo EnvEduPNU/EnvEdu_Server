@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final Student_EducatorRepository student_educatorRepository;
+//    private final Student_EducatorRepository student_educatorRepository;
 
 
     /**
@@ -65,25 +65,25 @@ public class UserService {
         return userRepository.findByRole("ROLE_STUDENT");
     }
 
-    public List<Student_Educator> findStudentsByStudentOrEducator(String username){
-        User user = userRepository.findByUsername(username).get();
-
-        if (user instanceof Student){
-            Student_Educator educatorByStudent = findEducatorByStudent((Student) user);
-            user = educatorByStudent.getEducator();
-        }
-        return findAllByEducator((Educator) user);
-    }
-
-    @Transactional
-    public Student_Educator findEducatorByStudent(Student student) {
-        return student_educatorRepository.findByStudent(student);
-    }
-
-    @Transactional
-    public List<Student_Educator> findAllByEducator(Educator educator) {
-        return student_educatorRepository.findAllByEducator(educator);
-    }
+//    public List<Student_Educator> findStudentsByStudentOrEducator(String username){
+//        User user = userRepository.findByUsername(username).get();
+//
+//        if (user instanceof Student){
+//            Student_Educator educatorByStudent = findEducatorByStudent((Student) user);
+//            user = educatorByStudent.getEducator();
+//        }
+//        return findAllByEducator((Educator) user);
+//    }
+//
+//    @Transactional
+//    public Student_Educator findEducatorByStudent(Student student) {
+//        return student_educatorRepository.findByStudent(student);
+//    }
+//
+//    @Transactional
+//    public List<Student_Educator> findAllByEducator(Educator educator) {
+//        return student_educatorRepository.findAllByEducator(educator);
+//    }
 
     public Optional<User> findByName(String name) {
         return userRepository.findByUsername(name);
