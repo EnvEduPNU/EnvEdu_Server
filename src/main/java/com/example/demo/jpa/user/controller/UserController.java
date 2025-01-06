@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -53,6 +54,15 @@ public class UserController {
         Optional<User> userData = userRepository.findByUsername(username);
 
         return ResponseEntity.ok().body(userData);
+    }
+
+    // 전체 학생 조회 메서드
+    @GetMapping("/api/get/student-list")
+    public ResponseEntity<List<User>> GetStudentList(){
+
+        List<User> studentList = userRepository.findByRole("ROLE_STUDENT");
+
+        return ResponseEntity.ok().body(studentList);
     }
 
     // 해당 EClass에 일대일 관계로 들어가있는 학생의 pk Id 가져오는 메서드 (Table: EClassUuidTable)
