@@ -70,9 +70,9 @@ public class UserRegisterController {
             RegisterDTO registerDTO = objectMapper.readValue(bodyContent, RegisterDTO.class);
 
             // salt 생성 및 비밀번호 해싱
-            byte[] salt = PasswordUtils.generateSalt();
-            String hashedPassword = PasswordUtils.hashPassword(registerDTO.getPassword(), salt);
-            registerDTO.setPassword(hashedPassword);
+//            byte[] salt = PasswordUtils.generateSalt();
+//            String hashedPassword = PasswordUtils.hashPassword(registerDTO.getPassword(), salt);
+//            registerDTO.setPassword(hashedPassword);
 
             log.info("DTO 체크 : " + registerDTO.getStudentGroup());
 

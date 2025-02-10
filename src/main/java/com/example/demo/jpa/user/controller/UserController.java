@@ -65,6 +65,15 @@ public class UserController {
         return ResponseEntity.ok().body(studentList);
     }
 
+    // 전체 유저 조회
+    @GetMapping("/api/get/all-list")
+    public ResponseEntity<List<User>> GetAllList(){
+
+        List<User> AllList = userRepository.findAll();
+
+        return ResponseEntity.ok().body(AllList);
+    }
+
     // 해당 EClass에 일대일 관계로 들어가있는 학생의 pk Id 가져오는 메서드 (Table: EClassUuidTable)
     @GetMapping("/api/student/getStudentId")
     public ResponseEntity<Long> getStudentId(@RequestParam String username, @RequestParam String uuid) {
