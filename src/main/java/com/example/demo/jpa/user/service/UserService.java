@@ -39,22 +39,22 @@ public class UserService {
         User user = new User();
         user.setUsername(registerDTO.getUsername());
         user.setPassword(registerDTO.getPassword());
-        user.setEmail(registerDTO.getEmail());
-        user.setGender(registerDTO.getGender());
+//        user.setEmail(registerDTO.getEmail());
+//        user.setGender(registerDTO.getGender());
         user.setRole(registerDTO.getRole());
-        user.setStudentGroup(registerDTO.getStudentGroup());
-        user.setBirthday(registerDTO.getBirthday());
-        user.setNickname(registerDTO.getNickname());
+//        user.setStudentGroup(registerDTO.getStudentGroup());
+//        user.setBirthday(registerDTO.getBirthday());
+//        user.setNickname(registerDTO.getNickname());
 
         // 중복된 아이디 체크
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new DuplicateAttributeException("아이디");
-        }
+//        if (userRepository.existsByUsername(user.getUsername())) {
+//            throw new DuplicateAttributeException("아이디");
+//        }
 
         // 중복된 이메일 체크
-        if (userRepository.existsByEmail(registerDTO.getEmail())) {
-            throw new DuplicateAttributeException("이메일");
-        }
+//        if (userRepository.existsByEmail(registerDTO.getEmail())) {
+//            throw new DuplicateAttributeException("이메일");
+//        }
 
 
         userRepository.save(user);

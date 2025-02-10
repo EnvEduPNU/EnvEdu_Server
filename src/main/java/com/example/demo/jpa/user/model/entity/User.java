@@ -42,16 +42,16 @@ public class User {
     @Column(nullable = false, length = 500)
     private String password;
 
-    @Column(nullable = false, length = 40, unique = true)
+    @Column(nullable = true, length = 40)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date birthday;
 
     @Column(nullable = false, length = 13)
     private String role;
 
-    @Column(nullable = false, length = 6)
+    @Column(nullable = true, length = 6)
     @Nullable
     private String gender;
 

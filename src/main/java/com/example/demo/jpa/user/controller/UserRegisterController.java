@@ -2,6 +2,8 @@ package com.example.demo.jpa.user.controller;
 
 import com.example.demo.jpa.exceptions.CustomMailException;
 import com.example.demo.jpa.exceptions.DuplicateAttributeException;
+import com.example.demo.jpa.user.model.entity.User;
+import com.example.demo.jpa.user.repository.UserRepository;
 import com.example.demo.jpa.user.service.UserService;
 //import com.example.demo.jpa.jwt.util.JwtUtil;
 //import com.example.demo.jpa.user.dto.request.EmailDTO;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 //import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Optional;
 //import java.util.Map;
 
 
@@ -29,6 +32,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/user")
 public class UserRegisterController {
     private final UserService userService;
+    private final UserRepository userRepository;
 //    @RequestMapping(value = "/student/join/{inviteCode}", method = {RequestMethod.GET, RequestMethod.POST})
 //    private ResponseEntity<?> postJoinFromInviteCode(@PathVariable String inviteCode, HttpServletRequest request){
 //        Map<String, Object> userInfo = JwtUtil.getJwtRefreshTokenFromCookieAndParse(request.getCookies()).get(JwtUtil.claimName).asMap();
@@ -74,7 +78,7 @@ public class UserRegisterController {
 //            String hashedPassword = PasswordUtils.hashPassword(registerDTO.getPassword(), salt);
 //            registerDTO.setPassword(hashedPassword);
 
-            log.info("DTO 체크 : " + registerDTO.getStudentGroup());
+            log.info("DTO 체크 : " + registerDTO.toString());
 
             userService.addUser(registerDTO);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -98,6 +102,26 @@ public class UserRegisterController {
                     .body("서버 오류가 발생했습니다.");
         }
     }
+
+    // 유저 삭제 메서드
+    @DeleteMapping("/delete/{username}")
+    public ResponseEntity<String> deleteStudentData(@PathVariable String username) {
+
+        // 사용자 조회
+        Optional<User> userData = userRepository.findByUsername(username);
+
+        if (userData.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("사용자를 찾을 수 없습니다.");
+        }
+
+        // 사용자 삭제
+        userRepository.delete(userData.get());
+        log.info("유저 삭제 완료: " + username);
+
+        return ResponseEntity.ok("유저가 성공적으로 삭제되었습니다.");
+    }
+
 
 
 //    @PostMapping("/educator/student")

@@ -5,11 +5,13 @@ import com.example.demo.jpa.eclass.repository.EClassUuidRepository;
 import com.example.demo.jpa.socket.model.entity.Session;
 import com.example.demo.jpa.socket.repository.SessionRepository;
 import com.example.demo.jpa.user.dto.request.LoginDTO;
+import com.example.demo.jpa.user.dto.request.PasswordChangeDTO;
 import com.example.demo.jpa.user.model.entity.User;
 import com.example.demo.jpa.user.repository.UserRepository;
 import com.example.demo.jpa.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +56,27 @@ public class UserController {
         Optional<User> userData = userRepository.findByUsername(username);
 
         return ResponseEntity.ok().body(userData);
+    }
+
+    // 비밀번호 수정 메서드
+    @PutMapping("/api/pwd-change")
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChangeDTO passwordChangeRequest) {
+
+        // 사용자 조회
+        Optional<User> userOptional = userRepository.findByUsername(passwordChangeRequest.getUsername());
+
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("사용자를 찾을 수 없습니다.");
+        }
+
+        User user = userOptional.get();
+
+        // 새 비밀번호 설정
+        user.setPassword(passwordChangeRequest.getNewPassword());
+        userRepository.save(user);
+
+        return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
     }
 
     // 전체 학생 조회 메서드

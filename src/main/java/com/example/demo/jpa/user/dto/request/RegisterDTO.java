@@ -6,30 +6,36 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Pattern;
 import java.sql.Date;
 
 @Getter
 @Setter
 public class RegisterDTO {
-    @Pattern(regexp = "^(?=.*[a-zA-Z])[a-zA-Z0-9]{5,20}$", message = "잘못된 형식의 아이디입니다")
+//    @Pattern(regexp = "^(?=.*[a-zA-Z])[a-zA-Z0-9]{5,20}$", message = "잘못된 형식의 아이디입니다")
     private String username;
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%])[a-zA-Z\\d!@#$%]{8,20}$", message = "잘못된 형식의 비밀번호입니다")
+//    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%])[a-zA-Z\\d!@#$%]{8,20}$", message = "잘못된 형식의 비밀번호입니다")
     private String password;
 
-    @Pattern(regexp = "^[\\da-zA-Z]([-_.]?[\\da-zA-Z])*@[\\da-zA-Z]([-_.]?[\\da-zA-Z])*.[a-zA-Z]{2,3}$", message = "잘못된 형식의 이메일입니다")
+//    @Pattern(regexp = "^[\\da-zA-Z]([-_.]?[\\da-zA-Z])*@[\\da-zA-Z]([-_.]?[\\da-zA-Z])*.[a-zA-Z]{2,3}$", message = "잘못된 형식의 이메일입니다")
+    @Column(nullable = true)
     private String email;
 
+    @Column(nullable = true)
     private String gender;
 
     private String role;
 
+    @Column(nullable = true)
     private String studentGroup;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = true)
     private Date birthday;
 
+    @Column(nullable = true)
     private String nickname;
 
     public RegisterDTO() {}
